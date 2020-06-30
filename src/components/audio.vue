@@ -1,7 +1,7 @@
 <template>
   <div id="root">
       <h1>{{this.audioInfo.name}}</h1>
-      <audio controls autoplay @ended='ended' ref="audio">
+      <audio autoplay @ended='ended' ref="audio">
       <source :src="'/audio/'+this.audioInfo.source" type="audio/mpeg">
       </audio>
       <div id="controls">
