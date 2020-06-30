@@ -1,6 +1,6 @@
 <template>
   <div>
-      <router-link to="/audio/0">Start At Beginning</router-link>
+      <router-link to="/tape/0">Start At Beginning</router-link>
   </div>
 </template>
 
