@@ -2,7 +2,7 @@
   <div id="root">
       <h1>{{this.audioInfo.name}}</h1>
       <audio controls autoplay @ended='ended' ref="audio">
-      <source :src="'/audio/'+this.audioInfo.source" type="audio/mpeg">
+      <source :src="'./audio/'+this.audioInfo.source" type="audio/mpeg">
       </audio>
       <div id="controls">
       <a :href="audioInfo.f" v-if="audioInfo.f != ''"><img src="../assets/f.png"></a>

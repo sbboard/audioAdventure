@@ -6,6 +6,7 @@ import Audio from "./components/audio.vue"
 Vue.use(Router);
 
 export default new Router({
+  //base: '/projects/chooseAudio/',
   mode: 'history',
   routes: [{
         path: "/",
