@@ -26,11 +26,12 @@ export default {
         localPlaylist: null,
         songIndex: this.$route.params.id,
         audioInfo: {
-        "source": "notFound.mp3",
-        "name": "loading",
-        "endTime": "",
-        "f": "",
-        "j": ""},
+          "source": "notFound.mp3",
+          "name": "loading",
+          "endTime": "",
+          "f": "",
+          "j": ""
+        },
         play: true,
         currentPath: [],
         album: this.$route.params.album
@@ -51,7 +52,6 @@ export default {
         this.$refs.audio.play()
     },
     setIndex(value){
-      //this.songIndex=index
       let index = this.audioInfo[value]
       if(index != ''){
         this.$router.push({ path: `/${this.album}/${index}`})
