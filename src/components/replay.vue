@@ -47,9 +47,11 @@ export default {
         }
   },
   mounted(){
-    if(this.localPlaylist != null){
+    if(this.playlist != null){
+        this.localPlaylist = this.playlist.albums[this.album].tracks
         this.trackInfo = this.localPlaylist[this.pathArray[this.currentTrackIndex]]
         this.$refs.audio.src = "/audio/"+ this.trackInfo.source;
+        this.$refs.audio.play()
     }
 
     let that = this
@@ -73,7 +75,6 @@ export default {
         this.trackInfo = this.localPlaylist[this.pathArray[this.currentTrackIndex]]
         this.$refs.audio.src = "/audio/"+ this.trackInfo.source;
         this.$refs.audio.play()
-        console.log("trig 2")
     },
   },
 }
