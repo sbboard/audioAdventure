@@ -8,13 +8,19 @@ Vue.use(Router);
 export default new Router({
   //base: '/projects/chooseAudio/',
   mode: 'history',
-  routes: [{
-        path: "/",
-        component: Home
-      },
+  routes: [
       {
         path: "/tape/:id",
         component: Audio
+      },
+      {
+        path: "/tape/",
+        component: Audio,
+        redirect: { path: '/tape/1' }
+      },
+      {
+        path: "*",
+        component: Home
       },
   ]
 });
