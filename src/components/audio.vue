@@ -12,6 +12,7 @@
       <img v-if="audioInfo.j != ''" @click="setIndex('j')" src="../assets/j.png">
       </div>
     </div>
+    {{currentPath}}
   </div>
 </template>
 
@@ -28,7 +29,8 @@ export default {
         "endTime": "",
         "f": "",
         "j": ""},
-        play: true
+        play: true,
+        currentPath: []
     }
   },
   methods: {
@@ -55,6 +57,7 @@ export default {
           this.audioInfo = this.localPlaylist.tracks[this.songIndex]
           this.$refs.audio.src = "/audio/"+this.audioInfo.source;
         }
+        this.currentPath.push(this.songIndex)
       }
     },
   },
@@ -73,6 +76,7 @@ export default {
   },
   mounted(){
     let that = this
+    this.currentPath.push(this.songIndex)
     window.addEventListener('keyup', function(ev) {
       let x = ev.key.toLowerCase()
       switch (x) {
