@@ -1,7 +1,11 @@
 <template>
   <div>
-      <router-link to="/tape/1">Start At Tape 1</router-link><br>
-      Select Specific Tape: <input v-model="tapeInput"><router-link :to="'tape/'+tapeInput"><button>Insert Tape {{tapeInput}}</button></router-link>
+      <div v-for="(item, index) in localPlaylist" :key="item.name">
+      <img :src='item.img'/><br>
+      {{item.name}}<br>
+      <router-link :to="'/'+index+'/1'">Start At Tape 1</router-link><br>
+      Select Specific Tape: 
+      </div>
   </div>
 </template>
 
@@ -9,8 +13,20 @@
 export default {
   data(){
     return{
-      tapeInput: null
+      tapeInput: null,
+      localPlaylist: null
     }
+  },
+  computed: {
+    playlist() {
+      return this.$store.getters.getPlaylist
+    }
+  },
+  watch:{
+    playlist(){
+      this.localPlaylist = this.playlist.albums
+      console.log(this.localPlaylist)
+    },
   },
 }
 </script>

@@ -10,13 +10,13 @@ export default new Router({
   mode: 'history',
   routes: [
       {
-        path: "/tape/:id",
+        path: "/:album/:id",
         component: Audio
       },
       {
-        path: "/tape/",
+        path: "/:album/",
         component: Audio,
-        redirect: { path: '/tape/1' }
+        redirect: { path: '/:album/1' }
       },
       {
         path: "*",

@@ -30,7 +30,8 @@ export default {
         "f": "",
         "j": ""},
         play: true,
-        currentPath: []
+        currentPath: [],
+        album: this.$route.params.album
     }
   },
   methods: {
@@ -51,10 +52,12 @@ export default {
       //this.songIndex=index
       let index = this.audioInfo[value]
       if(index != ''){
-        this.$router.push({ path: `/tape/${index}`})
+        this.$router.push({ path: `/${this.album}/${index}`})
         this.songIndex = index
-        if(typeof this.localPlaylist.tracks[this.songIndex] != 'undefined') {
-          this.audioInfo = this.localPlaylist.tracks[this.songIndex]
+        let remotePlay= this.playlist
+        let albumList = remotePlay.albums
+        if(typeof albumList[0].tracks[this.songIndex] != 'undefined') {
+          this.audioInfo = albumList[0].tracks[this.songIndex]
           this.$refs.audio.src = "/audio/"+this.audioInfo.source;
         }
         this.currentPath.push(this.songIndex)
@@ -68,7 +71,7 @@ export default {
   },
   beforeMount(){
     if(this.playlist != null){
-      this.localPlaylist = this.playlist
+      this.localPlaylist = this.playlist.albums[this.album]
       if(typeof this.localPlaylist.tracks[this.songIndex] != 'undefined') {
         this.audioInfo = this.localPlaylist.tracks[this.songIndex]
       }
@@ -94,15 +97,19 @@ export default {
   },
   watch:{
     playlist(){
-      this.localPlaylist = this.playlist
-      if(typeof this.localPlaylist.tracks[this.songIndex] != 'undefined') {
-        this.audioInfo = this.localPlaylist.tracks[this.songIndex]
+      let remotePlay= this.playlist
+      let albumList = remotePlay.albums
+      if(typeof albumList[0].tracks[this.songIndex] != 'undefined') {
+        this.audioInfo = albumList[0].tracks[this.songIndex]
       } 
     },
     audioInfo(){
+      let remotePlay= this.playlist
+      let albumList = remotePlay.albums
       this.$refs.audio.pause();
-      if(typeof this.localPlaylist.tracks[this.songIndex] != 'undefined') {
-        this.audioInfo = this.localPlaylist.tracks[this.songIndex]
+
+      if(typeof albumList[0].tracks[this.songIndex] != 'undefined') {
+        this.audioInfo = albumList[0].tracks[this.songIndex]
         this.$refs.audio.src = "/audio/"+this.audioInfo.source;
       }
       this.$refs.audio.currentTime = 0;
