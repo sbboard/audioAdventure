@@ -25,7 +25,6 @@ export default {
   watch:{
     playlist(){
       this.localPlaylist = this.playlist.albums
-      console.log(this.localPlaylist)
     },
   },
 }

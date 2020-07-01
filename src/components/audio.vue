@@ -12,7 +12,9 @@
       <img v-if="audioInfo.j != ''" @click="setIndex('j')" src="../assets/j.png">
       </div>
     </div>
-    {{currentPath}}
+    <div v-if="audioInfo.f == '' && audioInfo.j == ''">
+      <router-link :to="'/replay/'+album+'/'+pathprint">Relisten to Adventure</router-link>
+    </div>
   </div>
 </template>
 
@@ -67,6 +69,14 @@ export default {
   computed: {
     playlist() {
       return this.$store.getters.getPlaylist
+    },
+    pathprint(){
+      let printedPath = ""
+      for(let i = 0; i<this.currentPath.length;i++){
+        printedPath += this.currentPath[i] + "+"
+      }
+      printedPath = printedPath.slice(0,printedPath.length-1)
+      return printedPath
     }
   },
   beforeMount(){
