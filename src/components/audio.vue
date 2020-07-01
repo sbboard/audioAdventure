@@ -1,48 +1,110 @@
 <template>
   <div id="root">
+    <div id="wrap">
       <h1>{{this.audioInfo.name}}</h1>
       <audio autoplay @ended='ended' ref="audio">
       <source :src="'/audio/'+this.audioInfo.source" type="audio/mpeg">
       </audio>
       <div id="controls">
-      <a :href="audioInfo.f" v-if="audioInfo.f != ''"><img src="../assets/f.png"></a>
-      <img src="../assets/pause.png">
-      <img src="../assets/play.png">
-      <a :href=audioInfo.j v-if="audioInfo.j != ''"><img src="../assets/j.png"></a>
+      <img v-if="audioInfo.f != ''"  @click="setIndex('f')" src="../assets/f.png">
+      <img @click="togglePlay()" v-if="play" src="../assets/pause.png">
+      <img @click="togglePlay()" v-if="!play" src="../assets/play.png">
+      <img v-if="audioInfo.j != ''" @click="setIndex('j')" src="../assets/j.png">
       </div>
+    </div>
   </div>
 </template>
 
 <script>
-import playlist from '../playlist.json'
 
 export default {
   data(){
     return{
-        playlist: playlist.tracks,
+        localPlaylist: null,
         songIndex: this.$route.params.id,
-        projectName: "test project",
         audioInfo: {
         "source": "notFound.mp3",
-        "name": "error: audio not found",
+        "name": "loading",
         "endTime": "",
         "f": "",
-        "j": ""
-    }
+        "j": ""},
+        play: true
     }
   },
   methods: {
+    togglePlay(){
+      if(this.play){
+        this.$refs.audio.pause()
+      }
+      else{
+        this.$refs.audio.play()
+      }
+      this.play = !this.play
+    },
     ended(){
-        console.log('ended')
         this.$refs.audio.currentTime = this.audioInfo.endTime
         this.$refs.audio.play()
     },
+    setIndex(value){
+      //this.songIndex=index
+      let index = this.audioInfo[value]
+      if(index != ''){
+        this.$router.push({ path: `/tape/${index}`})
+        this.songIndex = index
+        if(typeof this.localPlaylist.tracks[this.songIndex] != 'undefined') {
+          this.audioInfo = this.localPlaylist.tracks[this.songIndex]
+          this.$refs.audio.src = "/audio/"+this.audioInfo.source;
+        }
+      }
+    },
+  },
+  computed: {
+    playlist() {
+      return this.$store.getters.getPlaylist
+    }
+  },
+  beforeMount(){
+    if(this.playlist != null){
+      this.localPlaylist = this.playlist
+      if(typeof this.localPlaylist.tracks[this.songIndex] != 'undefined') {
+        this.audioInfo = this.localPlaylist.tracks[this.songIndex]
+      }
+    }
   },
   mounted(){
-      if(typeof this.playlist[this.songIndex] != 'undefined') {
-        this.audioInfo = this.playlist[this.songIndex]
+    let that = this
+    window.addEventListener('keyup', function(ev) {
+      let x = ev.key.toLowerCase()
+      switch (x) {
+        case 'f':
+          that.setIndex("f")
+          break;
+        case 'j':
+          that.setIndex("j")
+          break;
+        case ' ':
+          that.togglePlay()
+          break;
+      }
+    });
+  },
+  watch:{
+    playlist(){
+      this.localPlaylist = this.playlist
+      if(typeof this.localPlaylist.tracks[this.songIndex] != 'undefined') {
+        this.audioInfo = this.localPlaylist.tracks[this.songIndex]
+      } 
+    },
+    audioInfo(){
+      this.$refs.audio.pause();
+      if(typeof this.localPlaylist.tracks[this.songIndex] != 'undefined') {
+        this.audioInfo = this.localPlaylist.tracks[this.songIndex]
+        this.$refs.audio.src = "/audio/"+this.audioInfo.source;
+      }
+      this.$refs.audio.currentTime = 0;
+      this.$refs.audio.play()
     }
-  }
+  },
 }
 </script>
 
@@ -52,4 +114,5 @@ export default {
         img
             display: black
             width: 50px
+            cursor: pointer
 </style>

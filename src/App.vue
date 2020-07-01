@@ -5,11 +5,19 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data(){
     return{
     }
   },
+  beforeMount(){
+      axios.get('/playlist.json')
+      .then((response) => {
+        this.$store.commit('setPlaylist', response.data)
+      })
+  }
 }
 </script>
 
