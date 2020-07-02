@@ -3,7 +3,7 @@
       <template v-if="trackInfo != null">
       {{trackInfo.name}}<br>
       </template>
-      <audio controls autoplay ref="audio" @timeupdate="timeCheck()">
+      <audio autoplay ref="audio" @timeupdate="timeCheck()">
       <source type="audio/mpeg">
       </audio>
       <!-- {{pathArray}}<br>

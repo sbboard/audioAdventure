@@ -2,14 +2,14 @@
   <div id="root">
     <div id="wrap">
       <h1>{{this.audioInfo.name}}</h1>
-      <audio autoplay @ended='ended' ref="audio">
+      <audio autoplay @ended='ended' ref="audio" @timeupdate="timeCheck()">
       <source :src="'/audio/'+this.audioInfo.source" type="audio/mpeg">
       </audio>
       <div id="controls">
-      <img v-if="audioInfo.f != ''"  @click="setIndex('f')" src="../assets/f.png" :class="{pressed: fpressed}">
+      <img @click="setIndex('f')" src="../assets/f.png" :class="{pressed: fpressed, faded: !optionTime}">
       <img @click="togglePlay()" v-if="play" src="../assets/pause.png">
       <img @click="togglePlay()" v-if="!play" src="../assets/play.png">
-      <img v-if="audioInfo.j != ''" @click="setIndex('j')" src="../assets/j.png" :class="{pressed: jpressed}">
+      <img @click="setIndex('j')" src="../assets/j.png" :class="{pressed: jpressed, faded: !optionTime}">
       </div>
     </div>
     <div v-if="audioInfo.f == '' && audioInfo.j == '' && endhit == true">
@@ -37,7 +37,8 @@ export default {
         album: this.$route.params.album,
         endhit: false,
         jpressed: false,
-        fpressed: false
+        fpressed: false,
+        optionTime: false,
     }
   },
   methods: {
@@ -68,8 +69,15 @@ export default {
           this.$refs.audio.src = "/audio/"+this.audioInfo.source;
         }
         this.currentPath.push(this.songIndex)
+        this.optionTime = false
       }
     },
+      timeCheck(){
+        if(this.$refs.audio.currentTime >= this.audioInfo.endTime){
+          if(this.audioInfo.j != "" && this.audioInfo.f != "")
+          this.optionTime = true
+        }
+      },
   },
   computed: {
     playlist() {
@@ -99,10 +107,10 @@ export default {
       let x = ev.key.toLowerCase()
       switch (x) {
         case 'f':
-          that.fpressed = true
+          if(that.optionTime == true){that.fpressed = true}
           break;
         case 'j':
-          that.jpressed = true
+          if(that.optionTime == true){that.jpressed = true}
           break;
       }
     })
@@ -110,12 +118,12 @@ export default {
       let x = ev.key.toLowerCase()
       switch (x) {
         case 'f':
-          that.setIndex("f")
-          that.fpressed = false
+          if(that.optionTime == true){that.setIndex("f")
+          that.fpressed = false}
           break;
         case 'j':
-          that.setIndex("j")
-          that.jpressed = false
+          if(that.optionTime == true){that.setIndex("j")
+          that.jpressed = false}
           break;
         case ' ':
           that.togglePlay()
@@ -154,6 +162,9 @@ export default {
             display: black
             width: 50px
             cursor: pointer
+        .faded
+          opacity: .5
+          cursor: auto
 .pressed
   height: 47px
   width: 47px
