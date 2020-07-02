@@ -6,13 +6,13 @@
       <source :src="'/audio/'+this.audioInfo.source" type="audio/mpeg">
       </audio>
       <div id="controls">
-      <img v-if="audioInfo.f != ''"  @click="setIndex('f')" src="../assets/f.png">
+      <img v-if="audioInfo.f != ''"  @click="setIndex('f')" src="../assets/f.png" :class="{pressed: fpressed}">
       <img @click="togglePlay()" v-if="play" src="../assets/pause.png">
       <img @click="togglePlay()" v-if="!play" src="../assets/play.png">
-      <img v-if="audioInfo.j != ''" @click="setIndex('j')" src="../assets/j.png">
+      <img v-if="audioInfo.j != ''" @click="setIndex('j')" src="../assets/j.png" :class="{pressed: jpressed}">
       </div>
     </div>
-    <div v-if="audioInfo.f == '' && audioInfo.j == ''">
+    <div v-if="audioInfo.f == '' && audioInfo.j == '' && endhit == true">
       <router-link :to="'/replay/'+album+'/'+pathprint">Relisten to Adventure</router-link>
     </div>
   </div>
@@ -34,7 +34,10 @@ export default {
         },
         play: true,
         currentPath: [],
-        album: this.$route.params.album
+        album: this.$route.params.album,
+        endhit: false,
+        jpressed: false,
+        fpressed: false
     }
   },
   methods: {
@@ -48,10 +51,12 @@ export default {
       this.play = !this.play
     },
     ended(){
+        this.endhit = true
         this.$refs.audio.currentTime = this.audioInfo.endTime
         this.$refs.audio.play()
     },
     setIndex(value){
+      this.endhit = false
       let index = this.audioInfo[value]
       if(index != ''){
         this.$router.push({ path: `/${this.album}/${index}`})
@@ -90,20 +95,33 @@ export default {
   mounted(){
     let that = this
     this.currentPath.push(this.songIndex)
+    window.addEventListener('keydown', function(ev) {
+      let x = ev.key.toLowerCase()
+      switch (x) {
+        case 'f':
+          that.fpressed = true
+          break;
+        case 'j':
+          that.jpressed = true
+          break;
+      }
+    })
     window.addEventListener('keyup', function(ev) {
       let x = ev.key.toLowerCase()
       switch (x) {
         case 'f':
           that.setIndex("f")
+          that.fpressed = false
           break;
         case 'j':
           that.setIndex("j")
+          that.jpressed = false
           break;
         case ' ':
           that.togglePlay()
           break;
       }
-    });
+    })
   },
   watch:{
     playlist(){
@@ -136,4 +154,8 @@ export default {
             display: black
             width: 50px
             cursor: pointer
+.pressed
+  height: 47px
+  width: 47px
+  filter: brightness(0.75) drop-shadow(0px -1px 4px black)
 </style>
