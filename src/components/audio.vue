@@ -2,9 +2,15 @@
   <div id="root">
     <div id="wrap">
       <h1>{{this.audioInfo.name}}</h1>
+
       <audio autoplay @ended='ended' ref="audio" @timeupdate="timeCheck()">
       <source :src="'/audio/'+album+'/'+audioInfo.source" type="audio/mpeg">
       </audio>
+
+      <audio ref="sfx">
+      <source src="/audio/sys/press.mp3" type="audio/mpeg">
+      </audio>
+
       <div id="controls">
       <img v-if="audioInfo.name != 'loading'" @click="setIndex('f')" src="../assets/f.png" :class="{pressed: fpressed, faded: !optionTime}">
       <img @click="togglePlay()" v-if="play" src="../assets/pause.png">
@@ -62,6 +68,7 @@ export default {
     },
     setIndex(value){
       if(this.optionTime == true){
+        this.$refs.sfx.play()
         this.endhit = false
         let index = this.audioInfo[value]
         if(index != ''){
