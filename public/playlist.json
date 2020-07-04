@@ -3,6 +3,7 @@
         {
             "name":"sonic adventure",
             "img":"https://upload.wikimedia.org/wikipedia/en/6/60/Sonic_Adventure.PNG",
+            "notFoundTrack":"notFound.mp3",
             "tracks":[
             {},
             {

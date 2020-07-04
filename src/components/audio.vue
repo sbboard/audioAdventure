@@ -12,14 +12,14 @@
       </audio>
 
       <div id="controls">
-      <img v-if="audioInfo.name != 'loading'" @click="setIndex('f')" src="../assets/f.png" :class="{pressed: fpressed, faded: !optionTime}">
+      <img v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('f')" src="../assets/f.png" :class="{pressed: fpressed, faded: !optionTime}">
       <img @click="togglePlay()" v-if="play" src="../assets/pause.png">
       <img @click="togglePlay()" v-if="!play" src="../assets/play.png">
-      <img v-if="audioInfo.name != 'loading'" @click="replay()" src="../assets/replay.png">
-      <img v-if="audioInfo.name != 'loading'" @click="setIndex('j')" src="../assets/j.png" :class="{pressed: jpressed, faded: !optionTime}">
+      <img v-if="audioInfo.name != 'Blank Tape'" @click="replay()" src="../assets/replay.png">
+      <img v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('j')" src="../assets/j.png" :class="{pressed: jpressed, faded: !optionTime}">
       </div>
     </div>
-    <div v-if="audioInfo.f == '' && audioInfo.j == '' && endhit == true && audioInfo.name != 'loading'">
+    <div v-if="audioInfo.f == '' && audioInfo.j == '' && endhit == true && audioInfo.name != 'Blank Tape'">
       <router-link :to="'/replay/'+album+'/'+pathprint">Relisten to Adventure</router-link>
     </div>
   </div>
@@ -33,7 +33,7 @@ export default {
         localPlaylist: null,
         songIndex: this.$route.params.id,
         audioInfo: {
-          "source": "notFound.mp3",
+          "source": "",
           "name": "loading",
           "endTime": "",
           "f": "",
@@ -76,9 +76,13 @@ export default {
           this.songIndex = index
           let remotePlay= this.playlist
           let albumList = remotePlay.albums
-          if(typeof albumList[0].tracks[this.songIndex] != 'undefined') {
-            this.audioInfo = albumList[0].tracks[this.songIndex]
+          if(typeof albumList[this.album].tracks[this.songIndex] != 'undefined') {
+            this.audioInfo = albumList[this.album].tracks[this.songIndex]
             this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
+          }
+          else{
+            this.audioInfo.name = "Blank Tape"
+            this.$refs.audio.src = "/audio/"+this.album+'/'+albumList[this.album].notFoundTrack
           }
           this.currentPath.push(this.songIndex)
           this.optionTime = false
@@ -110,6 +114,10 @@ export default {
       this.localPlaylist = this.playlist.albums[this.album]
       if(typeof this.localPlaylist.tracks[this.songIndex] != 'undefined') {
         this.audioInfo = this.localPlaylist.tracks[this.songIndex]
+      }
+      else{
+            this.audioInfo.name = "Blank Tape"
+            this.audioInfo.source = this.localPlaylist.notFoundTrack
       }
     }
   },
@@ -154,19 +162,22 @@ export default {
     playlist(){
       let remotePlay= this.playlist
       let albumList = remotePlay.albums
-      if(typeof albumList[0].tracks[this.songIndex] != 'undefined') {
-        this.audioInfo = albumList[0].tracks[this.songIndex]
+      if(typeof albumList[this.album].tracks[this.songIndex] != 'undefined') {
+        this.audioInfo = albumList[this.album].tracks[this.songIndex]
+      }
+      else{
+          this.audioInfo.name = "Blank Tape"
+          this.audioInfo.source = albumList[this.album].notFoundTrack
+
+          //i dont know why only this part doesn't load right without the following code
+          this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
+          this.$refs.audio.play()
       } 
     },
     audioInfo(){
-      let remotePlay= this.playlist
-      let albumList = remotePlay.albums
+      
       this.$refs.audio.pause();
-
-      if(typeof albumList[0].tracks[this.songIndex] != 'undefined') {
-        this.audioInfo = albumList[0].tracks[this.songIndex]
-        this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
-      }
+      this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
       this.$refs.audio.currentTime = 0;
       this.$refs.audio.play()
     }
