@@ -3,7 +3,7 @@
     <div id="wrap">
       <h1>{{this.audioInfo.name}}</h1>
       <audio autoplay @ended='ended' ref="audio" @timeupdate="timeCheck()">
-      <source :src="'/audio/'+this.audioInfo.source" type="audio/mpeg">
+      <source :src="'/audio/'+album+'/'+audioInfo.source" type="audio/mpeg">
       </audio>
       <div id="controls">
       <img @click="setIndex('f')" src="../assets/f.png" :class="{pressed: fpressed, faded: !optionTime}">
@@ -66,7 +66,7 @@ export default {
         let albumList = remotePlay.albums
         if(typeof albumList[0].tracks[this.songIndex] != 'undefined') {
           this.audioInfo = albumList[0].tracks[this.songIndex]
-          this.$refs.audio.src = "/audio/"+this.audioInfo.source;
+          this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
         }
         this.currentPath.push(this.songIndex)
         this.optionTime = false
@@ -146,7 +146,7 @@ export default {
 
       if(typeof albumList[0].tracks[this.songIndex] != 'undefined') {
         this.audioInfo = albumList[0].tracks[this.songIndex]
-        this.$refs.audio.src = "/audio/"+this.audioInfo.source;
+        this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
       }
       this.$refs.audio.currentTime = 0;
       this.$refs.audio.play()
