@@ -6,14 +6,14 @@
       <source :src="'/audio/'+album+'/'+audioInfo.source" type="audio/mpeg">
       </audio>
       <div id="controls">
-      <img @click="setIndex('f')" src="../assets/f.png" :class="{pressed: fpressed, faded: !optionTime}">
+      <img v-if="audioInfo.name != 'loading'" @click="setIndex('f')" src="../assets/f.png" :class="{pressed: fpressed, faded: !optionTime}">
       <img @click="togglePlay()" v-if="play" src="../assets/pause.png">
       <img @click="togglePlay()" v-if="!play" src="../assets/play.png">
-      <img @click="replay()" src="../assets/replay.png">
-      <img @click="setIndex('j')" src="../assets/j.png" :class="{pressed: jpressed, faded: !optionTime}">
+      <img v-if="audioInfo.name != 'loading'" @click="replay()" src="../assets/replay.png">
+      <img v-if="audioInfo.name != 'loading'" @click="setIndex('j')" src="../assets/j.png" :class="{pressed: jpressed, faded: !optionTime}">
       </div>
     </div>
-    <div v-if="audioInfo.f == '' && audioInfo.j == '' && endhit == true">
+    <div v-if="audioInfo.f == '' && audioInfo.j == '' && endhit == true && audioInfo.name != 'loading'">
       <router-link :to="'/replay/'+album+'/'+pathprint">Relisten to Adventure</router-link>
     </div>
   </div>
