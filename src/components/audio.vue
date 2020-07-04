@@ -58,6 +58,10 @@ export default {
       }
       this.play = !this.play
     },
+    action(){
+      this.$refs.sfx.src = "/audio/sys/action.mp3"
+      this.$refs.sfx.play()
+    },
     replay(){
       this.$refs.audio.currentTime = 0
     },
@@ -68,6 +72,7 @@ export default {
     },
     setIndex(value){
       if(this.optionTime == true){
+        this.$refs.sfx.src = "/audio/sys/press.mp3"
         this.$refs.sfx.play()
         this.endhit = false
         let index = this.audioInfo[value]
@@ -139,6 +144,12 @@ export default {
         case 'j':
           if(that.optionTime == true){that.jpressed = true}
           break;
+        case 'g':
+          that.action()
+          break;
+        case 'h':
+          that.action()
+          break;
       }
     })
     window.addEventListener('keyup', function(ev) {
@@ -175,7 +186,6 @@ export default {
       } 
     },
     audioInfo(){
-      
       this.$refs.audio.pause();
       this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
       this.$refs.audio.currentTime = 0;
