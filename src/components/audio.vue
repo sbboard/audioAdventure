@@ -115,6 +115,12 @@ export default {
         case 'f':
           if(that.optionTime == true){that.fpressed = true}
           break;
+        case 'k':
+          that.replay()
+          break;
+        case 'd':
+          that.replay()
+          break;
         case 'j':
           if(that.optionTime == true){that.jpressed = true}
           break;

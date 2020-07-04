@@ -8,7 +8,13 @@
       <select @change="specificTape($event.target.value)">
       <option v-for="(item, indexTwo) in localPlaylist[index].tracks" :key="item.name" :value="`/${index}/${indexTwo}`">{{indexTwo}}</option>
       </select>
-      </div>
+      </div><br>
+      controls:<br>
+        f - left option<br>
+        j - right option<br>
+        g/h - action<br>
+        space - pause/play<br>
+        d/k - replay
   </div>
 </template>
 
