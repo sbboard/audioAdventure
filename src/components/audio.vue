@@ -9,6 +9,7 @@
       <img @click="setIndex('f')" src="../assets/f.png" :class="{pressed: fpressed, faded: !optionTime}">
       <img @click="togglePlay()" v-if="play" src="../assets/pause.png">
       <img @click="togglePlay()" v-if="!play" src="../assets/play.png">
+      <img @click="replay()" src="../assets/replay.png">
       <img @click="setIndex('j')" src="../assets/j.png" :class="{pressed: jpressed, faded: !optionTime}">
       </div>
     </div>
@@ -51,25 +52,30 @@ export default {
       }
       this.play = !this.play
     },
+    replay(){
+      this.$refs.audio.currentTime = 0
+    },
     ended(){
         this.endhit = true
         this.$refs.audio.currentTime = this.audioInfo.endTime
         this.$refs.audio.play()
     },
     setIndex(value){
-      this.endhit = false
-      let index = this.audioInfo[value]
-      if(index != ''){
-        this.$router.push({ path: `/${this.album}/${index}`})
-        this.songIndex = index
-        let remotePlay= this.playlist
-        let albumList = remotePlay.albums
-        if(typeof albumList[0].tracks[this.songIndex] != 'undefined') {
-          this.audioInfo = albumList[0].tracks[this.songIndex]
-          this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
+      if(this.optionTime == true){
+        this.endhit = false
+        let index = this.audioInfo[value]
+        if(index != ''){
+          this.$router.push({ path: `/${this.album}/${index}`})
+          this.songIndex = index
+          let remotePlay= this.playlist
+          let albumList = remotePlay.albums
+          if(typeof albumList[0].tracks[this.songIndex] != 'undefined') {
+            this.audioInfo = albumList[0].tracks[this.songIndex]
+            this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
+          }
+          this.currentPath.push(this.songIndex)
+          this.optionTime = false
         }
-        this.currentPath.push(this.songIndex)
-        this.optionTime = false
       }
     },
       timeCheck(){
