@@ -15,7 +15,8 @@
                     "j": "3",
                     "key": null,
                     "door": null,
-                    "doorDestination": null
+                    "doorDestination": null,
+                    "altTrack": null
                 },
                 {
                     "name": "tape 2",
@@ -25,7 +26,8 @@
                     "j": "1",
                     "key": null,
                     "door": null,
-                    "doorDestination": null
+                    "doorDestination": null,
+                    "altTrack": null
                 },
                 {
                     "name": "tape 3",
@@ -35,7 +37,8 @@
                     "j": "2",
                     "key": null,
                     "door": null,
-                    "doorDestination": null
+                    "doorDestination": null,
+                    "altTrack": null
                 },
                 {
                     "name": "tape 4",
@@ -45,7 +48,8 @@
                     "j": "",
                     "key": null,
                     "door": null,
-                    "doorDestination": null
+                    "doorDestination": null,
+                    "altTrack": null
                 }
             ]
         },
@@ -64,7 +68,8 @@
                     "j": "3",
                     "key": null,
                     "door": null,
-                    "doorDestination": null
+                    "doorDestination": null,
+                    "altTrack": null
                 },
                 {
                     "name": "get the rabbit",
@@ -74,7 +79,8 @@
                     "j": "1",
                     "key": 0,
                     "door": null,
-                    "doorDestination": null
+                    "doorDestination": null,
+                    "altTrack": "faketape2.mp3"
                 },
                 {
                     "name": "enter to the door",
@@ -84,7 +90,8 @@
                     "j": "2",
                     "key": null,
                     "door": [0,1],
-                    "doorDestination": 4
+                    "doorDestination": 4,
+                    "altTrack": null
                 },
                 {
                     "name": "tape 4",
@@ -94,7 +101,8 @@
                     "j": "",
                     "key": null,
                     "door": null,
-                    "doorDestination": null
+                    "doorDestination": null,
+                    "altTrack": null
                 }
             ]
         }

@@ -109,7 +109,6 @@ export default {
           let albumList = remotePlay.albums
           if(typeof albumList[this.album].tracks[this.songIndex] != 'undefined') {
             this.audioInfo = albumList[this.album].tracks[this.songIndex]
-            this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
           }
           else{
             this.audioInfo.name = "Blank Tape"
@@ -221,7 +220,13 @@ export default {
     },
     audioInfo(){
       this.$refs.audio.pause();
-      this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
+      console.log("ok 2")
+      if(this.trackKeysRecieved.indexOf(this.songIndex)>=0){
+        this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.altTrack;
+      }
+      else{
+        this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
+      }
       this.$refs.audio.currentTime = 0;
       this.$refs.audio.play()
     }
