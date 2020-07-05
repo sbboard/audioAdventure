@@ -221,7 +221,7 @@ export default {
     audioInfo(){
       this.$refs.audio.pause();
       console.log("ok 2")
-      if(this.trackKeysRecieved.indexOf(this.songIndex)>=0){
+      if(this.trackKeysRecieved.indexOf(this.songIndex)>=0 && this.audioInfo.altTrack != null){
         this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.altTrack;
       }
       else{
