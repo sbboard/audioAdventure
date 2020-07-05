@@ -16,6 +16,7 @@
       <img @click="togglePlay()" v-if="play" src="../assets/pause.png">
       <img @click="togglePlay()" v-if="!play" src="../assets/play.png">
       <img v-if="audioInfo.name != 'Blank Tape'" @click="replay()" src="../assets/replay.png">
+      <img @click="action()" src="../assets/action.jpg">
       <img v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('j')" src="../assets/j.png" :class="{pressed: jpressed, faded: !optionTime}">
       </div>
     </div>
@@ -46,6 +47,9 @@ export default {
         jpressed: false,
         fpressed: false,
         optionTime: false,
+        inventory: {},
+        itemList: [],
+        trackKeysRecieved: []
     }
   },
   methods: {
@@ -59,8 +63,30 @@ export default {
       this.play = !this.play
     },
     action(){
-      this.$refs.sfx.src = "/audio/sys/action.mp3"
-      this.$refs.sfx.play()
+      //if there's a key
+      if(this.audioInfo.key != null && this.trackKeysRecieved.indexOf(this.songIndex)<0){
+        this.inventory[this.itemList[this.audioInfo.key]] = this.inventory[this.itemList[this.audioInfo.key]]+1
+        this.trackKeysRecieved.push(this.songIndex)
+
+        this.$refs.sfx.src = "/audio/sys/action.mp3"
+        this.$refs.sfx.play()
+      }
+      //if there's a door
+      else if(this.audioInfo.door != null){
+        if(this.inventory[this.itemList[this.audioInfo.door[0]]] >= this.audioInfo.door[1]){
+          let index = this.audioInfo.doorDestination
+          this.$router.push({ path: `/${this.album}/${index}`})
+          this.songIndex = index
+          let remotePlay= this.playlist
+          let albumList = remotePlay.albums
+          this.audioInfo = albumList[this.album].tracks[this.songIndex]
+          this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source
+          this.currentPath.push(this.songIndex)
+          this.optionTime = false
+          this.$refs.sfx.src = "/audio/sys/action.mp3"
+          this.$refs.sfx.play()
+        }
+      }
     },
     replay(){
       this.$refs.audio.currentTime = 0
@@ -94,7 +120,13 @@ export default {
         }
       }
     },
-      timeCheck(){
+    createInventory(inventoryItems){
+      this.itemList = inventoryItems
+      for(let i=0;i<inventoryItems.length;i++){
+        this.inventory[inventoryItems[i]] = 0
+      }
+    },
+    timeCheck(){
         if(this.$refs.audio.currentTime >= this.audioInfo.endTime){
           if(this.audioInfo.j != "" && this.audioInfo.f != "")
           this.optionTime = true
@@ -124,6 +156,7 @@ export default {
             this.audioInfo.name = "Blank Tape"
             this.audioInfo.source = this.localPlaylist.notFoundTrack
       }
+      this.createInventory(this.localPlaylist.inventoryItems)
     }
   },
   mounted(){
@@ -183,7 +216,8 @@ export default {
           //i dont know why only this part doesn't load right without the following code
           this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
           this.$refs.audio.play()
-      } 
+      }
+      this.createInventory(albumList[this.album].inventoryItems)
     },
     audioInfo(){
       this.$refs.audio.pause();

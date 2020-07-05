@@ -1,29 +1,12 @@
 # audioadventure
 
-## Project setup
-```
-npm install
-```
+## Editing JSON
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+InventoryItems: [rabbit, slap, back]
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Key: 0
+Doing an action on this track rewards you with this item.
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+A door
+Door: [0, 3]
+In this example, the door requires the user to have 3 rabbits to unlock. 0 referencing the inventory items array, 3 referencing the required amount of that item.
