@@ -10,46 +10,50 @@
                 {
                     "source": "faketape1.mp3",
                     "name": "tape 1",
-                    "endTime": "18",
-                    "f": "2",
-                    "j": "3",
+                    "endTime": 18,
+                    "f": 2,
+                    "j": 3,
                     "key": null,
                     "door": null,
                     "doorDestination": null,
-                    "altTrack": null
+                    "altTrack": null,
+                    "altEnd": null
                 },
                 {
                     "name": "tape 2",
                     "source": "faketape2.mp3",
-                    "endTime": "19",
-                    "f": "4",
-                    "j": "1",
+                    "endTime": 19,
+                    "f": 4,
+                    "j": 1,
                     "key": null,
                     "door": null,
                     "doorDestination": null,
-                    "altTrack": null
+                    "altTrack": null,
+                    "altEnd": null
                 },
                 {
                     "name": "tape 3",
                     "source": "faketape3.mp3",
-                    "endTime": "23",
-                    "f": "1",
-                    "j": "2",
+                    "endTime": 23,
+                    "f": 1,
+                    "j": 2,
                     "key": null,
                     "door": null,
                     "doorDestination": null,
-                    "altTrack": null
+                    "altTrack": null,
+                    "altEnd": null
                 },
                 {
                     "name": "tape 4",
                     "source": "fAKETape4.mp3",
-                    "endTime": "26",
+                    "endTime": 26,
                     "f": "",
                     "j": "",
                     "key": null,
                     "door": null,
                     "doorDestination": null,
-                    "altTrack": null
+                    "altTrack": null,
+                    "altEnd": null
                 }
             ]
         },
@@ -63,46 +67,50 @@
                 {
                     "source": "faketape1.mp3",
                     "name": "tape 1",
-                    "endTime": "18",
-                    "f": "2",
-                    "j": "3",
+                    "endTime": 18,
+                    "f": 2,
+                    "j": 3,
                     "key": null,
                     "door": null,
                     "doorDestination": null,
-                    "altTrack": null
+                    "altTrack": null,
+                    "altEnd": null
                 },
                 {
                     "name": "get the rabbit",
                     "source": "fAKETape6.mp3",
-                    "endTime": "20",
-                    "f": "3",
-                    "j": "1",
+                    "endTime": 20,
+                    "f": 3,
+                    "j": 1,
                     "key": 0,
                     "door": null,
                     "doorDestination": null,
-                    "altTrack": "faketape2.mp3"
+                    "altTrack": "faketape2.mp3",
+                    "altEnd": 19
                 },
                 {
                     "name": "enter to the door",
                     "source": "fAKETape5.mp3",
-                    "endTime": "19",
-                    "f": "1",
-                    "j": "2",
+                    "endTime": 19,
+                    "f": 1,
+                    "j": 2,
                     "key": null,
                     "door": [0,1],
                     "doorDestination": 4,
-                    "altTrack": null
+                    "altTrack": null,
+                    "altEnd": null
                 },
                 {
                     "name": "tape 4",
                     "source": "fAKETape4.mp3",
-                    "endTime": "26",
+                    "endTime": 26,
                     "f": "",
                     "j": "",
                     "key": null,
                     "door": null,
                     "doorDestination": null,
-                    "altTrack": null
+                    "altTrack": null,
+                    "altEnd": null
                 }
             ]
         }

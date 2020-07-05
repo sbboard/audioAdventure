@@ -114,7 +114,12 @@ export default {
             this.audioInfo.name = "Blank Tape"
             this.$refs.audio.src = "/audio/"+this.album+'/'+albumList[this.album].notFoundTrack
           }
-          this.currentPath.push(this.songIndex)
+          if(this.trackKeysRecieved.indexOf(this.songIndex)>=0 && this.audioInfo.altTrack != null){
+            this.currentPath.push(this.songIndex+"alt")
+          }
+          else{
+            this.currentPath.push(this.songIndex)
+          }
           this.optionTime = false
         }
       }
@@ -220,7 +225,6 @@ export default {
     },
     audioInfo(){
       this.$refs.audio.pause();
-      console.log("ok 2")
       if(this.trackKeysRecieved.indexOf(this.songIndex)>=0 && this.audioInfo.altTrack != null){
         this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.altTrack;
       }

@@ -6,8 +6,7 @@
       <audio autoplay ref="audio" @timeupdate="timeCheck()">
       <source type="audio/mpeg">
       </audio>
-      <!-- {{pathArray}}<br>
-      {{localPlaylist[pathArray[currentTrackIndex]]}} -->
+      
       <div id="controls">
       <img @click="togglePlay()" v-if="play" src="../assets/pause.png">
       <img @click="togglePlay()" v-if="!play" src="../assets/play.png">
@@ -23,7 +22,8 @@ export default {
       currentTrackIndex: 0,
       localPlaylist: null,
       trackInfo: null,
-    play: true,
+      play: true,
+      altPlaying: true
     }
   },
   methods:{
@@ -31,8 +31,16 @@ export default {
         if(this.$refs.audio.currentTime >= this.trackInfo.endTime){
             if(this.currentTrackIndex < this.pathArray.length - 1){
                 this.currentTrackIndex++
-                this.trackInfo = this.localPlaylist[this.pathArray[this.currentTrackIndex]]
-                this.$refs.audio.src = "/audio/"+ this.trackInfo.source;
+                if(this.pathArray[this.currentTrackIndex].includes("alt")){
+                  console.log("ya")
+                  let trackGuy = this.pathArray[this.currentTrackIndex].split("alt")[0]
+                  this.trackInfo = this.localPlaylist[trackGuy]
+                  this.$refs.audio.src = `/audio/${this.album}/${this.trackInfo.altTrack}`;
+                }
+                else{
+                  this.trackInfo = this.localPlaylist[this.pathArray[this.currentTrackIndex]]
+                  this.$refs.audio.src = `/audio/${this.album}/${this.trackInfo.source}`;
+                }
             }
         }
       },
@@ -50,7 +58,7 @@ export default {
     if(this.playlist != null){
         this.localPlaylist = this.playlist.albums[this.album].tracks
         this.trackInfo = this.localPlaylist[this.pathArray[this.currentTrackIndex]]
-        this.$refs.audio.src = "/audio/"+ this.trackInfo.source;
+        this.$refs.audio.src = `/audio/${this.album}/${this.trackInfo.source}`;
         this.$refs.audio.play()
     }
 
@@ -73,7 +81,7 @@ export default {
     playlist(){
         this.localPlaylist = this.playlist.albums[this.album].tracks
         this.trackInfo = this.localPlaylist[this.pathArray[this.currentTrackIndex]]
-        this.$refs.audio.src = "/audio/"+ this.trackInfo.source;
+        this.$refs.audio.src = `/audio/${this.album}/${this.trackInfo.source}`;
         this.$refs.audio.play()
     },
   },
