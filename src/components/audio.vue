@@ -49,7 +49,8 @@ export default {
         optionTime: false,
         inventory: {},
         itemList: [],
-        trackKeysRecieved: []
+        trackKeysRecieved: [],
+        devMode: process.env.VUE_APP_DEV
     }
   },
   methods: {
@@ -97,7 +98,7 @@ export default {
         this.$refs.audio.play()
     },
     setIndex(value){
-      if(this.optionTime == true){
+      if(this.optionTime == true || this.devMode == "true" ){
         this.$refs.sfx.src = "/audio/sys/press.mp3"
         this.$refs.sfx.play()
         this.endhit = false
