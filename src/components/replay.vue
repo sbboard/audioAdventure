@@ -6,8 +6,6 @@
       <audio autoplay ref="audio" @timeupdate="timeCheck()">
       <source type="audio/mpeg">
       </audio>
-      {{this.pathArray}}
-      {{this.currentTrackIndex}}
       <div id="controls">
       <img @click="togglePlay()" v-if="play" src="../assets/pause.png">
       <img @click="togglePlay()" v-if="!play" src="../assets/play.png">
@@ -31,7 +29,6 @@ export default {
       timeCheck(){
         if(this.altPlaying == false){
           if(this.$refs.audio.currentTime >= this.trackInfo.endTime){
-            console.log("1")
             this.changeTrack()
           }
         }
@@ -94,7 +91,6 @@ export default {
   },
   watch:{
     playlist(){
-      console.log('3')
         this.localPlaylist = this.playlist.albums[this.album].tracks
         this.trackInfo = this.localPlaylist[this.pathArray[this.currentTrackIndex].split("alt")[0]]
         this.$refs.audio.src = `/audio/${this.album}/${this.trackInfo.source}`;
