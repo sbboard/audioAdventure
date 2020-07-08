@@ -132,10 +132,20 @@ export default {
       }
     },
     timeCheck(){
+      if(this.trackKeysRecieved.indexOf(this.songIndex)<0){
         if(this.$refs.audio.currentTime >= this.audioInfo.endTime){
-          if(this.audioInfo.j != "" && this.audioInfo.f != "")
+          if(this.audioInfo.j != "" && this.audioInfo.f != ""){
           this.optionTime = true
+          }
         }
+      }
+      else{
+        if(this.$refs.audio.currentTime >= this.audioInfo.altEnd){
+          if(this.audioInfo.j != "" && this.audioInfo.f != ""){
+          this.optionTime = true
+          }
+        }
+      }
       },
   },
   computed: {
