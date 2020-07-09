@@ -1,6 +1,18 @@
 <template>
-  <div>
-      <div v-for="(item, index) in localPlaylist" :key="item.name">
+  <div id="indexWrap">
+    <h1>Audio Adventure</h1>
+    <h2>Instructions</h2>
+    <p>
+
+      controls:<br>
+        f - left option<br>
+        j - right option<br>
+        g/h - action<br>
+        space - pause/play<br>
+        d/k - replay
+
+    </p>
+      <div v-for="(item, index) in localPlaylist" :key="item.name" class="albumBox">
       <img :src='item.img'/><br>
       {{item.name}}<br>
       <router-link :to="'/'+index+'/1'">Start At Tape 1</router-link><br>
@@ -8,13 +20,7 @@
       <select @change="specificTape($event.target.value)">
       <option v-for="(item, indexTwo) in localPlaylist[index].tracks" :key="item.name" :value="`/${index}/${indexTwo}`">{{indexTwo}}</option>
       </select>
-      </div><br>
-      controls:<br>
-        f - left option<br>
-        j - right option<br>
-        g/h - action<br>
-        space - pause/play<br>
-        d/k - replay
+      </div>
   </div>
 </template>
 
@@ -50,4 +56,25 @@ export default {
 </script>
 
 <style lang="sass">
+html
+  background-color: #1f1f1f
+  color: white
+  #indexWrap
+    max-width: 1000px
+    display: block
+    margin: 0 auto
+    h1
+      font-size: 2em
+    h2
+      font-size: 1.5em
+      margin-top: 1em
+    .albumBox
+      display: inline-block
+      margin: 25px
+      img
+        width: 200px
+      a
+        color: white
+        &::visited
+          color: white
 </style>

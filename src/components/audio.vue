@@ -1,8 +1,10 @@
 <template>
   <div id="root">
     <div id="wrap">
-      <h1>{{this.audioInfo.name}}</h1>
-
+      <div id="casetteWrap">
+        <h1>{{this.audioInfo.name}}</h1>
+        <img src="../assets/casette.jpg">
+      </div>
       <audio autoplay @ended='ended' ref="audio" @timeupdate="timeCheck()">
       <source :src="'/audio/'+album+'/'+audioInfo.source" type="audio/mpeg">
       </audio>
@@ -251,14 +253,35 @@ export default {
 
 <style lang="sass">
 #root
-    #controls
-        img
-            display: black
-            width: 50px
-            cursor: pointer
-        .faded
-          opacity: .5
-          cursor: auto
+  max-width: 1000px
+  display: block
+  margin: 0 auto
+  height: 100vh
+  align-items: center
+  display: flex
+  #casetteWrap
+    text-align: center
+    position: relative
+    img
+      max-width: 50%
+    h1
+      width: fit-content
+      position: absolute
+      margin: 0 auto
+      left: 0
+      right: 0
+      top: 3em
+      color: black
+  #controls
+    width: fit-content
+    margin: 0 auto
+    img
+      display: black
+      width: 50px
+      cursor: pointer
+    .faded
+      opacity: .5
+      cursor: auto
 .pressed
   height: 47px
   width: 47px
