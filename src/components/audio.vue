@@ -25,6 +25,7 @@
     <div v-if="audioInfo.f == '' && audioInfo.j == '' && endhit == true && audioInfo.name != 'Blank Tape'">
       <router-link :to="'/replay/'+album+'/'+pathprint">Relisten to Adventure</router-link>
     </div>
+    <footer>&copy; <a href="http://www.theinvisiblesundial.com/">invisible sundial</a> x <a href="https://gang-fight.com/">gang fight</a></footer>
   </div>
 </template>
 
@@ -252,6 +253,8 @@ export default {
 </script>
 
 <style lang="sass">
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap')
+
 #root
   max-width: 1000px
   display: block
@@ -266,6 +269,7 @@ export default {
       max-width: 50%
     h1
       width: fit-content
+      font-family: 'Permanent Marker', cursive
       position: absolute
       margin: 0 auto
       left: 0

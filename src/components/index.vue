@@ -21,6 +21,7 @@
       <option v-for="(item, indexTwo) in localPlaylist[index].tracks" :key="item.name" :value="`/${index}/${indexTwo}`">{{indexTwo}}</option>
       </select>
       </div>
+      <footer>&copy; <a href="http://www.theinvisiblesundial.com/">invisible sundial</a> x <a href="https://gang-fight.com/">gang fight</a></footer>
   </div>
 </template>
 
@@ -56,9 +57,22 @@ export default {
 </script>
 
 <style lang="sass">
+@font-face
+  font-family: invisibleFont
+  src: url("/fonts/New_Cicle_Fina.ttf")
+
+footer
+  position: absolute
+  bottom: 1em
+  opacity: .4
+  a
+    text-transform: uppercase
+    text-decoration: none
+    color: white
 html
   background-color: #1f1f1f
   color: white
+  font-family: invisibleFont
   #indexWrap
     max-width: 1000px
     display: block
