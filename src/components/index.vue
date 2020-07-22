@@ -13,7 +13,8 @@
 
     </p>
       <div v-for="(item, index) in localPlaylist" :key="item.name" class="albumBox">
-      <img :src='item.img'/><br>
+      <router-link :to="'/'+index+'/1'"><img :src='item.img'/></router-link>
+      <br>
       {{item.name}}<br>
       <router-link :to="'/'+index+'/1'">Start At Tape 1</router-link><br>
       Select Specific Tape: 

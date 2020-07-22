@@ -1,5 +1,6 @@
 # Audio File Placement
-Place audio tracks in the /audio/ folder. Tracks should be in a folder named according to their placement on the album array in the JSON document (/0/ for first array, /1/ for second, etc...).
+Place audio tracks in the /audio/ folder. Tracks should be in a folder named according to their placement on the album array in the JSON document (/0/ for first array, /1/ for second, etc...).<br />
+the only file required in your audio adventure folder is a "casette.jpg".
 
 # JSON Formatting
 

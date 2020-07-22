@@ -3,7 +3,7 @@
     <div id="wrap">
       <div id="casetteWrap">
         <h1>{{this.audioInfo.name}}</h1>
-        <img src="../assets/casette.jpg">
+        <img :src="'/audio/'+album+'/casette.jpg'">
       </div>
       <audio autoplay @ended='ended' ref="audio" @timeupdate="timeCheck()">
       <source :src="'/audio/'+album+'/'+audioInfo.source" type="audio/mpeg">
