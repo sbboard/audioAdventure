@@ -69,7 +69,7 @@ export default {
     action(){
       //if there's a key
       if(this.audioInfo.key != null && this.trackKeysRecieved.indexOf(this.songIndex)<0){
-        this.inventory[this.itemList[this.audioInfo.key]] = this.inventory[this.itemList[this.audioInfo.key]]+1
+        this.inventory[this.itemList[this.audioInfo.key.keyItem]] = this.inventory[this.itemList[this.audioInfo.key.keyItem]]+1
         this.trackKeysRecieved.push(this.songIndex)
 
         this.$refs.sfx.src = "/audio/sys/action.mp3"
@@ -77,8 +77,8 @@ export default {
       }
       //if there's a door
       else if(this.audioInfo.door != null){
-        if(this.inventory[this.itemList[this.audioInfo.door[0]]] >= this.audioInfo.door[1]){
-          let index = this.audioInfo.doorDestination
+        if(this.inventory[this.itemList[this.audioInfo.door.objectRequired]] >= this.audioInfo.door.numberRequired){
+          let index = this.audioInfo.door.doorDestination
           this.$router.push({ path: `/${this.album}/${index}`})
           this.songIndex = index
           let remotePlay= this.playlist
@@ -118,7 +118,7 @@ export default {
             this.audioInfo.name = "Blank Tape"
             this.$refs.audio.src = "/audio/"+this.album+'/'+albumList[this.album].notFoundTrack
           }
-          if(this.trackKeysRecieved.indexOf(this.songIndex)>=0 && this.audioInfo.altTrack != null){
+          if(this.trackKeysRecieved.indexOf(this.songIndex)>=0 && this.audioInfo.key.altTrack != null){
             this.currentPath.push(this.songIndex+"alt")
           }
           else{
@@ -143,7 +143,7 @@ export default {
         }
       }
       else{
-        if(this.$refs.audio.currentTime >= this.audioInfo.altEnd){
+        if(this.$refs.audio.currentTime >= this.audioInfo.key.altEnd){
           if(this.audioInfo.j != "" && this.audioInfo.f != ""){
           this.optionTime = true
           }
@@ -239,8 +239,8 @@ export default {
     },
     audioInfo(){
       this.$refs.audio.pause();
-      if(this.trackKeysRecieved.indexOf(this.songIndex)>=0 && this.audioInfo.altTrack != null){
-        this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.altTrack;
+      if(this.trackKeysRecieved.indexOf(this.songIndex)>=0 && this.audioInfo.key.altTrack != null){
+        this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.key.altTrack;
       }
       else{
         this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
