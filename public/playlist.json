@@ -4,7 +4,13 @@
             "name":"sonic adventure 2",
             "img":"https://upload.wikimedia.org/wikipedia/en/9/99/Sonic_Adventure_2_cover.png",
             "notFoundTrack":"404tape.mp3",
-            "inventoryItems": ["rabbit"],
+            "inventoryItems": [{
+                "itemName":"rabbit",
+                "autoDoor":{
+                    "keysNeededForAutoDoor":1,
+                    "autoDoorLocation":4
+                }
+            }],
             "tracks":[
                 {},
                 {

@@ -15,17 +15,19 @@
 
       <div id="controls">
       <img v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('f')" src="../assets/f.png" :class="{pressed: fpressed, faded: !optionTime}">
-      <img @click="togglePlay()" v-if="play" src="../assets/pause.png">
-      <img @click="togglePlay()" v-if="!play" src="../assets/play.png">
-      <img v-if="audioInfo.name != 'Blank Tape'" @click="replay()" src="../assets/replay.png">
+      <i v-if="audioInfo.name != 'Blank Tape'" @click="replay()" class="fas  fa-4x fa-backward"></i>
+      <i @click="togglePlay()" v-if="play" class="fas fa-4x fa-pause"></i>
+      <i @click="togglePlay()" v-if="!play" class="fas fa-4x fa-play"></i>
+      <i @click="eject()" class="fas fa-4x fa-eject"></i>
       <img @click="action()" src="../assets/action.jpg">
       <img v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('j')" src="../assets/j.png" :class="{pressed: jpressed, faded: !optionTime}">
       </div>
     </div>
     <div v-if="audioInfo.f == '' && audioInfo.j == '' && endhit == true && audioInfo.name != 'Blank Tape'">
+      <a :href="'/'+album+'/1'">Restart to Adventure</a>
       <router-link :to="'/replay/'+album+'/'+pathprint">Relisten to Adventure</router-link>
     </div>
-    <footer>&copy; <a href="http://www.theinvisiblesundial.com/">invisible sundial</a> x <a href="https://gang-fight.com/">gang fight</a></footer>
+    <footer><i class="fas fa-copyright"></i> <a href="http://www.theinvisiblesundial.com/">invisible sundial</a> x <a href="https://gang-fight.com/">gang fight</a></footer>
   </div>
 </template>
 
@@ -53,10 +55,23 @@ export default {
         inventory: {},
         itemList: [],
         trackKeysRecieved: [],
-        devMode: process.env.VUE_APP_DEV
+        devMode: process.env.VUE_APP_DEV,
+        ejected: false,
+        doorInWing: null
     }
   },
   methods: {
+    eject(){
+      if(this.ejected == false){
+      this.audioInfo.f = ''
+      this.audioInfo.j = ''
+      this.endhit = true
+      this.$refs.audio.src = ""
+      this.ejected = true
+      this.$refs.sfx.src = "/audio/sys/eject.mp3"
+      this.$refs.sfx.play()
+      }
+    },
     togglePlay(){
       if(this.play){
         this.$refs.audio.pause()
@@ -69,9 +84,14 @@ export default {
     action(){
       //if there's a key
       if(this.audioInfo.key != null && this.trackKeysRecieved.indexOf(this.songIndex)<0){
-        this.inventory[this.itemList[this.audioInfo.key.keyItem]] = this.inventory[this.itemList[this.audioInfo.key.keyItem]]+1
-        this.trackKeysRecieved.push(this.songIndex)
+        this.inventory[this.itemList[this.audioInfo.key.keyItem].itemName] = this.inventory[this.itemList[this.audioInfo.key.keyItem].itemName]+1
+        //check for autodoor
+        if(this.itemList[this.audioInfo.key.keyItem].autoDoor != null 
+        && this.inventory[this.itemList[this.audioInfo.key.keyItem].itemName] >= this.itemList[this.audioInfo.key.keyItem].autoDoor.keysNeededForAutoDoor){
+          this.doorInWing = this.itemList[this.audioInfo.key.keyItem].autoDoor.autoDoorLocation
+        }
 
+        this.trackKeysRecieved.push(this.songIndex)
         this.$refs.sfx.src = "/audio/sys/action.mp3"
         this.$refs.sfx.play()
       }
@@ -79,19 +99,23 @@ export default {
       else if(this.audioInfo.door != null){
         if(this.inventory[this.itemList[this.audioInfo.door.objectRequired]] >= this.audioInfo.door.numberRequired){
           let index = this.audioInfo.door.doorDestination
-          this.$router.push({ path: `/${this.album}/${index}`})
-          this.songIndex = index
-          let remotePlay= this.playlist
-          let albumList = remotePlay.albums
-          this.audioInfo = albumList[this.album].tracks[this.songIndex]
-          this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source
-          this.currentPath.push(this.songIndex)
-          this.optionTime = false
+          this.pushDoor(index)
           this.$refs.sfx.src = "/audio/sys/action.mp3"
           this.$refs.sfx.play()
         }
       }
     },
+      pushDoor(index){
+        this.doorInWing = null
+        this.$router.push({ path: `/${this.album}/${index}`})
+        this.songIndex = index
+        let remotePlay= this.playlist
+        let albumList = remotePlay.albums
+        this.audioInfo = albumList[this.album].tracks[this.songIndex]
+        this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source
+        this.currentPath.push(this.songIndex)
+        this.optionTime = false
+      },
     replay(){
       this.$refs.audio.currentTime = 0
     },
@@ -131,21 +155,25 @@ export default {
     createInventory(inventoryItems){
       this.itemList = inventoryItems
       for(let i=0;i<inventoryItems.length;i++){
-        this.inventory[inventoryItems[i]] = 0
+        this.inventory[inventoryItems[i].itemName] = 0
       }
     },
     timeCheck(){
       if(this.trackKeysRecieved.indexOf(this.songIndex)<0){
         if(this.$refs.audio.currentTime >= this.audioInfo.endTime){
           if(this.audioInfo.j != "" && this.audioInfo.f != ""){
-          this.optionTime = true
+            if(this.doorInWing != null){
+              this.pushDoor(this.doorInWing)
+            }else{this.optionTime = true}
           }
         }
       }
       else{
         if(this.$refs.audio.currentTime >= this.audioInfo.key.altEnd){
           if(this.audioInfo.j != "" && this.audioInfo.f != ""){
-          this.optionTime = true
+            if(this.doorInWing != null){
+              this.pushDoor(this.doorInWing)
+            }else{this.optionTime = true}
           }
         }
       }

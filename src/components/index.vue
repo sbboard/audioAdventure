@@ -1,6 +1,6 @@
 <template>
   <div id="indexWrap">
-    <h1>Audio Adventure</h1>
+    <h1>Last Tapes of Fate</h1>
     <h2>Instructions</h2>
     <p>
 
@@ -22,7 +22,7 @@
       <option v-for="(item, indexTwo) in localPlaylist[index].tracks" :key="item.name" :value="`/${index}/${indexTwo}`">{{indexTwo}}</option>
       </select>
       </div>
-      <footer>&copy; <a href="http://www.theinvisiblesundial.com/">invisible sundial</a> x <a href="https://gang-fight.com/">gang fight</a></footer>
+      <footer><i class="fas fa-copyright"></i> <a href="http://www.theinvisiblesundial.com/">invisible sundial</a> x <a href="https://gang-fight.com/">gang fight</a></footer>
   </div>
 </template>
 
