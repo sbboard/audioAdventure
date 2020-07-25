@@ -6,6 +6,7 @@
             "notFoundTrack":"404tape.mp3",
             "inventoryItems": [{
                 "itemName":"rabbit",
+                "maxAmt": 3,
                 "autoDoor":{
                     "keysNeededForAutoDoor":1,
                     "autoDoorLocation":4

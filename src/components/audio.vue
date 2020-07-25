@@ -3,7 +3,7 @@
     <div id="wrap">
       <div id="casetteWrap">
         <h1>{{this.audioInfo.name}}</h1>
-        <img :src="'/audio/'+album+'/casette.jpg'">
+        <img alt="casette tape" :src="'/audio/'+album+'/casette.jpg'">
       </div>
       <audio autoplay @ended='ended' ref="audio" @timeupdate="timeCheck()">
       <source :src="'/audio/'+album+'/'+audioInfo.source" type="audio/mpeg">
@@ -14,13 +14,13 @@
       </audio>
 
       <div id="controls">
-      <img v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('f')" src="../assets/f.png" :class="{pressed: fpressed, faded: !optionTime}">
+      <img alt="f-key" v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('f')" src="../assets/f.png" :class="{pressed: fpressed, faded: !optionTime}">
       <i v-if="audioInfo.name != 'Blank Tape'" @click="replay()" class="fas  fa-4x fa-backward"></i>
       <i @click="togglePlay()" v-if="play" class="fas fa-4x fa-pause"></i>
       <i @click="togglePlay()" v-if="!play" class="fas fa-4x fa-play"></i>
       <i @click="eject()" class="fas fa-4x fa-eject"></i>
-      <img @click="action()" src="../assets/action.jpg">
-      <img v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('j')" src="../assets/j.png" :class="{pressed: jpressed, faded: !optionTime}">
+      <i @click="action()" class="fas fa-4x fa-bolt"></i>
+      <img alt="j-key" v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('j')" src="../assets/j.png" :class="{pressed: jpressed, faded: !optionTime}">
       </div>
     </div>
     <div v-if="audioInfo.f == '' && audioInfo.j == '' && endhit == true && audioInfo.name != 'Blank Tape'">
@@ -314,6 +314,8 @@ export default {
     .faded
       opacity: .5
       cursor: auto
+    i
+      cursor: pointer
 .pressed
   height: 47px
   width: 47px
