@@ -23,7 +23,7 @@
       <img alt="j-key" v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('j')" src="../assets/j.png" :class="{pressed: jpressed, faded: !optionTime}">
       </div>
     </div>
-    <div v-if="audioInfo.f == '' && audioInfo.j == '' && endhit == true && audioInfo.name != 'Blank Tape'">
+    <div id="endMenu" :class="{hiddenSpot: hiddenSpotCheck}">
       <a :href="'/'+album+'/1'">Restart to Adventure</a>
       <router-link :to="'/replay/'+album+'/'+pathprint">Relisten to Adventure</router-link>
     </div>
@@ -183,6 +183,14 @@ export default {
     playlist() {
       return this.$store.getters.getPlaylist
     },
+    hiddenSpotCheck(){
+      if(this.audioInfo.f == '' && this.audioInfo.j == '' && this.endhit == true && this.audioInfo.name != 'Blank Tape'){
+        return false
+      }
+      else{
+        return true
+      }
+    },
     pathprint(){
       let printedPath = ""
       for(let i = 0; i<this.currentPath.length;i++){
@@ -290,6 +298,8 @@ export default {
   height: 100vh
   align-items: center
   display: flex
+  justify-content: center
+  flex-direction: column
   #casetteWrap
     text-align: center
     position: relative
@@ -306,10 +316,13 @@ export default {
       color: black
   #controls
     width: fit-content
-    margin: 0 auto
+    margin: 1em auto 0 auto
+    display: flex
+    justify-content: space-between
+    align-items: center
+    width: 50%
     img
       display: black
-      width: 50px
       cursor: pointer
     .faded
       opacity: .5
@@ -320,4 +333,16 @@ export default {
   height: 47px
   width: 47px
   filter: brightness(0.75) drop-shadow(0px -1px 4px black)
+.hiddenSpot
+  visibility: hidden
+#endMenu
+  display: flex
+  width: 50%
+  margin-top: 1em
+  justify-content: space-around
+  font-size: 1.25em
+  a
+    color: white
+    width: 20%
+    text-align: center
 </style>
