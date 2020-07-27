@@ -8,7 +8,7 @@
                 "itemName":"rabbit",
                 "maxAmt": 3,
                 "autoDoor":{
-                    "keysNeededForAutoDoor":1,
+                    "keysNeededForAutoDoor":2,
                     "autoDoorLocation":4
                 }
             }],
@@ -21,7 +21,9 @@
                     "f": 2,
                     "j": 3,
                     "key": null,
-                    "door": null
+                    "door": null,
+                    "invCheck": null,
+                    "altTrack": null
                 },
                 {
                     "name": "get the rabbit",
@@ -29,12 +31,13 @@
                     "endTime": 20,
                     "f": 3,
                     "j": 1,
-                    "key": {
-                        "keyItem":0,
-                        "altTrack": "faketape2.mp3",
-                        "altEnd": 19
-                    },
-                    "door": null
+                    "key": 0,
+                    "door": null,
+                    "invCheck": null,
+                    "altTrack": {
+                        "source": "faketape2.mp3",
+                        "endTime": 19
+                    }
                 },
                 {
                     "name": "enter to the door",
@@ -47,16 +50,26 @@
                         "objectRequired":0,
                         "numberRequired":1,
                         "doorDestination": 4
-                    }
+                    },
+                    "invCheck": null,
+                    "altTrack": null
                 },
                 {
-                    "name": "tape 4",
+                    "name": "THE END",
                     "source": "fAKETape4.mp3",
                     "endTime": 26,
                     "f": "",
                     "j": "",
                     "key": null,
-                    "door": null
+                    "door": null,
+                    "invCheck": {
+                        "itemRequired":0,
+                        "numberRequired":1
+                    },
+                    "altTrack": {
+                        "source": "faketape1.mp3",
+                        "endTime": 18
+                    }
                 }
             ]
         }

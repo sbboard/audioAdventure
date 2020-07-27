@@ -77,6 +77,7 @@ html
     margin: 0 auto
     h1
       font-size: 2em
+      margin-top: .5em
     h2
       font-size: 1.5em
       margin-top: 1em

@@ -24,7 +24,7 @@
       </div>
     </div>
     <div id="endMenu" :class="{hiddenSpot: hiddenSpotCheck}">
-      <a :href="'/'+album+'/1'">Restart to Adventure</a>
+      <a :href="'/'+album+'/1'">Restart Adventure</a>
       <router-link :to="'/replay/'+album+'/'+pathprint">Relisten to Adventure</router-link>
     </div>
     <footer><i class="fas fa-copyright"></i> <a href="http://www.theinvisiblesundial.com/">invisible sundial</a> x <a href="https://gang-fight.com/">gang fight</a></footer>
@@ -57,7 +57,8 @@ export default {
         trackKeysRecieved: [],
         devMode: process.env.VUE_APP_DEV,
         ejected: false,
-        doorInWing: null
+        doorInWing: null,
+        altTriggered: false,
     }
   },
   methods: {
@@ -84,11 +85,11 @@ export default {
     action(){
       //if there's a key
       if(this.audioInfo.key != null && this.trackKeysRecieved.indexOf(this.songIndex)<0){
-        this.inventory[this.itemList[this.audioInfo.key.keyItem].itemName] = this.inventory[this.itemList[this.audioInfo.key.keyItem].itemName]+1
+        this.inventory[this.itemList[this.audioInfo.key].itemName] = this.inventory[this.itemList[this.audioInfo.key].itemName]+1
         //check for autodoor
-        if(this.itemList[this.audioInfo.key.keyItem].autoDoor != null 
-        && this.inventory[this.itemList[this.audioInfo.key.keyItem].itemName] >= this.itemList[this.audioInfo.key.keyItem].autoDoor.keysNeededForAutoDoor){
-          this.doorInWing = this.itemList[this.audioInfo.key.keyItem].autoDoor.autoDoorLocation
+        if(this.itemList[this.audioInfo.key].autoDoor != null 
+        && this.inventory[this.itemList[this.audioInfo.key].itemName] >= this.itemList[this.audioInfo.key].autoDoor.keysNeededForAutoDoor){
+          this.doorInWing = this.itemList[this.audioInfo.key].autoDoor.autoDoorLocation
         }
 
         this.trackKeysRecieved.push(this.songIndex)
@@ -97,7 +98,7 @@ export default {
       }
       //if there's a door
       else if(this.audioInfo.door != null){
-        if(this.inventory[this.itemList[this.audioInfo.door.objectRequired]] >= this.audioInfo.door.numberRequired){
+        if(this.inventory[this.itemList[this.audioInfo.door.objectRequired].itemName] >= this.audioInfo.door.numberRequired){
           let index = this.audioInfo.door.doorDestination
           this.pushDoor(index)
           this.$refs.sfx.src = "/audio/sys/action.mp3"
@@ -121,7 +122,12 @@ export default {
     },
     ended(){
         this.endhit = true
+        if(this.altTriggered == false){
         this.$refs.audio.currentTime = this.audioInfo.endTime
+        }
+        else{
+          this.$refs.audio.currentTime = this.audioInfo.altTrack.endTime
+        }
         this.$refs.audio.play()
     },
     setIndex(value){
@@ -142,6 +148,7 @@ export default {
             this.audioInfo.name = "Blank Tape"
             this.$refs.audio.src = "/audio/"+this.album+'/'+albumList[this.album].notFoundTrack
           }
+          //checks if keys been recieved, pushes alt track to array
           if(this.trackKeysRecieved.indexOf(this.songIndex)>=0 && this.audioInfo.key.altTrack != null){
             this.currentPath.push(this.songIndex+"alt")
           }
@@ -159,7 +166,7 @@ export default {
       }
     },
     timeCheck(){
-      if(this.trackKeysRecieved.indexOf(this.songIndex)<0){
+      if(this.altTriggered == false){
         if(this.$refs.audio.currentTime >= this.audioInfo.endTime){
           if(this.audioInfo.j != "" && this.audioInfo.f != ""){
             if(this.doorInWing != null){
@@ -169,7 +176,7 @@ export default {
         }
       }
       else{
-        if(this.$refs.audio.currentTime >= this.audioInfo.key.altEnd){
+        if(this.$refs.audio.currentTime >= this.audioInfo.altTrack.endTime){
           if(this.audioInfo.j != "" && this.audioInfo.f != ""){
             if(this.doorInWing != null){
               this.pushDoor(this.doorInWing)
@@ -275,11 +282,14 @@ export default {
     },
     audioInfo(){
       this.$refs.audio.pause();
-      if(this.trackKeysRecieved.indexOf(this.songIndex)>=0 && this.audioInfo.key.altTrack != null){
-        this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.key.altTrack;
+      if(this.audioInfo.invCheck != null && this.audioInfo.invCheck.numberRequired <= this.inventory[this.itemList[this.audioInfo.invCheck.itemRequired].itemName]
+      || this.trackKeysRecieved.indexOf(this.songIndex)>=0 && this.audioInfo.altTrack != null){
+        this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.altTrack.source;
+        this.altTriggered = true
       }
       else{
         this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
+        this.altTriggered = false
       }
       this.$refs.audio.currentTime = 0;
       this.$refs.audio.play()
