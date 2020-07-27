@@ -1,23 +1,28 @@
 {   "albums":
     [
         {
-            "name":"sonic adventure 2",
-            "img":"https://upload.wikimedia.org/wikipedia/en/9/99/Sonic_Adventure_2_cover.png",
+            "name":"metal gear solid 5: ground zeroes",
+            "img":"/audio/1/cover.jpg",
             "notFoundTrack":"404tape.mp3",
-            "inventoryItems": [{
-                "itemName":"rabbit",
-                "maxAmt": 3,
-                "autoDoor":{
-                    "keysNeededForAutoDoor":2,
-                    "autoDoorLocation":4
-                }
-            }],
-            "tracks":[
-                {},
+            "inventoryItems": [
                 {
-                    "source": "faketape1.mp3",
-                    "name": "tape 1",
-                    "endTime": 18,
+                    "itemName":"key1",
+                    "maxAmt": null,
+                    "autoDoor":{
+                        "keysNeededForAutoDoor":2,
+                        "autoDoorLocation":9
+                    }
+                },
+                {
+                    "itemName":"key2",
+                    "maxAmt": 2,
+                    "autoDoor":null
+                }],
+            "tracks":[{},
+                {
+                    "source": "track1.mp3",
+                    "name": "Tape 1",
+                    "endTime": 9,
                     "f": 2,
                     "j": 3,
                     "key": null,
@@ -26,23 +31,20 @@
                     "altTrack": null
                 },
                 {
-                    "name": "get the rabbit",
-                    "source": "fAKETape6.mp3",
-                    "endTime": 20,
+                    "source": "track2.mp3",
+                    "name": "Key Test w/ Overlay Noise",
+                    "endTime": 12,
                     "f": 3,
                     "j": 1,
                     "key": 0,
                     "door": null,
                     "invCheck": null,
-                    "altTrack": {
-                        "source": "faketape2.mp3",
-                        "endTime": 19
-                    }
+                    "altTrack": null
                 },
                 {
-                    "name": "enter to the door",
-                    "source": "fAKETape5.mp3",
-                    "endTime": 19,
+                    "source": "track3.mp3",
+                    "name": "Door Test",
+                    "endTime": 7,
                     "f": 1,
                     "j": 2,
                     "key": null,
@@ -55,11 +57,11 @@
                     "altTrack": null
                 },
                 {
-                    "name": "THE END",
-                    "source": "fAKETape4.mp3",
-                    "endTime": 26,
-                    "f": "",
-                    "j": "",
+                    "source": "track4.mp3",
+                    "name": "Alt Track Test",
+                    "endTime": 18,
+                    "f": 5,
+                    "j": 6,
                     "key": null,
                     "door": null,
                     "invCheck": {
@@ -67,9 +69,73 @@
                         "numberRequired":1
                     },
                     "altTrack": {
-                        "source": "faketape1.mp3",
-                        "endTime": 18
+                        "source":"track4alt.mp3",
+                        "endTime": 5
                     }
+                },
+                {
+                    "source": "track5.mp3",
+                    "name": "Key 2 pt1",
+                    "endTime": 8,
+                    "f": 8,
+                    "j": 6,
+                    "key": 1,
+                    "door": null,
+                    "invCheck": null,
+                    "altTrack": {
+                        "source":"track567alt.mp3",
+                        "endTime":12
+                    }
+                },
+                {
+                    "source": "track6.mp3",
+                    "name": "Key 2 pt2",
+                    "endTime": 9,
+                    "f": 5,
+                    "j": 7,
+                    "key": 1,
+                    "door": null,
+                    "invCheck": null,
+                    "altTrack": {
+                        "source":"track567alt.mp3",
+                        "endTime":12
+                    }
+                },
+                {
+                    "source": "track7.mp3",
+                    "name": "Key 2 pt3",
+                    "endTime": 9,
+                    "f": 6,
+                    "j": 8,
+                    "key": 1,
+                    "door": null,
+                    "invCheck": null,
+                    "altTrack": {
+                        "source":"track567alt.mp3",
+                        "endTime":11
+                    }
+                },
+                {
+                    "source": "track8.mp3",
+                    "name": "AutoDoor Test",
+                    "endTime": 8,
+                    "f": 7,
+                    "j": 5,
+                    "key": 1,
+                    "door": null,
+                    "invCheck": null,
+                    "altTrack": null
+                },
+                {
+                    "source": "track9.mp3",
+                    "name": "End Test",
+                    "endTime": 10,
+                    "f": "",
+                    "j": "",
+                    "key": null,
+                    "door": null,
+                    "invCheck": null,
+                    "altTrack": null
                 }
             ]
         }
