@@ -84,6 +84,8 @@ export default {
     },
     action(){
       //if there's a key
+      console.log(this.trackKeysRecieved.indexOf(this.songIndex))
+      console.log(this.trackKeysRecieved)
       if(this.audioInfo.key != null && this.trackKeysRecieved.indexOf(this.songIndex)<0){
         this.inventory[this.itemList[this.audioInfo.key].itemName] = this.inventory[this.itemList[this.audioInfo.key].itemName]+1
         //check for autodoor
@@ -92,7 +94,7 @@ export default {
           this.doorInWing = this.itemList[this.audioInfo.key].autoDoor.autoDoorLocation
         }
 
-        this.trackKeysRecieved.push(this.songIndex)
+        this.trackKeysRecieved.push(parseInt(this.songIndex))
         this.$refs.sfx.src = "/audio/sys/action.mp3"
         this.$refs.sfx.play()
       }
