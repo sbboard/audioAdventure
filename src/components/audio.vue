@@ -5,6 +5,11 @@
         <h1>{{this.audioInfo.name}}</h1>
         <img alt="casette tape" :src="'/audio/'+album+'/casette.jpg'">
       </div>
+
+      <audio ref="overlay" @ended='overlayLoop'>
+      <source src="" type="audio/mpeg">
+      </audio>
+
       <audio autoplay @ended='ended' ref="audio" @timeupdate="timeCheck()">
       <source :src="'/audio/'+album+'/'+audioInfo.source" type="audio/mpeg">
       </audio>
@@ -70,31 +75,51 @@ export default {
       this.$refs.audio.src = ""
       this.ejected = true
       this.$refs.sfx.src = "/audio/sys/eject.mp3"
+      this.$refs.overlay.src = ""
       this.$refs.sfx.play()
+      }
+    },
+    overlayLoop(){
+      this.$refs.overlay.currentTime = 0
+      this.$refs.overlay.play()
+    },
+    checkOverlay(){
+      this.$refs.overlay.pause()
+      if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(this.songIndex)<0){
+        this.$refs.overlay.src = '/audio/'+this.album+'/'+this.audioInfo.key.overlaySound
+        this.$refs.overlay.currentTime = 0
+        this.$refs.overlay.play()
+      }
+      else{
+        this.$refs.overlay.src = ""
       }
     },
     togglePlay(){
       if(this.play){
         this.$refs.audio.pause()
+        if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(this.songIndex)<0){this.$refs.overlay.pause()}
       }
       else{
         this.$refs.audio.play()
+        if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(this.songIndex)<0){this.$refs.overlay.play()}
       }
       this.play = !this.play
     },
     action(){
       //if there's a key
       if(this.audioInfo.key != null && this.trackKeysRecieved.indexOf(this.songIndex)<0){
-        this.inventory[this.itemList[this.audioInfo.key].itemName] = this.inventory[this.itemList[this.audioInfo.key].itemName]+1
+        this.inventory[this.itemList[this.audioInfo.key.keyIndex].itemName] = this.inventory[this.itemList[this.audioInfo.key.keyIndex].itemName]+1
         //check for autodoor
-        if(this.itemList[this.audioInfo.key].autoDoor != null 
-        && this.inventory[this.itemList[this.audioInfo.key].itemName] >= this.itemList[this.audioInfo.key].autoDoor.keysNeededForAutoDoor){
-          this.doorInWing = this.itemList[this.audioInfo.key].autoDoor.autoDoorLocation
+        if(this.itemList[this.audioInfo.key.keyIndex].autoDoor != null 
+        && this.inventory[this.itemList[this.audioInfo.key.keyIndex].itemName] >= this.itemList[this.audioInfo.key.keyIndex].autoDoor.keysNeededForAutoDoor){
+          this.doorInWing = this.itemList[this.audioInfo.key.keyIndex].autoDoor.autoDoorLocation
         }
-
         this.trackKeysRecieved.push(parseInt(this.songIndex))
         this.$refs.sfx.src = "/audio/sys/action.mp3"
         this.$refs.sfx.play()
+        if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(this.songIndex)<0){
+          this.$refs.overlay.src = ""
+        }
       }
       //if there's a door
       else if(this.audioInfo.door != null){
@@ -119,11 +144,12 @@ export default {
       },
     replay(){
       this.$refs.audio.currentTime = 0
+      this.checkOverlay()
     },
     ended(){
         this.endhit = true
         if(this.altTriggered == false){
-        this.$refs.audio.currentTime = this.audioInfo.endTime
+          this.$refs.audio.currentTime = this.audioInfo.endTime
         }
         else{
           this.$refs.audio.currentTime = this.audioInfo.altTrack.endTime
@@ -149,7 +175,7 @@ export default {
             this.$refs.audio.src = "/audio/"+this.album+'/'+albumList[this.album].notFoundTrack
           }
           //checks if keys been recieved, pushes alt track to array
-          if(this.trackKeysRecieved.indexOf(this.songIndex)>=0 && this.audioInfo.key.altTrack != null){
+          if(this.trackKeysRecieved.indexOf(this.songIndex)>=0){
             this.currentPath.push(this.songIndex+"alt")
           }
           else{
@@ -171,7 +197,9 @@ export default {
           if(this.audioInfo.j != "" && this.audioInfo.f != ""){
             if(this.doorInWing != null){
               this.pushDoor(this.doorInWing)
-            }else{this.optionTime = true}
+            }else{
+              this.optionTime = true
+              this.$refs.overlay.src = ""}
           }
         }
       }
@@ -180,7 +208,10 @@ export default {
           if(this.audioInfo.j != "" && this.audioInfo.f != ""){
             if(this.doorInWing != null){
               this.pushDoor(this.doorInWing)
-            }else{this.optionTime = true}
+            }else{
+              this.optionTime = true
+              this.$refs.overlay.src = ""
+            }
           }
         }
       }
@@ -293,6 +324,7 @@ export default {
       }
       this.$refs.audio.currentTime = 0;
       this.$refs.audio.play()
+      this.checkOverlay()
     }
   },
 }
@@ -315,6 +347,7 @@ export default {
     position: relative
     img
       max-width: 50%
+      pointer-events: none
     h1
       width: fit-content
       font-family: 'Permanent Marker', cursive
