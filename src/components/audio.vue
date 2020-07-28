@@ -84,8 +84,6 @@ export default {
     },
     action(){
       //if there's a key
-      console.log(this.trackKeysRecieved.indexOf(this.songIndex))
-      console.log(this.trackKeysRecieved)
       if(this.audioInfo.key != null && this.trackKeysRecieved.indexOf(this.songIndex)<0){
         this.inventory[this.itemList[this.audioInfo.key].itemName] = this.inventory[this.itemList[this.audioInfo.key].itemName]+1
         //check for autodoor
