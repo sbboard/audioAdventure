@@ -85,7 +85,7 @@ export default {
     },
     checkOverlay(){
       this.$refs.overlay.pause()
-      if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(this.songIndex)<0){
+      if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(parseInt(this.songIndex))<0){
         this.$refs.overlay.src = '/audio/'+this.album+'/'+this.audioInfo.key.overlaySound
         this.$refs.overlay.currentTime = 0
         this.$refs.overlay.play()
@@ -97,17 +97,17 @@ export default {
     togglePlay(){
       if(this.play){
         this.$refs.audio.pause()
-        if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(this.songIndex)<0){this.$refs.overlay.pause()}
+        if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(parseInt(this.songIndex))<0){this.$refs.overlay.pause()}
       }
       else{
         this.$refs.audio.play()
-        if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(this.songIndex)<0){this.$refs.overlay.play()}
+        if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(parseInt(this.songIndex))<0){this.$refs.overlay.play()}
       }
       this.play = !this.play
     },
     action(){
       //if there's a key
-      if(this.audioInfo.key != null && this.trackKeysRecieved.indexOf(this.songIndex)<0){
+      if(this.audioInfo.key != null && this.trackKeysRecieved.indexOf(parseInt(this.songIndex))<0 && this.belowMax(this.audioInfo.key.keyIndex)){
         this.inventory[this.itemList[this.audioInfo.key.keyIndex].itemName] = this.inventory[this.itemList[this.audioInfo.key.keyIndex].itemName]+1
         //check for autodoor
         if(this.itemList[this.audioInfo.key.keyIndex].autoDoor != null 
@@ -117,7 +117,7 @@ export default {
         this.trackKeysRecieved.push(parseInt(this.songIndex))
         this.$refs.sfx.src = "/audio/sys/action.mp3"
         this.$refs.sfx.play()
-        if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(this.songIndex)<0){
+        if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null){
           this.$refs.overlay.src = ""
         }
       }
@@ -129,6 +129,14 @@ export default {
           this.$refs.sfx.src = "/audio/sys/action.mp3"
           this.$refs.sfx.play()
         }
+      }
+    },
+    belowMax(keydex){
+      if(this.itemList[keydex].maxAmt == null || this.inventory[this.itemList[keydex].itemName] < this.itemList[keydex].maxAmt){
+        return true
+      }
+      else{
+        return false
       }
     },
       pushDoor(index){
@@ -175,7 +183,7 @@ export default {
             this.$refs.audio.src = "/audio/"+this.album+'/'+albumList[this.album].notFoundTrack
           }
           //checks if keys been recieved, pushes alt track to array
-          if(this.trackKeysRecieved.indexOf(this.songIndex)>=0){
+          if(this.trackKeysRecieved.indexOf(parseInt(this.songIndex))>=0){
             this.currentPath.push(this.songIndex+"alt")
           }
           else{
@@ -314,7 +322,8 @@ export default {
     audioInfo(){
       this.$refs.audio.pause();
       if(this.audioInfo.invCheck != null && this.audioInfo.invCheck.numberRequired <= this.inventory[this.itemList[this.audioInfo.invCheck.itemRequired].itemName]
-      || this.trackKeysRecieved.indexOf(this.songIndex)>=0 && this.audioInfo.altTrack != null){
+      || this.trackKeysRecieved.indexOf(parseInt(this.songIndex))>=0 && this.audioInfo.altTrack != null ||
+      this.audioInfo.key != null && !this.belowMax(this.audioInfo.key.keyIndex)){
         this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.altTrack.source;
         this.altTriggered = true
       }

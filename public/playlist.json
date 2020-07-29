@@ -82,7 +82,10 @@
                     "endTime": 8,
                     "f": 8,
                     "j": 6,
-                    "key": 1,
+                    "key": {
+                        "keyIndex":1,
+                        "overlaySound":null
+                    },
                     "door": null,
                     "invCheck": null,
                     "altTrack": {
@@ -96,7 +99,10 @@
                     "endTime": 9,
                     "f": 5,
                     "j": 7,
-                    "key": 1,
+                    "key": {
+                        "keyIndex":1,
+                        "overlaySound":null
+                    },
                     "door": null,
                     "invCheck": null,
                     "altTrack": {
@@ -110,7 +116,10 @@
                     "endTime": 9,
                     "f": 6,
                     "j": 8,
-                    "key": 1,
+                    "key": {
+                        "keyIndex":1,
+                        "overlaySound":null
+                    },
                     "door": null,
                     "invCheck": null,
                     "altTrack": {
@@ -124,7 +133,10 @@
                     "endTime": 8,
                     "f": 7,
                     "j": 5,
-                    "key": 0,
+                    "key": {
+                        "keyIndex":0,
+                        "overlaySound":null
+                    },
                     "door": null,
                     "invCheck": null,
                     "altTrack": null
