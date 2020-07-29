@@ -2,7 +2,7 @@
     [
         {
             "name":"metal gear solid 5: ground zeroes",
-            "img":"/audio/1/cover.jpg",
+            "img":"cover.jpg",
             "notFoundTrack":"404tape.mp3",
             "inventoryItems": [
                 {
