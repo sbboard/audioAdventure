@@ -95,6 +95,9 @@ export default {
       }
     },
     togglePlay(){
+      
+        this.$refs.sfx.src = "/audio/sys/press.mp3"
+        this.$refs.sfx.play()
       if(this.play){
         this.$refs.audio.pause()
         if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(parseInt(this.songIndex))<0){this.$refs.overlay.pause()}
@@ -130,6 +133,10 @@ export default {
           this.$refs.sfx.play()
         }
       }
+      else{    
+        this.$refs.sfx.src = "/audio/sys/press.mp3"
+        this.$refs.sfx.play()
+      }
     },
     belowMax(keydex){
       if(this.itemList[keydex].maxAmt == null || this.inventory[this.itemList[keydex].itemName] < this.itemList[keydex].maxAmt){
@@ -151,6 +158,8 @@ export default {
         this.optionTime = false
       },
     replay(){
+        this.$refs.sfx.src = "/audio/sys/press.mp3"
+        this.$refs.sfx.play()
       this.$refs.audio.currentTime = 0
       this.checkOverlay()
     },
@@ -282,6 +291,9 @@ export default {
           break;
         case 'h':
           that.action()
+          break;
+        case 'escape':
+          that.eject()
           break;
       }
     })

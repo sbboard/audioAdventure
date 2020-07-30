@@ -90,4 +90,6 @@ html
         color: white
         &::visited
           color: white
+div.albumBox a
+  color: white
 </style>
