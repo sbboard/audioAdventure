@@ -55,6 +55,10 @@ export default {
 </script>
 
 <style lang="sass">
+@mixin mobile
+  @media (max-width: #{700px})
+      @content
+
 @font-face
   font-family: invisibleFont
   src: url("/fonts/New_Cicle_Fina.ttf")
@@ -72,23 +76,27 @@ html
   color: white
   font-family: invisibleFont
   #indexWrap
-    max-width: 1000px
+    max-width: 700px
     display: block
     margin: 0 auto
+    padding: 1em
     h1
       font-size: 2em
-      margin-top: .5em
     h2
       font-size: 1.5em
       margin-top: 1em
     .albumBox
       display: inline-block
-      margin: 25px
+      margin-top: 1em
+      width: 30%
+      transition: width .5s
+      @include mobile
+        width: 45%
       img
-        width: 200px
+        width: 100%
       a
         color: white
-        &::visited
+        &:visited
           color: white
 div.albumBox a
   color: white

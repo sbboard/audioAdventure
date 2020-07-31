@@ -1,5 +1,6 @@
 <template>
   <div id="root">
+    <h1 id="topTitle"><a href="/">Last Tapes of Fate</a></h1>
     <div id="wrap">
       <div id="casetteWrap">
         <h1>{{this.audioInfo.name}}</h1>
@@ -352,6 +353,10 @@ export default {
 </script>
 
 <style lang="sass">
+
+@mixin mobile
+  @media (max-width: #{700px})
+      @content
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap')
 
 #root
@@ -363,12 +368,26 @@ export default {
   display: flex
   justify-content: center
   flex-direction: column
+  #topTitle
+    font-size: 2em
+    margin-top: .5em
+    position: absolute
+    top: 0
+    color: white
+    a
+      color: white
+      text-decoration: none
+    &:visited
+      color: white
   #casetteWrap
     text-align: center
     position: relative
     img
-      max-width: 50%
+      width: 50%
       pointer-events: none
+      transition: width .5s
+      @include mobile
+        width: 80%
     h1
       width: fit-content
       font-family: 'Permanent Marker', cursive
@@ -376,8 +395,11 @@ export default {
       margin: 0 auto
       left: 0
       right: 0
-      top: 3em
+      top: 13%
       color: black
+      @include mobile
+        font-size: 2.5vw
+        top: 7vw
   #controls
     width: fit-content
     margin: 1em auto 0 auto
@@ -385,6 +407,9 @@ export default {
     justify-content: space-between
     align-items: center
     width: 50%
+    transition: width .5s
+    @include mobile
+      width: 80%
     img
       display: black
       cursor: pointer
@@ -393,6 +418,9 @@ export default {
       cursor: auto
     i
       cursor: pointer
+      transition: font-size .5s
+      @include mobile
+        font-size: 2.5em
 .pressed
   height: 47px
   width: 47px
@@ -405,6 +433,9 @@ export default {
   margin-top: 1em
   justify-content: space-around
   font-size: 1.25em
+  transition: width .5s
+  @include mobile
+    width: 80%
   a
     color: white
     width: 20%
