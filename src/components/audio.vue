@@ -3,7 +3,6 @@
     <h1 id="topTitle"><a href="/">Last Tapes of Fate</a></h1>
     <div id="wrap">
       <div id="casetteWrap">
-        <h1>{{this.audioInfo.name}}</h1>
         <img alt="casette tape" :src="'/audio/'+album+'/casette.jpg'">
       </div>
 
@@ -357,7 +356,6 @@ export default {
 @mixin mobile
   @media (max-width: #{700px})
       @content
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap')
 
 #root
   max-width: 1000px
@@ -390,7 +388,6 @@ export default {
         width: 80%
     h1
       width: fit-content
-      font-family: 'Permanent Marker', cursive
       position: absolute
       margin: 0 auto
       left: 0
