@@ -1,11 +1,20 @@
 <template>
   <div id="indexWrap">
     <h1>Last Tapes of Fate</h1>
-    <h2 class="normText">CAUTION</h2>
-    <p class="normText">You are about to enter the world of the auditory. The only tool you will have to navigate this new landscape is your sense of sound. Your only companion, a cassette player.<br>
-You will be able to explore this world via the unique and curious TAPES OF FATE. Listening to one of these tapes transports your consciousness to an actual parallel dimension. At the end of each tape you will be presented with two options: a tape on the left and a tape on the right. For those using a cassette player remotely via computer technology, press the F key to insert the tape on the left or press the J key to insert the tape on the right. There may be moments during your adventure you will want to take action (such as to pick up a key, or open a door), in which case you can interact with the universe recorded on the tape by pressing the G or H key.<br>
-If you agree to proceed after hearing this warning, close your eyes to avoid dimensional interference, open your ears, and stay safe.
-    </p>
+    <div id="cautionBox">
+      <h2 class="normText"><i class="fas fa-exclamation-triangle"></i> CAUTION</h2>
+      <p class="normText"><b>You are about to enter the world of the auditory.</b><br>
+      The only tool you will have to navigate this new landscape is your sense of sound. Your only companion, a cassette player. 
+  You will be able to explore this world via the unique and curious TAPES OF FATE. 
+  Listening to one of these tapes will transport your consciousness to an actual parallel dimension. 
+  <!--<br><br>
+  At the end of each tape you will be presented with two options: a tape on the left and a tape on the right. For those using a cassette player remotely via computer technology, 
+  <b>press the F key to insert the tape on the left or press the J key to insert the tape on the right</b>. <br>
+  There may be moments during your adventure you will want to take action (such as to pick up a key, or open a door), 
+  in which case you can <b>interact with the universe recorded on the tape by pressing the G or H key.</b><br><br> -->
+  If you agree to proceed after hearing this warning, close your eyes to avoid dimensional interference, open your ears, and stay safe.
+      </p>
+    </div>
       <div v-for="(item, index) in localPlaylist" :key="item.name" class="albumBox">
       <router-link :to="'/'+index+'/1'"><img :alt='item.name + " cover"' :src='"/audio/"+index+"/"+item.img'/></router-link>
       <br>
@@ -84,6 +93,24 @@ html
     h2
       font-size: 1.5em
       margin-top: 1em
+    #cautionBox
+      background-color: white
+      border: 2px solid black
+      color: black
+      margin-top: 1em
+      padding: .5em
+      border-radius: .5em
+      b
+        font-weight: 600
+      h2
+        background-color: #FFE001
+        border: 2px solid black
+        text-align: center
+        padding: .25em
+        margin: 0
+        margin-bottom: .5em
+        font-weight: 800
+        border-radius: .25em
     .albumBox
       display: inline-block
       margin-top: 1em
