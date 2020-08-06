@@ -134,7 +134,7 @@ export default {
         }
       }
       else{    
-        this.$refs.sfx.src = "/audio/sys/press.mp3"
+        this.$refs.sfx.src = "/audio/sys/failed.mp3"
         this.$refs.sfx.play()
       }
     },
@@ -316,6 +316,9 @@ export default {
   },
   watch:{
     playlist(){
+      if(this.playlist.albums[this.album] == undefined){
+        this.$router.push({ path: `/`})
+      }
       let remotePlay= this.playlist
       let albumList = remotePlay.albums
       if(typeof albumList[this.album].tracks[this.songIndex] != 'undefined') {
