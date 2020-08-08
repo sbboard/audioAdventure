@@ -28,7 +28,7 @@
       <div v-for="(item, index) in localPlaylist" :key="item.name" class="albumBox">
       <router-link :to="'/'+index+'/1'"><img :alt='item.name + " cover"' :src='"/audio/"+index+"/"+item.img'/></router-link>
       <br>
-      {{item.name}}<br>
+      <div class="boldName">{{item.name}}</div>
       <router-link :to="'/'+index+'/1'">Start At Tape 1</router-link><br>
       Select Specific Tape: 
       <select @change="specificTape($event.target.value)">
@@ -98,14 +98,12 @@ footer
     text-transform: uppercase
     text-decoration: none
     color: white
+.boldName
+  font-weight: 800
 html
   background-color: #1f1f1f
   color: white
   font-family: invisibleFont
-  @include tablet
-    background-color: red
-  @include mobile
-    background-color: green
   #indexWrap
     max-width: 1200px
     display: block
@@ -143,6 +141,8 @@ html
         margin-bottom: .5em
         font-weight: 800
         border-radius: .25em
+        @include mobile
+          font-size: 1em
     #instructions
       @extend #cautionBox
       h2
@@ -151,13 +151,17 @@ html
         display: block
       i
         font-style: italic
+      @include mobile
+        display: none
     .albumBox
       display: inline-block
       margin-top: 1em
-      width: 30%
+      width: calc(25% - 2em)
       transition: width .5s
+      @include tablet
+        width: calc(33.3% - 2em)
       @include mobile
-        width: 45%
+        width: calc(50% - 2em)
       img
         width: 100%
       a
