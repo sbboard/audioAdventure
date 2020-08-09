@@ -166,12 +166,15 @@ export default {
     ended(){
         this.endhit = true
         if(this.altTriggered == false){
+          //i'm not deleting the below code bc i think it's really funny
+          //let endTime = this.audioInfo.endTime.includes("rand") ? parseInt(this.audioInfo.endTime.replace("rand(","").replace(")","").split(",")[1]) : this.audioInfo.endTime
           this.$refs.audio.currentTime = this.audioInfo.endTime
         }
         else{
           this.$refs.audio.currentTime = this.audioInfo.altTrack.endTime
         }
         this.$refs.audio.play()
+        this.play = true
     },
     setIndex(value){
       if(this.optionTime == true || this.devMode == "true" ){
@@ -198,9 +201,7 @@ export default {
           else{
           this.optionTime = false
           }
-
           this.currentPath.push(this.songIndex)
-          console.log(this.currentPath)
         }
       }
     },
@@ -211,6 +212,12 @@ export default {
       }
     },
     timeCheck(){
+      if(this.$refs.audio.currentTime > 3 && this.audioInfo.randomJump != null && this.audioInfo.randomJump > this.$refs.audio.currentTime){
+        let random = Math.floor(Math.random() * 20);
+        if(random == 0){
+          this.$refs.audio.currentTime = this.audioInfo.randomJump
+        }
+      }
       if(this.altTriggered == false){
         if(this.$refs.audio.currentTime >= this.audioInfo.endTime){
           if(this.audioInfo.j != "" && this.audioInfo.f != ""){
@@ -341,6 +348,7 @@ export default {
           //i dont know why only this part doesn't load right without the following code
           this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
           this.$refs.audio.play()
+          this.play = true
       }
       this.createInventory(albumList[this.album].inventoryItems)
     },
@@ -358,6 +366,7 @@ export default {
       }
       this.$refs.audio.currentTime = 0;
       this.$refs.audio.play()
+      this.play = true
       this.checkOverlay()
     }
   },
