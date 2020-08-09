@@ -212,12 +212,14 @@ export default {
       }
     },
     timeCheck(){
+      //random jump check
       if(this.$refs.audio.currentTime > 3 && this.audioInfo.randomJump != null && this.audioInfo.randomJump > this.$refs.audio.currentTime){
         let random = Math.floor(Math.random() * 20);
         if(random == 0){
           this.$refs.audio.currentTime = this.audioInfo.randomJump
         }
       }
+      //activates optionTime / pushes door
       if(this.altTriggered == false){
         if(this.$refs.audio.currentTime >= this.audioInfo.endTime){
           if(this.audioInfo.j != "" && this.audioInfo.f != ""){
@@ -229,6 +231,7 @@ export default {
           }
         }
       }
+      //activates optionTime / pushes door if alt track active
       else{
         if(this.$refs.audio.currentTime >= this.audioInfo.altTrack.endTime){
           if(this.audioInfo.j != "" && this.audioInfo.f != ""){
