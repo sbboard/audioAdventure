@@ -191,14 +191,16 @@ export default {
             this.audioInfo.name = "Blank Tape"
             this.$refs.audio.src = "/audio/"+this.album+'/'+albumList[this.album].notFoundTrack
           }
-          //checks if keys been recieved, pushes alt track to array
-          if(this.trackKeysRecieved.indexOf(parseInt(this.songIndex))>=0){
-            this.currentPath.push(this.songIndex+"alt")
+
+          if(this.currentPath.indexOf(this.songIndex) > -1){
+            this.optionTime = true
           }
           else{
-            this.currentPath.push(this.songIndex)
-          }
           this.optionTime = false
+          }
+
+          this.currentPath.push(this.songIndex)
+          console.log(this.currentPath)
         }
       }
     },
@@ -270,12 +272,16 @@ export default {
   },
   mounted(){
     let that = this
-    this.currentPath.push(this.songIndex)
+    this.currentPath.push(parseInt(this.songIndex))
     window.addEventListener('keydown', function(ev) {
       let x = ev.key.toLowerCase()
       switch (x) {
         case 'f':
           if(that.optionTime == true){that.fpressed = true}
+          else{
+            that.$refs.sfx.src = "/audio/sys/failed.mp3"
+            that.$refs.sfx.play()
+          }
           break;
         case 'k':
           that.replay()
@@ -285,6 +291,10 @@ export default {
           break;
         case 'j':
           if(that.optionTime == true){that.jpressed = true}
+          else{
+        that.$refs.sfx.src = "/audio/sys/failed.mp3"
+        that.$refs.sfx.play()
+          }
           break;
         case 'g':
           that.action()
