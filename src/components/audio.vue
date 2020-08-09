@@ -1,9 +1,9 @@
 <template>
   <div id="root">
-    <h1 id="topTitle"><a href="/">Last Tapes of Fate</a></h1>
+    <h1 id="topTitle"><a href="/">1000 Tapes of Fate</a></h1>
     <div id="wrap">
       <div id="casetteWrap">
-        <img alt="casette tape" :src="'/audio/'+album+'/casette.jpg'">
+      <img alt="casette player" src="../assets/player.png">
       </div>
 
       <audio ref="overlay" @ended='overlayLoop'>
@@ -406,7 +406,7 @@ export default {
     text-align: center
     position: relative
     img
-      width: 50%
+      width: 75%
       pointer-events: none
       transition: width .5s
       @include mobile

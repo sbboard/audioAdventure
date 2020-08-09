@@ -7,8 +7,8 @@
       <source type="audio/mpeg">
       </audio>
       <div id="controls">
-      <img @click="togglePlay()" v-if="play" src="../assets/pause.png">
-      <img @click="togglePlay()" v-if="!play" src="../assets/play.png">
+      <!--<img @click="togglePlay()" v-if="play" src="../assets/pause.png">
+      <img @click="togglePlay()" v-if="!play" src="../assets/play.png">-->
       </div>
   </div>
 </template>

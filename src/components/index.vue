@@ -1,6 +1,6 @@
 <template>
   <div id="indexWrap">
-    <h1>Last Tapes of Fate</h1>
+    <h1>1000 Tapes of Fate</h1>
     <div id="boxBox">
     <div id="cautionBox">
       <h2 class="normText"><i class="fas fa-exclamation-triangle"></i> CAUTION</h2>
@@ -15,12 +15,9 @@
 <div id="instructions" class="normText">
   <h2>Keyboard Controls</h2>
 <div>
-<span><b>Select Left Tape:</b> F</span>
-<span><b>Select Right Tape:</b> J</span>
-<i>Note: You can identity the F and J keys with your eyes closed by their notches on most keyboards.</i><br><br>
-<span><b>Action:</b> G, H <i>(keys in between F and J)</i></span>
-<span><b>Restart Tape:</b> D, K <i>(keys outside of F and J)</i></span>
-<span><b>Eject:</b> Escape</span>
+  <img src="../assets/instructions.png"
+  alt="Select Left Tape: F, Select Right Tape: J, Action: G, H, Restart Tape: D, K, Eject: Escape"
+  />
 </div>
   </div>
   </div>
@@ -151,6 +148,8 @@ html
         display: block
       i
         font-style: italic
+      div
+        text-align: center
       @include mobile
         display: none
     .albumBox
