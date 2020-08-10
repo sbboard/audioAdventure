@@ -3,6 +3,11 @@
         {
             "name":"metal gear solid 5: ground zeroes",
             "img":"cover.jpg",
+            "credits":{
+                "writer":["Boss", null],
+                "art": ["Doug", "http://www.google2.com/"],
+                "va": [["boss",null],["boss2","http://www.google.com/"]]
+            },
             "notFoundTrack":"404tape.mp3",
             "inventoryItems": [
                 {

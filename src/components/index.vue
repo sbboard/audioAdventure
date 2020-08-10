@@ -21,17 +21,47 @@
 </div>
   </div>
   </div>
-
       <div v-for="(item, index) in localPlaylist" :key="item.name" class="albumBox">
-      <router-link :to="'/'+index+'/1'"><img :alt='item.name + " cover"' :src='"/audio/"+index+"/"+item.img'/></router-link>
-      <br>
-      <div class="boldName">{{item.name}}</div>
-      <router-link :to="'/'+index+'/1'">Start At Tape 1</router-link><br>
-      Select Specific Tape: 
-      <select @change="specificTape($event.target.value)">
-      <option v-for="(item, indexTwo) in localPlaylist[index].tracks" :key="item.name" :value="`/${index}/${indexTwo}`">{{indexTwo}}</option>
-      </select>
+        <div class="info">
+        <router-link :to="'/'+index+'/1'"><img :alt='item.name + " cover"' :src='"/audio/"+index+"/"+item.img'/></router-link>
+        <br>
+        <div class="boldName">{{item.name}}</div>
+        <router-link :to="'/'+index+'/1'">Start At Tape 1</router-link><br>
+        Select Specific Tape: 
+        <select @change="specificTape($event.target.value)">
+          <option v-for="(item, indexTwo) in localPlaylist[index].tracks" :key="item.name" :value="`/${index}/${indexTwo}`">{{indexTwo}}</option>
+        </select>
+        </div>
+        <div class="credits normText">
+          <span><b>written by </b> 
+          <template v-if="item.credits.writer[1] == null">
+          {{item.credits.writer[0]}}
+          </template>
+          <template v-else>
+          <a :href="item.credits.writer[1]">{{item.credits.writer[0]}}</a>
+          </template>
+          </span>
+          <span><b>album art by </b> 
+          <template v-if="item.credits.art[1] == null">
+           {{item.credits.art[0]}}
+          </template>
+          <template v-else>
+           <a :href="item.credits.art[1]">{{item.credits.art[0]}}</a>
+          </template>
+          </span>
+          <span><b>voice talent by </b> 
+          <div v-for="(person, indexTwo) in item.credits.va" :key='person[0]' class="actor">
+          <template v-if="person[1] == null">
+          {{person[0]}}
+          </template><template v-else>
+          <a :href="person[1]">{{person[0]}}</a>
+          </template><template v-if="indexTwo < item.credits.va.length - 1">, </template>
+          </div>
+
+          </span>
+        </div>
       </div>
+
       <footer><i class="fas fa-copyright"></i> <a href="http://www.theinvisiblesundial.com/">invisible sundial</a> x <a href="https://gang-fight.com/">gang fight</a></footer>
   </div>
 </template>
@@ -96,7 +126,9 @@ footer
     text-decoration: none
     color: white
 .boldName
-  font-weight: 800
+    font-weight: 800
+    font-size: 1.25em
+    margin-bottom: .25em
 html
   background-color: #1f1f1f
   color: white
@@ -155,7 +187,8 @@ html
     .albumBox
       display: inline-block
       margin-top: 1em
-      width: calc(25% - 2em)
+      position: relative
+      width: calc(33.3% - 2em)
       transition: width .5s
       @include tablet
         width: calc(33.3% - 2em)
@@ -167,6 +200,25 @@ html
         color: white
         &:visited
           color: white
+      .info
+        width: 50%
+        display: inline-block
+        margin-right: .5em
+      .credits
+        line-height: 1.1
+        font-size: .75em
+        width: calc(50% - 2px - 1em)
+        display: inline-block
+        border: 1px solid white
+        position: absolute
+        height: -webkit-fill-available
+        padding: .5em
+        b
+          font-weight: 800
+        span
+          display: block
+        .actor
+          display: inline-block
 div.albumBox a
   color: white
 </style>
