@@ -1,5 +1,6 @@
 <template>
   <div id="root">
+    <template v-if="loaded">
     <h1 id="topTitle"><a href="/">1000 Tapes of Fate</a></h1>
     <div id="wrap">
       <div id="casetteWrap">
@@ -11,7 +12,7 @@
       </audio>
 
       <audio autoplay @ended='ended' ref="audio" @timeupdate="timeCheck()">
-      <source :src="'/audio/'+album+'/'+audioInfo.source" type="audio/mpeg">
+      <source :src="'/audio/'+albumLocation+'/'+audioInfo.source" type="audio/mpeg">
       </audio>
 
       <audio ref="sfx">
@@ -33,14 +34,20 @@
       <router-link :to="'/replay/'+album+'/'+pathprint">Relisten to Adventure</router-link>
     </div>
     <footer><i class="fas fa-copyright"></i> <a href="http://www.theinvisiblesundial.com/">invisible sundial</a> x <a href="https://gang-fight.com/">gang fight</a></footer>
+    </template>
+    <template v-else>
+      Loading...
+      </template>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
   data(){
     return{
+        loaded: false,
         localPlaylist: null,
         songIndex: this.$route.params.id,
         audioInfo: {
@@ -53,6 +60,7 @@ export default {
         play: true,
         currentPath: [],
         album: this.$route.params.album,
+        albumLocation: null,
         endhit: false,
         jpressed: false,
         fpressed: false,
@@ -64,6 +72,7 @@ export default {
         ejected: false,
         doorInWing: null,
         altTriggered: false,
+        trackList: null,
     }
   },
   methods: {
@@ -86,7 +95,7 @@ export default {
     checkOverlay(){
       this.$refs.overlay.pause()
       if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(parseInt(this.songIndex))<0){
-        this.$refs.overlay.src = '/audio/'+this.album+'/'+this.audioInfo.key.overlaySound
+        this.$refs.overlay.src = '/audio/'+this.albumLocation+'/'+this.audioInfo.key.overlaySound
         this.$refs.overlay.currentTime = 0
         this.$refs.overlay.play()
       }
@@ -150,10 +159,8 @@ export default {
         this.doorInWing = null
         this.$router.push({ path: `/${this.album}/${index}`})
         this.songIndex = index
-        let remotePlay= this.playlist
-        let albumList = remotePlay.albums
-        this.audioInfo = albumList[this.album].tracks[this.songIndex]
-        this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source
+        this.audioInfo = this.trackList[this.songIndex]
+        this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.source
         this.currentPath.push(this.songIndex)
         this.optionTime = false
       },
@@ -176,6 +183,27 @@ export default {
         this.$refs.audio.play()
         this.play = true
     },
+    getAlbumInfo(){
+      axios.get(`/audio/${this.$store.getters.getPlaylist.albums[this.album].folder}/info.json`)
+      .then((response) => {
+        this.trackList = response.data.tracks
+        this.albumLocation = this.$store.getters.getPlaylist.albums[this.album].folder
+        if(this.trackList[this.songIndex] != 'undefined') {
+          this.audioInfo = this.trackList[this.songIndex]
+        }
+        else{
+            this.audioInfo.name = "Blank Tape"
+            this.audioInfo.source = response.data.notFoundTrack
+
+            //i dont know why only this part doesn't load right without the following code
+            this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.source;
+            this.$refs.audio.play()
+            this.play = true
+        }
+        this.createInventory(response.data.inventoryItems)
+        this.loaded = true
+      })
+    },
     setIndex(value){
       if(this.optionTime == true || this.devMode == "true" ){
         this.$refs.sfx.src = "/audio/sys/press.mp3"
@@ -185,15 +213,13 @@ export default {
         if(index != ''){
           this.$router.push({ path: `/${this.album}/${index}`})
           this.songIndex = index
-          let remotePlay= this.playlist
-          let albumList = remotePlay.albums
-          if(typeof albumList[this.album].tracks[this.songIndex] != 'undefined') {
-            this.audioInfo = albumList[this.album].tracks[this.songIndex]
-          }
-          else{
-            this.audioInfo.name = "Blank Tape"
-            this.$refs.audio.src = "/audio/"+this.album+'/'+albumList[this.album].notFoundTrack
-          }
+          //if(typeof albumList[this.album].tracks[this.songIndex] != 'undefined') {
+          this.audioInfo = this.trackList[this.songIndex]
+          // }
+          // else{
+          //   this.audioInfo.name = "Blank Tape"
+          //   this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+albumList[this.album].notFoundTrack
+          // }
 
           if(this.currentPath.indexOf(this.songIndex) > -1){
             this.optionTime = true
@@ -268,17 +294,7 @@ export default {
     }
   },
   beforeMount(){
-    if(this.playlist != null){
-      this.localPlaylist = this.playlist.albums[this.album]
-      if(typeof this.localPlaylist.tracks[this.songIndex] != 'undefined') {
-        this.audioInfo = this.localPlaylist.tracks[this.songIndex]
-      }
-      else{
-            this.audioInfo.name = "Blank Tape"
-            this.audioInfo.source = this.localPlaylist.notFoundTrack
-      }
-      this.createInventory(this.localPlaylist.inventoryItems)
-    }
+    if(this.playlist != null){this.getAlbumInfo()}
   },
   mounted(){
     let that = this
@@ -336,41 +352,31 @@ export default {
   },
   watch:{
     playlist(){
-      if(this.playlist.albums[this.album] == undefined){
+      if(this.album > this.$store.getters.getPlaylist.albums.length - 1){
         this.$router.push({ path: `/`})
       }
-      let remotePlay= this.playlist
-      let albumList = remotePlay.albums
-      if(typeof albumList[this.album].tracks[this.songIndex] != 'undefined') {
-        this.audioInfo = albumList[this.album].tracks[this.songIndex]
-      }
       else{
-          this.audioInfo.name = "Blank Tape"
-          this.audioInfo.source = albumList[this.album].notFoundTrack
-
-          //i dont know why only this part doesn't load right without the following code
-          this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
-          this.$refs.audio.play()
-          this.play = true
+        this.getAlbumInfo()
       }
-      this.createInventory(albumList[this.album].inventoryItems)
     },
     audioInfo(){
+      if(this.$refs.audio != undefined){
       this.$refs.audio.pause();
       if(this.audioInfo.invCheck != null && this.audioInfo.invCheck.numberRequired <= this.inventory[this.itemList[this.audioInfo.invCheck.itemRequired].itemName]
       || this.trackKeysRecieved.indexOf(parseInt(this.songIndex))>=0 && this.audioInfo.altTrack != null ||
       this.audioInfo.key != null && !this.belowMax(this.audioInfo.key.keyIndex)){
-        this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.altTrack.source;
+        this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.altTrack.source;
         this.altTriggered = true
       }
       else{
-        this.$refs.audio.src = "/audio/"+this.album+'/'+this.audioInfo.source;
+        this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.source;
         this.altTriggered = false
       }
       this.$refs.audio.currentTime = 0;
       this.$refs.audio.play()
       this.play = true
       this.checkOverlay()
+    }
     }
   },
 }
