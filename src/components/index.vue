@@ -120,15 +120,16 @@ export default {
 footer
   position: absolute
   bottom: 1em
-  opacity: .4
+  color: #797979
   a
     text-transform: uppercase
     text-decoration: none
-    color: white
+    color: #797979
 .boldName
     font-weight: 800
     font-size: 1.25em
     margin-bottom: .25em
+    margin: .5em
 html
   background-color: #1f1f1f
   color: white
@@ -189,6 +190,7 @@ html
       margin-top: 1em
       position: relative
       width: calc(33.3% - 2em)
+      border: 1px solid #797979
       transition: width .5s
       @include tablet
         width: calc(33.3% - 2em)
@@ -203,22 +205,24 @@ html
       .info
         width: 50%
         display: inline-block
-        margin-right: .5em
       .credits
         line-height: 1.1
         font-size: .75em
-        width: calc(50% - 2px - 1em)
+        width: calc(50% - 1em)
         display: inline-block
-        border: 1px solid white
         position: absolute
         height: -webkit-fill-available
         padding: .5em
+        background-color: #797979
+        color: #1F1F1F
         b
           font-weight: 800
         span
           display: block
         .actor
           display: inline-block
+        a
+          color: #1F1F1F
 div.albumBox a
   color: white
 </style>
