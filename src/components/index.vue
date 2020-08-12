@@ -23,7 +23,7 @@
   </div>
       <div v-for="(item, index) in localPlaylist" :key="item.name" class="albumBox">
         <div class="info">
-        <router-link :to="'/'+index+'/1'"><img :alt='item.name + " cover"' :src='"/audio/"+index+"/"+item.img'/></router-link>
+        <router-link :to="'/'+index+'/1'"><img :alt='item.name + " cover"' :src='"/audio/"+item.folder+"/"+item.img'/></router-link>
         <br>
         <div class="boldName">{{item.name}}</div>
         <router-link :to="'/'+index+'/1'">Start At Tape 1</router-link><br>
