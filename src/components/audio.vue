@@ -11,9 +11,16 @@
       <source src="" type="audio/mpeg">
       </audio>
 
-      <audio autoplay @ended='ended' ref="audio" @timeupdate="timeCheck()">
-      <source :src="'/audio/'+albumLocation+'/'+audioInfo.source" type="audio/mpeg">
-      </audio>
+      <template v-if="audioInfo.name != 'Blank Tape'">
+        <audio autoplay @ended='ended' ref="audio" @timeupdate="timeCheck()">
+        <source :src="'/audio/'+albumLocation+'/'+audioInfo.source" type="audio/mpeg">
+        </audio>
+      </template>
+      <template v-else>
+        <audio autoplay @ended='ended' ref="audio" @timeupdate="timeCheck()">
+        <source src='/audio/sys/404tape.mp3' type="audio/mpeg">
+        </audio>
+      </template>
 
       <audio ref="sfx">
       <source src="/audio/sys/press.mp3" type="audio/mpeg">
@@ -25,7 +32,7 @@
       <i @click="togglePlay()" v-if="play" class="fas fa-4x fa-pause"></i>
       <i @click="togglePlay()" v-if="!play" class="fas fa-4x fa-play"></i>
       <i @click="eject()" class="fas fa-4x fa-eject"></i>
-      <i @click="action()" class="fas fa-4x fa-bolt"></i>
+      <i @click="action()" v-if="audioInfo.name != 'Blank Tape'" class="fas fa-4x fa-bolt"></i>
       <img alt="j-key" v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('j')" src="../assets/j.png" :class="{pressed: jpressed, faded: !optionTime}">
       </div>
     </div>
@@ -77,6 +84,9 @@ export default {
   },
   methods: {
     eject(){
+      if(this.audioInfo.name=="Blank Tape"){
+        this.$router.push({ path: `/`})
+      }
       if(this.ejected == false){
       this.audioInfo.f = ''
       this.audioInfo.j = ''
@@ -104,7 +114,6 @@ export default {
       }
     },
     togglePlay(){
-      
         this.$refs.sfx.src = "/audio/sys/press.mp3"
         this.$refs.sfx.play()
       if(this.play){
@@ -192,22 +201,23 @@ export default {
     getAlbumInfo(){
       axios.get(`/audio/${this.$store.getters.getPlaylist.albums[this.album].folder}/info.json`)
       .then((response) => {
+            this.loaded = true
         this.trackList = response.data.tracks
         this.albumLocation = this.$store.getters.getPlaylist.albums[this.album].folder
-        if(this.trackList[this.songIndex] != 'undefined') {
-          this.audioInfo = this.trackList[this.songIndex]
-        }
-        else{
-            this.audioInfo.name = "Blank Tape"
-            this.audioInfo.source = response.data.notFoundTrack
 
-            //i dont know why only this part doesn't load right without the following code
-            this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.source;
-            this.$refs.audio.play()
-            this.play = true
+          if(this.songIndex < this.trackList.length) {
+            this.audioInfo = this.trackList[this.songIndex]
+          }
+          else{
+             this.audioInfo = {
+          "source": "/audio/sys/404tape.mp3",
+          "name": "Blank Tape",
+          "endTime": "",
+          "f": "",
+          "j": ""
         }
+           }
         this.createInventory(response.data.inventoryItems)
-        this.loaded = true
       })
     },
     setIndex(value){
@@ -219,13 +229,7 @@ export default {
         if(index != ''){
           this.$router.push({ path: `/${this.album}/${index}`})
           this.songIndex = index
-          //if(typeof albumList[this.album].tracks[this.songIndex] != 'undefined') {
           this.audioInfo = this.trackList[this.songIndex]
-          // }
-          // else{
-          //   this.audioInfo.name = "Blank Tape"
-          //   this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+albumList[this.album].notFoundTrack
-          // }
 
           if(this.currentPath.indexOf(this.songIndex) > -1){
             this.optionTime = true
@@ -367,22 +371,22 @@ export default {
     },
     audioInfo(){
       if(this.$refs.audio != undefined){
-      this.$refs.audio.pause();
-      if(this.audioInfo.invCheck != null && this.audioInfo.invCheck.numberRequired <= this.inventory[this.itemList[this.audioInfo.invCheck.itemRequired].itemName]
-      || this.trackKeysRecieved.indexOf(parseInt(this.songIndex))>=0 && this.audioInfo.altTrack != null ||
-      this.audioInfo.key != null && !this.belowMax(this.audioInfo.key.keyIndex)){
-        this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.altTrack.source;
-        this.altTriggered = true
+        this.$refs.audio.pause();
+        if(this.audioInfo.invCheck != null && this.audioInfo.invCheck.numberRequired <= this.inventory[this.itemList[this.audioInfo.invCheck.itemRequired].itemName]
+        || this.trackKeysRecieved.indexOf(parseInt(this.songIndex))>=0 && this.audioInfo.altTrack != null ||
+        this.audioInfo.key != null && !this.belowMax(this.audioInfo.key.keyIndex)){
+          this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.altTrack.source;
+          this.altTriggered = true
+        }
+        else{
+          this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.source;
+          this.altTriggered = false
+        }
+        this.$refs.audio.currentTime = 0;
+        this.$refs.audio.play()
+        this.play = true
+        this.checkOverlay()
       }
-      else{
-        this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.source;
-        this.altTriggered = false
-      }
-      this.$refs.audio.currentTime = 0;
-      this.$refs.audio.play()
-      this.play = true
-      this.checkOverlay()
-    }
     }
   },
 }
