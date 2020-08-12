@@ -141,10 +141,16 @@ export default {
           this.$refs.sfx.src = "/audio/sys/action.mp3"
           this.$refs.sfx.play()
         }
+        else{
+          this.$refs.sfx.src = "/audio/sys/failed.mp3"
+          this.$refs.sfx.play()
+        }
       }
       else{    
-        this.$refs.sfx.src = "/audio/sys/failed.mp3"
-        this.$refs.sfx.play()
+        if(this.$refs.sfx.currentTime ==this.$refs.sfx.duration){
+          this.$refs.sfx.src = "/audio/sys/failed.mp3"
+          this.$refs.sfx.play()
+        }
       }
     },
     belowMax(keydex){
