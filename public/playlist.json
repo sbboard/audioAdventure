@@ -4,6 +4,7 @@
             "name":"metal gear solid 5: ground zeroes",
             "img":"cover.jpg",
             "folder":"demo",
+            "blurb":"this is the blurb. wow!",
             "credits":{
                 "writer":["Boss", null],
                 "art": ["Doug", "http://www.google2.com/"],

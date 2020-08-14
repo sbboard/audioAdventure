@@ -478,4 +478,10 @@ export default {
     color: white
     width: 20%
     text-align: center
+
+#controls
+    img
+        display: black
+        width: 50px
+        cursor: pointer
 </style>

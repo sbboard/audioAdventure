@@ -1,109 +1,169 @@
 <template>
-  <div>
-      <template v-if="trackInfo != null">
-      {{trackInfo.name}}<br>
-      </template>
-      <audio autoplay ref="audio" @timeupdate="timeCheck()">
-      <source type="audio/mpeg">
-      </audio>
-      <div id="controls">
-      <!--<img @click="togglePlay()" v-if="play" src="../assets/pause.png">
-      <img @click="togglePlay()" v-if="!play" src="../assets/play.png">-->
+  <div id="root">
+    <template v-if="loaded">
+    <h1 id="topTitle"><a href="/">1000 Tapes of Fate</a></h1>
+    <div id="wrap">
+      <div id="casetteWrap">
+      <img alt="casette player" src="../assets/player.png">
       </div>
+
+      <audio ref="overlay" @ended='overlayLoop'>
+      <source src="" type="audio/mpeg">
+      </audio>
+
+      <template v-if="audioInfo.name != 'Blank Tape'">
+        <audio autoplay @ended='ended' ref="audio" @timeupdate="timeCheck()">
+        <source :src="'/audio/'+albumLocation+'/'+audioInfo.source" type="audio/mpeg">
+        </audio>
+      </template>
+      <template v-else>
+        <audio autoplay @ended='ended' ref="audio" @timeupdate="timeCheck()">
+        <source src='/audio/sys/404tape.mp3' type="audio/mpeg">
+        </audio>
+      </template>
+
+      <audio ref="sfx">
+      <source src="/audio/sys/press.mp3" type="audio/mpeg">
+      </audio>
+
+      <div id="controls">
+      <i @click="togglePlay()" v-if="play" class="fas fa-4x fa-pause"></i>
+      <i @click="togglePlay()" v-if="!play" class="fas fa-4x fa-play"></i>
+      </div>
+    </div>
+    <footer><i class="fas fa-copyright"></i> <a href="http://www.theinvisiblesundial.com/">invisible sundial</a> x <a href="https://gang-fight.com/">gang fight</a></footer>
+    </template>
+    <template v-else>
+      Loading...
+      </template>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data(){
     return{
-      album: this.$route.params.album,
-      currentTrackIndex: 0,
-      localPlaylist: null,
-      trackInfo: null,
-      play: true,
-      altPlaying: false
+        loaded: false,
+        localPlaylist: null,
+        songIndex: this.$route.params.id,
+        audioInfo: {
+          "source": "",
+          "name": "loading",
+          "endTime": "",
+          "f": "",
+          "j": ""
+        },
+        play: true,
+        album: this.$route.params.album,
+        albumLocation: null,
+        endhit: false,
+        currentIndex: 0,
+        altTriggered: false,
+        trackList: null,
     }
   },
-  methods:{
-      timeCheck(){
-        if(this.altPlaying == false){
-          if(this.$refs.audio.currentTime >= this.trackInfo.endTime){
-            this.changeTrack()
-          }
-        }
-        else{
-          if(this.$refs.audio.currentTime >= this.trackInfo.altEnd){
-            this.changeTrack()
-          }
-        }
-      },
-      setAlt(){
-        if(this.pathArray[this.currentTrackIndex].includes("alt")){
-          let trackGuy = this.pathArray[this.currentTrackIndex].split("alt")[0]
-          this.trackInfo = this.localPlaylist[trackGuy]
-          this.$refs.audio.src = `/audio/${this.album}/${this.trackInfo.altTrack}`;
-          this.altPlaying = true
-        }
-        else{
-          this.trackInfo = this.localPlaylist[this.pathArray[this.currentTrackIndex]]
-          this.$refs.audio.src = `/audio/${this.album}/${this.trackInfo.source}`;
-          this.altPlaying = false
-        }
-      },
-      changeTrack(){
-                if(this.currentTrackIndex < this.pathArray.length - 1){
-                  this.currentTrackIndex++
-                  this.setAlt()
-                }
-      },
-        togglePlay(){
-        if(this.play){
-            this.$refs.audio.pause()
-        }
-        else{
-            this.$refs.audio.play()
-        }
-        this.play = !this.play
-        }
-  },
-  mounted(){
-    if(this.playlist != null){
-        this.localPlaylist = this.playlist.albums[this.album].tracks
-        this.setAlt()
+  methods: {
+    overlayLoop(){
+      this.$refs.overlay.currentTime = 0
+      this.$refs.overlay.play()
+    },
+    togglePlay(){
+        this.$refs.sfx.src = "/audio/sys/press.mp3"
+        this.$refs.sfx.play()
+      if(this.play){
+        this.$refs.audio.pause()
+        if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(parseInt(this.songIndex))<0){this.$refs.overlay.pause()}
+      }
+      else{
         this.$refs.audio.play()
-    }
-
-    let that = this
-    window.addEventListener('keyup', function(ev) {
-        let x = ev.key.toLowerCase()
-        if(x==' '){that.togglePlay()}
-    });
+        if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(parseInt(this.songIndex))<0){this.$refs.overlay.play()}
+      }
+      this.play = !this.play
+    },
+      pushDoor(index){
+        this.audioInfo = index
+        this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.source
+      },
+    ended(){
+        this.endhit = true
+        if(this.altTriggered == false){
+          this.$refs.audio.currentTime = this.audioInfo.endTime
+        }
+        else{
+          this.$refs.audio.currentTime = this.audioInfo.altTrack.endTime
+        }
+        this.$refs.audio.play()
+        this.play = true
+    },
+    getAlbumInfo(){
+      axios.get(`/audio/${this.$store.getters.getPlaylist.albums[this.album].folder}/info.json`)
+      .then((response) => {
+          this.loaded = true
+          this.trackList = response.data.tracks
+          this.albumLocation = this.$store.getters.getPlaylist.albums[this.album].folder
+          this.audioInfo = this.trackList[this.localPlaylist[0]]
+      })
+    },
+    timeCheck(){
+      //random jump check
+      if(this.$refs.audio.currentTime > 3 && this.audioInfo.randomJump != null && this.audioInfo.randomJump > this.$refs.audio.currentTime){
+        let random = Math.floor(Math.random() * 20);
+        if(random == 0){
+          this.$refs.audio.currentTime = this.audioInfo.randomJump
+        }
+      }
+      //activates optionTime / pushes door
+      if(this.altTriggered == false){
+          if(this.$refs.audio.currentTime >= this.audioInfo.endTime){
+              this.currentIndex = this.currentIndex + 1
+              this.pushDoor(this.trackList[this.localPlaylist[this.currentIndex]])
+          }
+        }
+      },
   },
   computed: {
-    pathArray() {
-        let path = this.$route.params.path
-        return path.split("+")
-    },
     playlist() {
       return this.$store.getters.getPlaylist
-    }
+    },
+  },
+  beforeMount(){
+    if(this.playlist != null){this.getAlbumInfo()}
+  },
+  mounted(){
+    this.localPlaylist = this.$route.params.path.split("+")
+    let that = this
+    window.addEventListener('keyup', function(ev) {
+      let x = ev.key.toLowerCase()
+      switch (x) {
+        case ' ':
+          that.togglePlay()
+          break;
+      }
+    })
   },
   watch:{
     playlist(){
-        this.localPlaylist = this.playlist.albums[this.album].tracks
-        this.trackInfo = this.localPlaylist[this.pathArray[this.currentTrackIndex].split("alt")[0]]
-        this.$refs.audio.src = `/audio/${this.album}/${this.trackInfo.source}`;
-        this.$refs.audio.play()
+      if(this.album > this.$store.getters.getPlaylist.albums.length - 1){
+        this.$router.push({ path: `/`})
+      }
+      else{
+        this.getAlbumInfo()
+      }
     },
+    audioInfo(){
+      if(this.$refs.audio != undefined){
+        this.$refs.audio.pause();
+        this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.source;
+        this.$refs.audio.currentTime = 0;
+        this.$refs.audio.play()
+        this.play = true
+      }
+    }
   },
 }
 </script>
 
 <style lang="sass">
-#controls
-    img
-        display: black
-        width: 50px
-        cursor: pointer
 </style>

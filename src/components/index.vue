@@ -33,6 +33,7 @@
         </select>
         </div>
         <div class="credits normText">
+          <p>{{item.blurb}}</p>
           <span><b>written by </b> 
           <template v-if="item.credits.writer[1] == null">
           {{item.credits.writer[0]}}
