@@ -1,59 +1,139 @@
-# Audio File Placement
-Place audio tracks in the /audio/ folder. Tracks should be in a folder named according to their placement on the album array in the JSON document (/0/ for first array, /1/ for second, etc...).<br />
-the only file required in your audio adventure folder is a "casette.jpg".
+# Where To Put Files
 
-# JSON Formatting
+Albums go in their own folder within the /audio/ folder.
 
-## Albums
-The follow code is the template for albums:
-```
+# Editing playlist.json
+
+Once the album folder is created, it needs to be added in playlist.json for the engine to find it.<br>
+Add another object to the albums array in playlist.json with the following properties:
+```json
 {
-    "name":"ALBUM NAME",
-    "img":"ALBUM_IMAGE.jpg",
-    "notFoundTrack":"404TrackName.mp3",
+    "name":"ALBUM_NAME",
+    "img":"cover.jpg",
+    "folder":"foldername",
+    "blurb":"short description of adventure for homepage.",
+    "credits":{
+        "writer":["WRITER_NAME", null],
+        "art": ["COVER_ARTIST_NAME", "http://www.google2.com/"],
+        "va": [
+            ["VOICE_ACTOR_NAME",null],
+            ["ANOTHER_VOICE_ACTOR","http://www.google.com/"]
+        ]
+    }
+}
+```
+## Cover Image
+
+The album's cover image should be in the album's folder.
+
+## Credits Format
+
+Each credit is formatted as an array with two index. The first index should be the name of the person, the second should be their website. If the artist doesn't have a website, the index for websites should be null.
+
+# Configuring album's info.json
+
+Within every album's folder should be a file named info.json. This file has two main parts: inventory and tracks. It should adhere to the follow structure:
+```json
+{
     "inventoryItems": [],
-    "tracks":[{}]
+    "tracks":[]
+}
+```
+
+## Configuring Items
+
+Items are a useful tool in creating adventures. Each item should have the following structrue:
+
+```json
+    "inventoryItems": [
+        {
+            "itemName":"ITEM_NAME",
+            "maxAmt": 2,
+            "autoDoor":{
+                "keysNeededForAutoDoor":2,
+                "autoDoorLocation":9
+            }
+        }
+    ],
+```
+**itemName** is the name of the item.<br>
+**maxAmt** is the max amount of the item the player can get. If there is no maxAmt, set this to null.<br>
+**autoDoor** is when you want the user to be automatically transported to a track after collecting a certain amount of this item. If you don't want this effect to occur, set autoDoor to null.
+
+## Configuring Tracks
+
+The tracks array should always have an empty object as index 0, so the track numbers line up with their placement in the array. After index 0, each object within the track array should have the following properties:
+```json
+"tracks":[{},
+        {
+            "source": "AUDIO_FILE_NAME.mp3",
+            "name": "TRACK NAME",
+            "endTime": 9,
+            "f": 2,
+            "j": 3,
+            "key": null,
+            "door": null,
+            "invCheck": null,
+            "altTrack": null,
+            "randomJump": null
+        }
+]
+```
+**source** is the location of the audio file associated with track within the album's folder.<br>
+**name** is the track name.<br>
+**endTime** is the timecode within the audio file when the audio portion ends, and the option voice over begins.<br>
+**f** and **j** are the indexes of the tapes presented by their respective options.
+
+## key property
+If not null, the key property should contain an object like the following:
+```json
+"key": {
+    "keyIndex":0,
+    "overlaySound":null
+}
+```
+**keyIndex** defines what key is associated with this track. it's an int that points to the index of the key within the inventoryItems array.<br>
+**overlaySound** is an optional property that allows the user to play a sound over the track already playing when a key is on the track and not yet claimed. The overlaySound turns off after the action button is pressed. If not null, this property should be a string that names the sound's file within the album's folder. (ie: "track2overlay.mp3")
+
+## door property
+
+Doors are for when you want the user to be able to go to a new track upon hitting the action button, typically with the condition that they have a required key. Doors follow the following format:
+```json
+"door": {
+    "objectRequired":0,
+    "numberRequired":1,
+    "doorDestination": 4
+}
+```
+**objectRequired** references the index of the required key within the inventoryItems array.<br>
+**numberRequired** is the amount of that key is required to open the door.<br>
+**doorDestination** is the tape index that opening the door while take you to.
+
+## invCheck property
+
+invCheck is a property that when set to something besides null, checks certain conditions within your inventory. if the conditions are met, this track plays it's altTrack (see next section) instead of the main audio file. invCheck should following this format:
+
+```json
+"invCheck": {
+    "itemRequired":0,
+    "numberRequired":1
 },
 ```
+**itemRequired** references the index of the required key within the inventoryItems array.<br>
+**numberRequired** is the amount of that key is required to trigger the altTrack.
 
-## Tracks
-To ensure indexes sync up with track numbers, the first item in the track array should always be a black object ({}).<br />
-The following code is the template for track objects within the track array within the album object:
-```
-{
-    "source": "TrackFile.mp3",
-    "name": "TRACK NAME",
-    "endTime": INT WERE TRACK ENDS AND INSTRUCTION BEGINS,
-    "f": INDEX OF F TRACK,
-    "j": INDEX OF J TRACK,
-    "key": null,
-    "door": null,
-    "doorDestination": null,
-    "altTrack": null,
-    "altEnd": null
-},
-```
 
-## Inventory
-Within the album object is an array called 'inventoryItems'. Fill this array with strings representing each variable you want the user's inventory to contain.<br /><br />Example:
+## altTrack property
+altTrack is a track alternative to the main track indicated by the source property. This track is played under certain conditions, such as when returning to the track after a key has been claimed, or the invCheck condition has been met. This property should have the following:
+```json
+"altTrack": {
+    "source":"track4alt.mp3",
+    "endTime": 5
+}
 ```
-inventoryItems: ["rabbit", "potato", "gem"]
-```
-These variables can now be referenced within tracks through the key and door traits.
+**source** is the location of the audio file in the album's folder.<br>
+**endTime** is the timecode within the audio file when the audio portion ends, and the option voice over begins.
 
-## Keys
-The key trait requires an int that references the inventoryItems array.<br /><br />Using the inventoryItems example above, the below example would make it so hitting the action button on the specific track increases the gem counter in the user's inventory (gem having the index of 2 in the inventoryItems array):
-```
-"key":2
-```
-Only one key can be applied to a track, and each key can only be applied to a user's inventory once per track. If you don't want a track to have a key, the key trait should be given the value of null.
-
-## Alt Tracks
-If you want the track to play a different audio file after returning having already claimed the track's key, use the 'altTrack' and 'altEnd' traits to define the audio file and its end time.
-
-## Doors
-The purpose of key variables is to unlock doors. To set a track to require a key to advance to a hidden track, set the door trait to an array. The first value of the array defines what variable you're looking for (in reference to the inventoryItems array), and the second value should be how many of that key are required to unlock the door. The 'doorDestination' trait defines what track unlocking the door would take you to.<br /><br />The following example requires 3 gems, and would take the user to track 7 upon hitting the action door with the necessary gems in inventory:
-```
-"door": [2,3],
-"doorDestination": 7
-```
+## randomJump property
+randomJump is a property that allows the tape to randomly jump to a portion of the track. If not null, this should be that int of whatever time you want the tape to jump to when trigged.<br>
+randomJump can only be triggered after 3 seconds of the beginning of the track and before the timestamp indicated by the randomJump property.
