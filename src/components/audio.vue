@@ -66,6 +66,7 @@ export default {
         },
         play: true,
         currentPath: [],
+        pathToPush: [],
         album: this.$route.params.album,
         albumLocation: null,
         endhit: false,
@@ -80,6 +81,7 @@ export default {
         doorInWing: null,
         altTriggered: false,
         trackList: null,
+        trackToPush: null
     }
   },
   methods: {
@@ -170,18 +172,18 @@ export default {
         return false
       }
     },
-      pushDoor(index){
-        this.doorInWing = null
-        this.$router.push({ path: `/${this.album}/${index}`})
-        this.songIndex = index
-        this.audioInfo = this.trackList[this.songIndex]
-        this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.source
-        this.currentPath.push(this.songIndex)
-        this.optionTime = false
-      },
+    pushDoor(index){
+      this.doorInWing = null
+      this.$router.push({ path: `/${this.album}/${index}`})
+      this.songIndex = index
+      this.audioInfo = this.trackList[this.songIndex]
+      this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.source
+      this.currentPath.push(this.songIndex)
+      this.optionTime = false
+    },
     replay(){
-        this.$refs.sfx.src = "/audio/sys/press.mp3"
-        this.$refs.sfx.play()
+      this.$refs.sfx.src = "/audio/sys/press.mp3"
+      this.$refs.sfx.play()
       this.$refs.audio.currentTime = 0
       this.checkOverlay()
     },
@@ -230,12 +232,11 @@ export default {
           this.$router.push({ path: `/${this.album}/${index}`})
           this.songIndex = index
           this.audioInfo = this.trackList[this.songIndex]
-
           if(this.currentPath.indexOf(this.songIndex) > -1){
             this.optionTime = true
           }
           else{
-          this.optionTime = false
+            this.optionTime = false
           }
           this.currentPath.push(this.songIndex)
         }
@@ -296,8 +297,8 @@ export default {
     },
     pathprint(){
       let printedPath = ""
-      for(let i = 0; i<this.currentPath.length;i++){
-        printedPath += this.currentPath[i] + "+"
+      for(let i = 0; i<this.pathToPush.length;i++){
+        printedPath += this.pathToPush[i] + "+"
       }
       printedPath = printedPath.slice(0,printedPath.length-1)
       return printedPath
@@ -370,6 +371,10 @@ export default {
       }
     },
     audioInfo(){
+      if(this.trackToPush != null){this.pathToPush.push(this.trackToPush)}
+      this.trackToPush = this.songIndex
+      console.log(this.trackToPush)
+      console.log(this.pathToPush)
       if(this.$refs.audio != undefined){
         this.$refs.audio.pause();
         if(this.audioInfo.invCheck != null && this.audioInfo.invCheck.numberRequired <= this.inventory[this.itemList[this.audioInfo.invCheck.itemRequired].itemName]
@@ -377,6 +382,7 @@ export default {
         this.audioInfo.key != null && !this.belowMax(this.audioInfo.key.keyIndex)){
           this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.altTrack.source;
           this.altTriggered = true
+          this.trackToPush += "alt"
         }
         else{
           this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.source;
