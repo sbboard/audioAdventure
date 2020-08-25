@@ -7,8 +7,9 @@
       <img alt="casette player" src="../assets/player.png">
       </div>
 
-      <audio ref="overlay" @ended='overlayLoop'>
-      <source src="" type="audio/mpeg">
+      <audio @play="tagOverlay()" autoplay v-if="(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(parseInt(this.songIndex))<0)" 
+      ref="overlay" @ended='overlayLoop'>
+      <source :src="'/audio/'+this.albumLocation+'/'+this.audioInfo.key.overlaySound" type="audio/mpeg">
       </audio>
 
       <template v-if="audioInfo.name != 'Blank Tape'">
@@ -104,17 +105,6 @@ export default {
       this.$refs.overlay.currentTime = 0
       this.$refs.overlay.play()
     },
-    checkOverlay(){
-      this.$refs.overlay.pause()
-      if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(parseInt(this.songIndex))<0){
-        this.$refs.overlay.src = '/audio/'+this.albumLocation+'/'+this.audioInfo.key.overlaySound
-        this.$refs.overlay.currentTime = 0
-        this.$refs.overlay.play()
-      }
-      else{
-        this.$refs.overlay.src = ""
-      }
-    },
     togglePlay(){
         this.$refs.sfx.src = "/audio/sys/press.mp3"
         this.$refs.sfx.play()
@@ -127,6 +117,9 @@ export default {
         if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(parseInt(this.songIndex))<0){this.$refs.overlay.play()}
       }
       this.play = !this.play
+    },
+    tagOverlay(){
+      this.trackToPush += "overlay"
     },
     action(){
       //if there's a key
@@ -141,6 +134,7 @@ export default {
         this.$refs.sfx.src = "/audio/sys/action.mp3"
         this.$refs.sfx.play()
         if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null){
+          this.trackToPush += this.$refs.overlay.currentTime
           this.$refs.overlay.src = ""
         }
       }
@@ -185,7 +179,6 @@ export default {
       this.$refs.sfx.src = "/audio/sys/press.mp3"
       this.$refs.sfx.play()
       this.$refs.audio.currentTime = 0
-      this.checkOverlay()
     },
     ended(){
         this.endhit = true
@@ -391,7 +384,6 @@ export default {
         this.$refs.audio.currentTime = 0;
         this.$refs.audio.play()
         this.play = true
-        this.checkOverlay()
       }
     }
   },
