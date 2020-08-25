@@ -95,9 +95,11 @@ export default {
       this.audioInfo.j = ''
       this.endhit = true
       this.$refs.audio.src = ""
+      this.pathToPush.push(this.trackToPush)
       this.ejected = true
       this.$refs.sfx.src = "/audio/sys/eject.mp3"
       this.$refs.overlay.src = ""
+
       this.$refs.sfx.play()
       }
     },
@@ -134,7 +136,8 @@ export default {
         this.$refs.sfx.src = "/audio/sys/action.mp3"
         this.$refs.sfx.play()
         if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null){
-          this.trackToPush += this.$refs.overlay.currentTime
+          let that = this
+          this.trackToPush += Math.floor(that.$refs.audio.currentTime)
           this.$refs.overlay.src = ""
         }
       }
@@ -182,6 +185,9 @@ export default {
     },
     ended(){
         this.endhit = true
+        if(this.audioInfo.f=='' && this.audioInfo.j ==''&& this.pathToPush.indexOf(this.trackToPush)<0){
+          this.pathToPush.push(this.trackToPush)
+        }
         if(this.altTriggered == false){
           //i'm not deleting the below code bc i think it's really funny
           //let endTime = this.audioInfo.endTime.includes("rand") ? parseInt(this.audioInfo.endTime.replace("rand(","").replace(")","").split(",")[1]) : this.audioInfo.endTime
@@ -256,8 +262,9 @@ export default {
             if(this.doorInWing != null){
               this.pushDoor(this.doorInWing)
             }else{
+              if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(parseInt(this.songIndex))<0){this.$refs.overlay.src = ""}
               this.optionTime = true
-              this.$refs.overlay.src = ""}
+            }
           }
         }
       }
@@ -268,8 +275,8 @@ export default {
             if(this.doorInWing != null){
               this.pushDoor(this.doorInWing)
             }else{
+              if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(parseInt(this.songIndex))<0){this.$refs.overlay.src = ""}
               this.optionTime = true
-              this.$refs.overlay.src = ""
             }
           }
         }
