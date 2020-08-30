@@ -16,6 +16,7 @@
         <source :src="'/audio/'+albumLocation+'/'+audioInfo.source" type="audio/mpeg">
         </audio>
       </template>
+      
       <template v-else>
         <audio autoplay @ended='ended' ref="audio" @timeupdate="timeCheck()">
         <source src='/audio/sys/404tape.mp3' type="audio/mpeg">
@@ -47,7 +48,6 @@ export default {
     return{
         loaded: false,
         localPlaylist: null,
-        songIndex: this.$route.params.id,
         audioInfo: {
           "source": "",
           "name": "loading",
@@ -74,17 +74,25 @@ export default {
         this.$refs.sfx.play()
       if(this.play){
         this.$refs.audio.pause()
-        if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(parseInt(this.songIndex))<0){this.$refs.overlay.pause()}
+        if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null){this.$refs.overlay.pause()}
       }
       else{
         this.$refs.audio.play()
-        if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(parseInt(this.songIndex))<0){this.$refs.overlay.play()}
+        if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null){this.$refs.overlay.play()}
       }
       this.play = !this.play
     },
       pushDoor(index){
         this.audioInfo = index
-        this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.source
+        if(this.localPlaylist[this.currentIndex].includes("alt")){
+          console.log(this.audioInfo.altTrack.source)
+          this.audioInfo.source = this.audioInfo.altTrack.source
+          this.altTriggered = true
+        }
+        else{
+          this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.source
+          this.altTriggered = false
+        }
       },
     ended(){
         this.endhit = true
@@ -116,9 +124,15 @@ export default {
       }
       //activates optionTime / pushes door
       if(this.altTriggered == false){
-          if(this.$refs.audio.currentTime >= this.audioInfo.endTime){
-              this.currentIndex = this.currentIndex + 1
-              this.pushDoor(this.trackList[this.localPlaylist[this.currentIndex]])
+          if(this.$refs.audio.currentTime >= this.audioInfo.endTime || this.$refs.audio.currentTime == this.$refs.audio.duration){
+              this.currentIndex++
+              this.pushDoor(this.trackList[this.localPlaylist[this.currentIndex][0]])
+          }
+        }
+        else{
+            if(this.$refs.audio.currentTime >= this.audioInfo.altTrack.endTime || this.$refs.audio.currentTime == this.$refs.audio.duration){
+              this.currentIndex++
+              this.pushDoor(this.trackList[this.localPlaylist[this.currentIndex][0]])
           }
         }
       },
