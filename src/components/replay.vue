@@ -7,8 +7,8 @@
       <img alt="casette player" src="../assets/player.png">
       </div>
 
-      <audio ref="overlay" @ended='overlayLoop'>
-      <source src="" type="audio/mpeg">
+      <audio autoplay ref="overlay" @ended='overlayLoop' v-if="overlayOn">
+      <source :src="'/audio/'+this.albumLocation+'/'+this.audioInfo.key.overlaySound" type="audio/mpeg">
       </audio>
 
       <template v-if="audioInfo.name != 'Blank Tape'">
@@ -62,6 +62,8 @@ export default {
         currentIndex: 0,
         altTriggered: false,
         trackList: null,
+        overlayEnd: 0,
+        overlayOn: false
     }
   },
   methods: {
@@ -84,8 +86,16 @@ export default {
     },
       pushDoor(index){
         this.audioInfo = index
+
+        if(this.localPlaylist[this.currentIndex].includes("overlay")){
+          this.overlayEnd = this.localPlaylist[this.currentIndex].split("overlay")[1]
+          this.overlayOn = true
+        }
+        else{
+          this.overlayOn = false
+        }
+
         if(this.localPlaylist[this.currentIndex].includes("alt")){
-          console.log(this.audioInfo.altTrack.source)
           this.audioInfo.source = this.audioInfo.altTrack.source
           this.altTriggered = true
         }
@@ -115,6 +125,9 @@ export default {
       })
     },
     timeCheck(){
+      if(this.$refs.audio.currentTime > this.overlayEnd){
+        this.overlayOn = false
+      }
       //random jump check
       if(this.$refs.audio.currentTime > 3 && this.audioInfo.randomJump != null && this.audioInfo.randomJump > this.$refs.audio.currentTime){
         let random = Math.floor(Math.random() * 20);
