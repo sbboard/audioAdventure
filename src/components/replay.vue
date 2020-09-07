@@ -32,6 +32,11 @@
       <i @click="togglePlay()" v-if="!play" class="fas fa-4x fa-play"></i>
       </div>
     </div>
+
+    <div id="endMenu" :class="{hiddenSpot: !itsOver}">
+      <a :href="'/replay/'+album+'/'+this.$route.params.path">Relisten to Adventure</a>
+    </div>
+
     <footer><i class="fas fa-copyright"></i> <a href="http://www.theinvisiblesundial.com/">invisible sundial</a> x <a href="https://gang-fight.com/">gang fight</a></footer>
     </template>
     <template v-else>
@@ -63,7 +68,8 @@ export default {
         altTriggered: false,
         trackList: null,
         overlayEnd: 0,
-        overlayOn: false
+        overlayOn: false,
+        itsOver: false,
     }
   },
   methods: {
@@ -135,6 +141,7 @@ export default {
           this.$refs.audio.currentTime = this.audioInfo.randomJump
         }
       }
+      if(this.currentIndex + 1 < this.localPlaylist.length){
       //activates optionTime / pushes door
       if(this.altTriggered == false){
           if(this.$refs.audio.currentTime >= this.audioInfo.endTime || this.$refs.audio.currentTime == this.$refs.audio.duration){
@@ -148,6 +155,12 @@ export default {
               this.pushDoor(this.trackList[this.localPlaylist[this.currentIndex][0]])
           }
         }
+      }
+      else{
+        if(this.$refs.audio.currentTime > this.audioInfo.endTime){
+          this.itsOver = true
+        }
+      }
       },
   },
   computed: {
