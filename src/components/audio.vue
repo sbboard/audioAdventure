@@ -27,7 +27,7 @@
       <source src="/audio/sys/press.mp3" type="audio/mpeg">
       </audio>
 
-      <div id="controls">
+      <div id="controls" v-if="!ejected">
       <img alt="f-key" v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('f')" src="../assets/f.png" :class="{pressed: fpressed, faded: !optionTime}">
       <i v-if="audioInfo.name != 'Blank Tape'" @click="replay()" class="fas  fa-4x fa-backward"></i>
       <i @click="togglePlay()" v-if="play" class="fas fa-4x fa-pause"></i>
