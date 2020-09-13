@@ -29,7 +29,7 @@
         <router-link :to="'/'+index+'/1'">Start At Tape 1</router-link><br>
         Select Specific Tape: 
         <select @change="specificTape($event.target.value)">
-          <option v-for="(item, indexTwo) in localPlaylist[index].tracks" :key="item.name" :value="`/${index}/${indexTwo}`">{{indexTwo}}</option>
+          <option v-for="indexTwo in localPlaylist[index].numberOfTapes" :key="indexTwo" :value="`/${index}/${indexTwo}`">{{indexTwo}}</option>
         </select>
         </div>
         <div class="credits normText">

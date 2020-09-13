@@ -9,7 +9,8 @@
                 "writer":["Boss", null],
                 "art": ["Doug", "http://www.google2.com/"],
                 "va": [["boss",null],["boss2","http://www.google.com/"]]
-            }
+            },
+            "numberOfTapes":5
         }
     ]
 }

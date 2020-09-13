@@ -2,7 +2,6 @@ import Vue from "vue"
 import Router from "vue-router"
 import Home from "./components/index.vue"
 import Audio from "./components/audio.vue"
-//import Replay from "./components/replay.vue"
 const Replay = () => import(/* webpackChunkName: "group-replay" */ "./components/replay.vue")
 
 Vue.use(Router);
