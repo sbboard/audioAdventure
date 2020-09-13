@@ -28,13 +28,17 @@
       </audio>
 
       <div id="controls" v-if="!ejected">
+
       <img alt="f-key" v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('f')" src="../assets/f.png" :class="{pressed: fpressed, faded: !optionTime}">
+      
       <i v-if="audioInfo.name != 'Blank Tape'" @click="replay()" class="fas  fa-4x fa-backward"></i>
       <i @click="togglePlay()" v-if="play" class="fas fa-4x fa-pause"></i>
       <i @click="togglePlay()" v-if="!play" class="fas fa-4x fa-play"></i>
       <i @click="eject()" class="fas fa-4x fa-eject"></i>
       <i @click="action()" v-if="audioInfo.name != 'Blank Tape'" class="fas fa-4x fa-bolt"></i>
+      
       <img alt="j-key" v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('j')" src="../assets/j.png" :class="{pressed: jpressed, faded: !optionTime}">
+      
       </div>
     </div>
     <div id="endMenu" :class="{hiddenSpot: hiddenSpotCheck}">
@@ -381,7 +385,11 @@ export default {
         if(this.audioInfo.invCheck != null && this.audioInfo.invCheck.numberRequired <= this.inventory[this.itemList[this.audioInfo.invCheck.itemRequired].itemName]
         || this.trackKeysRecieved.indexOf(parseInt(this.songIndex))>=0 && this.audioInfo.altTrack != null ||
         this.audioInfo.key != null && !this.belowMax(this.audioInfo.key.keyIndex)){
-          this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.altTrack.source;
+          this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.altTrack.source
+          if(this.audioInfo.altTrack.f != null){
+            this.audioInfo.f = this.audioInfo.altTrack.f
+            this.audioInfo.j = this.audioInfo.altTrack.j
+          }
           this.altTriggered = true
           this.trackToPush += "alt"
         }

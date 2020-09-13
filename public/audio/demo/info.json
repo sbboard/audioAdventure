@@ -42,7 +42,7 @@
             "invCheck": null,
             "altTrack": null,
             "randomJump": null,
-            "autokey":1
+            "autokey":null
         },
         {
             "source": "track3.mp3",
@@ -59,14 +59,14 @@
             "invCheck": null,
             "altTrack": null,
             "randomJump": null,
-            "autokey":null
+            "autokey":1
         },
         {
             "source": "track4.mp3",
             "name": "Alt Track Test",
             "endTime": 18,
-            "f": 5,
-            "j": 6,
+            "f": 1,
+            "j": 1,
             "key": null,
             "door": null,
             "invCheck": {
@@ -75,7 +75,9 @@
             },
             "altTrack": {
                 "source":"track4alt.mp3",
-                "endTime": 5
+                "endTime": 5,
+                "f": 5,
+                "j": 6
             },
             "randomJump": null,
             "autokey":null
@@ -94,7 +96,9 @@
             "invCheck": null,
             "altTrack": {
                 "source":"track567alt.mp3",
-                "endTime":12
+                "endTime":12,
+                "f":null,
+                "j":null
             },
             "randomJump": null,
             "autokey":null
@@ -113,7 +117,9 @@
             "invCheck": null,
             "altTrack": {
                 "source":"track567alt.mp3",
-                "endTime":12
+                "endTime":12,
+                "f":null,
+                "j":null
             },
             "randomJump": null,
             "autokey":null
@@ -132,7 +138,9 @@
             "invCheck": null,
             "altTrack": {
                 "source":"track567alt.mp3",
-                "endTime":11
+                "endTime":11,
+                "f":null,
+                "j":null
             },
             "randomJump": null,
             "autokey":null
