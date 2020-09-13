@@ -38,7 +38,7 @@
       </div>
     </div>
     <div id="endMenu" :class="{hiddenSpot: hiddenSpotCheck}">
-      <a :href="'/'+album+'/1'">Restart Adventure</a>
+      <div @click="setupRestart()">Restart Adventure</div>
       <router-link :to="'/replay/'+album+'/'+pathprint">Relisten to Adventure</router-link>
     </div>
     <footer><i class="fas fa-copyright"></i> <a href="http://www.theinvisiblesundial.com/">invisible sundial</a> x <a href="https://gang-fight.com/">gang fight</a></footer>
@@ -75,6 +75,7 @@ export default {
         fpressed: false,
         optionTime: false,
         inventory: {},
+        defaultList: {},
         itemList: [],
         trackKeysRecieved: [],
         devMode: process.env.VUE_APP_DEV,
@@ -91,17 +92,20 @@ export default {
         this.$router.push({ path: `/`})
       }
       if(this.ejected == false){
-      this.audioInfo.f = ''
-      this.audioInfo.j = ''
-      this.endhit = true
-      this.$refs.audio.src = ""
-      this.pathToPush.push(this.trackToPush)
-      this.ejected = true
-      this.$refs.sfx.src = "/audio/sys/eject.mp3"
-      this.$refs.overlay.src = ""
-
-      this.$refs.sfx.play()
+        this.$refs.audio.src = ""
+        this.pathToPush.push(this.trackToPush)
+        this.ejected = true
+        this.$refs.sfx.src = "/audio/sys/eject.mp3"
+        this.$refs.overlay.src = ""
+        this.$refs.sfx.play()
       }
+    },
+    setupRestart(){
+      this.pathToPush = []
+      this.ejected = false
+      this.trackKeysRecieved = []
+      this.getAlbumInfo()
+      this.pushDoor(1)
     },
     overlayLoop(){
       this.$refs.overlay.currentTime = 0
@@ -175,8 +179,8 @@ export default {
       this.songIndex = index
       this.audioInfo = this.trackList[this.songIndex]
       this.$refs.audio.src = "/audio/"+this.albumLocation+'/'+this.audioInfo.source
+      this.optionTime = this.currentPath.indexOf(index) > -1 ? true : false
       this.currentPath.push(this.songIndex)
-      this.optionTime = false
     },
     replay(){
       this.$refs.sfx.src = "/audio/sys/press.mp3"
@@ -189,8 +193,6 @@ export default {
           this.pathToPush.push(this.trackToPush)
         }
         if(this.altTriggered == false){
-          //i'm not deleting the below code bc i think it's really funny
-          //let endTime = this.audioInfo.endTime.includes("rand") ? parseInt(this.audioInfo.endTime.replace("rand(","").replace(")","").split(",")[1]) : this.audioInfo.endTime
           this.$refs.audio.currentTime = this.audioInfo.endTime
         }
         else{
@@ -203,8 +205,8 @@ export default {
       axios.get(`/audio/${this.$store.getters.getPlaylist.albums[this.album].folder}/info.json`)
       .then((response) => {
             this.loaded = true
-        this.trackList = response.data.tracks
-        this.albumLocation = this.$store.getters.getPlaylist.albums[this.album].folder
+          this.trackList = response.data.tracks
+          this.albumLocation = this.$store.getters.getPlaylist.albums[this.album].folder
 
           if(this.songIndex < this.trackList.length) {
             this.audioInfo = this.trackList[this.songIndex]
@@ -246,6 +248,7 @@ export default {
       for(let i=0;i<inventoryItems.length;i++){
         this.inventory[inventoryItems[i].itemName] = 0
       }
+      this.defaultList = this.inventory
     },
     timeCheck(){
       //random jump check
@@ -288,7 +291,7 @@ export default {
       return this.$store.getters.getPlaylist
     },
     hiddenSpotCheck(){
-      if(this.audioInfo.f == '' && this.audioInfo.j == '' && this.endhit == true && this.audioInfo.name != 'Blank Tape'){
+      if(this.audioInfo.f == '' && this.audioInfo.j == '' && this.endhit == true && this.audioInfo.name != 'Blank Tape' || this.ejected == true){
         return false
       }
       else{
@@ -373,8 +376,6 @@ export default {
     audioInfo(){
       if(this.trackToPush != null){this.pathToPush.push(this.trackToPush)}
       this.trackToPush = this.songIndex
-      console.log(this.trackToPush)
-      console.log(this.pathToPush)
       if(this.$refs.audio != undefined){
         this.$refs.audio.pause();
         if(this.audioInfo.invCheck != null && this.audioInfo.invCheck.numberRequired <= this.inventory[this.itemList[this.audioInfo.invCheck.itemRequired].itemName]
