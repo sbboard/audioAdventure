@@ -393,6 +393,10 @@ export default {
         this.$refs.audio.play()
         this.play = true
       }
+      if(this.audioInfo.autokey!=null && this.trackKeysRecieved.indexOf(this.songIndex) < 0){
+        this.inventory[this.itemList[this.audioInfo.autokey].itemName] = this.inventory[this.itemList[this.audioInfo.autokey].itemName]+1
+        this.trackKeysRecieved.push(this.songIndex)
+      }
     }
   },
 }
