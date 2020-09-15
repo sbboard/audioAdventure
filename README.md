@@ -19,7 +19,8 @@ Add another object to the albums array in playlist.json with the following prope
             ["VOICE_ACTOR_NAME",null],
             ["ANOTHER_VOICE_ACTOR","http://www.google.com/"]
         ]
-    }
+    },
+    "numberOfTapes":1
 }
 ```
 ## Cover Image
@@ -75,7 +76,8 @@ The tracks array should always have an empty object as index 0, so the track num
             "door": null,
             "invCheck": null,
             "altTrack": null,
-            "randomJump": null
+            "randomJump": null,
+            "autokey":null
         }
 ]
 ```
@@ -128,12 +130,20 @@ altTrack is a track alternative to the main track indicated by the source proper
 ```json
 "altTrack": {
     "source":"track4alt.mp3",
-    "endTime": 5
+    "endTime": 5,
+    "f": null,
+    "j": null
 }
 ```
 **source** is the location of the audio file in the album's folder.<br>
 **endTime** is the timecode within the audio file when the audio portion ends, and the option voice over begins.
+**f** and **j** can be paths that are different from the track's default. They should be an int that correlates to the tapes they lead to. If left null, the default paths will be used.
 
 ## randomJump property
 randomJump is a property that allows the tape to randomly jump to a portion of the track. If not null, this should be that int of whatever time you want the tape to jump to when trigged.<br>
 randomJump can only be triggered after 3 seconds of the beginning of the track and before the timestamp indicated by the randomJump property.
+
+## autoKey property
+This is a property that silently automatically gives the user a key upon loading the track. This is useful in contexts where you want to know whether or not a user has been to a track or not.<br>
+If not null, this should index of the key you want to award within the inventoryItems array.<br><br>
+**warning with autoKey:** there can only be one type of key on each track. if your track contains at autoKey, it will overwrite any normal key assigned to the track.
