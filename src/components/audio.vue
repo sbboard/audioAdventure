@@ -23,7 +23,7 @@
         </audio>
       </template>
 
-      <audio ref="sfx">
+      <audio ref="sfx" id="sfx">
       <source src="/audio/sys/press.mp3" type="audio/mpeg">
       </audio>
 
@@ -100,7 +100,9 @@ export default {
         this.pathToPush.push(this.trackToPush)
         this.ejected = true
         this.$refs.sfx.src = "/audio/sys/eject.mp3"
-        this.$refs.overlay.src = ""
+        if(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(parseInt(this.songIndex))<0){
+          this.$refs.overlay.pause()
+        }
         this.$refs.sfx.play()
       }
     },
