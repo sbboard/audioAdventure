@@ -52,11 +52,7 @@
           </span>
           <span><b>voice talent by </b> 
           <div v-for="(person, indexTwo) in item.credits.va" :key='person[0]' class="actor">
-          <template v-if="person[1] == null">
-          {{person[0]}}
-          </template><template v-else>
-          <a :href="person[1]">{{person[0]}}</a>
-          </template><template v-if="indexTwo < item.credits.va.length - 1">, </template>
+          <template v-if="person[1] == null">{{person[0]}}</template><template v-else><a :href="person[1]">{{person[0]}}</a></template><span class="comma" v-if="indexTwo < item.credits.va.length - 1">, </span>
           </div>
 
           </span>
@@ -220,6 +216,10 @@ html
           font-weight: 800
         span
           display: block
+          .comma
+            display: inline
+            width: fit-content
+            white-space: break-spaces
         .actor
           display: inline-block
         a
