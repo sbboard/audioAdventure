@@ -12,7 +12,7 @@
       </p>
     </div>
 
-<div id="instructions" class="normText">
+<div id="instructions">
   <h2>Keyboard Controls</h2>
 <div>
   <img src="../assets/instructions.png"
@@ -22,17 +22,14 @@
   </div>
   </div>
       <div v-for="(item, index) in localPlaylist" :key="item.name" class="albumBox">
-        <div class="info">
         <router-link :to="'/'+index+'/1'"><img :alt='item.name + " cover"' :src='"/audio/"+item.folder+"/"+item.img'/></router-link>
-        <br>
+        <div class="info">
         <div class="boldName">{{item.name}}</div>
         <router-link :to="'/'+index+'/1'">Start At Tape 1</router-link><br>
         Select Specific Tape: 
         <select @change="specificTape($event.target.value)">
           <option v-for="indexTwo in localPlaylist[index].numberOfTapes" :key="indexTwo" :value="`/${index}/${indexTwo}`">{{indexTwo}}</option>
         </select>
-        </div>
-        <div class="credits normText">
           <p>{{item.blurb}}</p>
           <span><b>written by </b> 
           <template v-if="item.credits.writer[1] == null">
@@ -95,6 +92,8 @@ export default {
 </script>
 
 <style lang="sass">
+$CYOARED: rgb(236,98,69)
+
 @mixin mobile
   @media (max-width: #{650px})
       @content
@@ -106,7 +105,7 @@ export default {
 
 @font-face
   font-family: invisibleFont
-  src: url("/fonts/New_Cicle_Fina.ttf")
+  src: url("/fonts/benga.otf")
 
 #boxBox
   justify-content: space-between
@@ -117,19 +116,18 @@ export default {
 footer
   position: absolute
   bottom: 1em
-  color: #797979
+  color: $CYOARED
   a
     text-transform: uppercase
     text-decoration: none
-    color: #797979
+    color: $CYOARED
 .boldName
     font-weight: 800
-    font-size: 1.25em
-    margin-bottom: .25em
-    margin: .5em
+    font-size: 1.5em
+    color: $CYOARED
 html
-  background-color: #1f1f1f
-  color: white
+  background-color: rgb(244,243,240)
+  color: black
   font-family: invisibleFont
   #indexWrap
     max-width: 1200px
@@ -141,12 +139,16 @@ html
     h1
       font-size: 2em
       text-align: center
+      background-color: $CYOARED
+      border-radius: .5em
+      padding: .25em
+      color: white
+      text-transform: uppercase
     h2
       font-size: 1.5em
       margin-top: 1em
     #cautionBox
       background-color: white
-      border: 2px solid black
       color: black
       margin-top: 1em
       padding: .5em
@@ -161,7 +163,6 @@ html
         font-weight: 600
       h2
         background-color: #FFE001
-        border: 2px solid black
         text-align: center
         padding: .25em
         margin: 0
@@ -173,7 +174,9 @@ html
     #instructions
       @extend #cautionBox
       h2
-        background-color: #ccc
+        background-color: $CYOARED
+        color: white
+        text-transform: uppercase
       span
         display: block
       i
@@ -186,22 +189,21 @@ html
       display: inline-block
       margin-top: 1em
       position: relative
-      width: calc(33.3% - 2em)
-      border: 1px solid #797979
+      width: 100%
       transition: width .5s
-      @include tablet
-        width: calc(33.3% - 2em)
-      @include mobile
-        width: calc(50% - 2em)
       img
-        width: 100%
+        width: 17%
+        border: 5px solid blue 
+        outline: 5px solid red
+        margin: 5px
       a
-        color: white
+        color: black
         &:visited
-          color: white
+          color: black
       .info
-        width: 50%
         display: inline-block
+        margin-left: .5em
+        vertical-align: top
       .credits
         line-height: 1.1
         font-size: .75em
@@ -225,5 +227,5 @@ html
         a
           color: #1F1F1F
 div.albumBox a
-  color: white
+  color: black
 </style>
