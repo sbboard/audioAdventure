@@ -25,34 +25,40 @@
         <router-link :to="'/'+index+'/1'"><img :alt='item.name + " cover"' :src='"/audio/"+item.folder+"/"+item.img'/></router-link>
         <div class="info">
         <div class="boldName">{{item.name}}</div>
-        <router-link :to="'/'+index+'/1'">Start At Tape 1</router-link><br>
+        <div class="topPart">
+        <router-link :to="'/'+index+'/1'" tag="button" class="startFirst">Start AT TAPE 1</router-link>
+        </div>
+        <div class="topPart">
         Select Specific Tape: 
         <select @change="specificTape($event.target.value)">
           <option v-for="indexTwo in localPlaylist[index].numberOfTapes" :key="indexTwo" :value="`/${index}/${indexTwo}`">{{indexTwo}}</option>
         </select>
-          <p>{{item.blurb}}</p>
-          <span><b>written by </b> 
-          <template v-if="item.credits.writer[1] == null">
-          {{item.credits.writer[0]}}
-          </template>
-          <template v-else>
-          <a :href="item.credits.writer[1]">{{item.credits.writer[0]}}</a>
-          </template>
-          </span>
-          <span><b>album art by </b> 
-          <template v-if="item.credits.art[1] == null">
-           {{item.credits.art[0]}}
-          </template>
-          <template v-else>
-           <a :href="item.credits.art[1]">{{item.credits.art[0]}}</a>
-          </template>
-          </span>
-          <span><b>voice talent by </b> 
-          <div v-for="(person, indexTwo) in item.credits.va" :key='person[0]' class="actor">
-          <template v-if="person[1] == null">{{person[0]}}</template><template v-else><a :href="person[1]">{{person[0]}}</a></template><span class="comma" v-if="indexTwo < item.credits.va.length - 1">, </span>
-          </div>
+        </div>
+          <p class="blurb">{{item.blurb}}</p>
+          <div class="creditSect">
+            <span><b>Written by </b> 
+            <template v-if="item.credits.writer[1] == null">
+            {{item.credits.writer[0]}}
+            </template>
+            <template v-else>
+            <a :href="item.credits.writer[1]">{{item.credits.writer[0]}}</a>
+            </template>
+            </span>
+            <span><b>Album Art by </b> 
+            <template v-if="item.credits.art[1] == null">
+            {{item.credits.art[0]}}
+            </template>
+            <template v-else>
+            <a :href="item.credits.art[1]">{{item.credits.art[0]}}</a>
+            </template>
+            </span>
+            <span><b>Voice Talent by </b> 
+            <div v-for="(person, indexTwo) in item.credits.va" :key='person[0]' class="actor">
+            <template v-if="person[1] == null">{{person[0]}}</template><template v-else><a :href="person[1]">{{person[0]}}</a></template><span class="comma" v-if="indexTwo < item.credits.va.length - 1">, </span>
+            </div>
 
-          </span>
+            </span>
+          </div>
         </div>
       </div>
 
@@ -92,7 +98,7 @@ export default {
 </script>
 
 <style lang="sass">
-$CYOARED: rgb(236,98,69)
+$CYOARED: #ff2300
 
 @mixin mobile
   @media (max-width: #{650px})
@@ -107,24 +113,60 @@ $CYOARED: rgb(236,98,69)
   font-family: invisibleFont
   src: url("/fonts/benga.otf")
 
+.startFirst
+  width: 100%
+  font-family: invisibleFont
+  font-size: 1em
+  padding: .5em 0
+  margin: .5em 0
+  background-color: $CYOARED
+  border-radius: .5em
+  color: white
+  text-transform: uppercase
+  border: 0
+.blurb
+  padding: 1em 0
+  border-top: solid black 1px
+  font-style: italic
+  margin: .5em 0
+  border-bottom: solid black 1px
+.topPart
+  font-size: 1.25em
 #boxBox
   justify-content: space-between
   display: flex
   @include mobile
     display: block
-
+.creditSect
+  span
+    display: block
+    .actor
+      display: inline
+    .comma
+      display: inline
+    b
+      font-weight: 700
+      
 footer
   position: absolute
-  bottom: 1em
-  color: $CYOARED
+  bottom: 0
+  padding: 1em 0
+  margin: 0 auto
+  display: block
+  left: 0
+  right: 0
+  text-align: center
+  color: black
+  background-color: #f4f3f0
   a
     text-transform: uppercase
     text-decoration: none
-    color: $CYOARED
+    color: black
 .boldName
     font-weight: 800
-    font-size: 1.5em
+    font-size: 2em
     color: $CYOARED
+    text-transform: uppercase
 html
   background-color: rgb(244,243,240)
   color: black
@@ -153,7 +195,7 @@ html
       margin-top: 1em
       padding: .5em
       border-radius: .5em
-      font-size: .75em
+      font-size: 1em
       display: inline-block
       width: calc(50% - 2em)
       @include mobile
@@ -192,9 +234,9 @@ html
       width: 100%
       transition: width .5s
       img
-        width: 17%
-        border: 5px solid blue 
-        outline: 5px solid red
+        width: 25%
+        //border: 5px solid blue 
+        //outline: 5px solid red
         margin: 5px
       a
         color: black
@@ -204,6 +246,7 @@ html
         display: inline-block
         margin-left: .5em
         vertical-align: top
+        margin-left: 1em
       .credits
         line-height: 1.1
         font-size: .75em
