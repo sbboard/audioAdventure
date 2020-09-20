@@ -124,6 +124,7 @@ $CYOARED: #ff2300
   color: white
   text-transform: uppercase
   border: 0
+  cursor: pointer
 .blurb
   padding: 1em 0
   border-top: solid black 1px
@@ -148,7 +149,7 @@ $CYOARED: #ff2300
       font-weight: 700
       
 footer
-  position: absolute
+  position: fixed
   bottom: 0
   padding: 1em 0
   margin: 0 auto
@@ -237,16 +238,15 @@ html
         width: 25%
         //border: 5px solid blue 
         //outline: 5px solid red
-        margin: 5px
       a
         color: black
         &:visited
           color: black
       .info
         display: inline-block
-        margin-left: .5em
         vertical-align: top
         margin-left: 1em
+        width: calc(75% - 1em)
       .credits
         line-height: 1.1
         font-size: .75em
