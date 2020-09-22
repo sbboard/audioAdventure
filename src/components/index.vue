@@ -1,4 +1,5 @@
 <template>
+<div>
   <div id="indexWrap">
     <h1>1000 Tapes of Fate</h1>
     <div id="boxBox">
@@ -64,6 +65,8 @@
 
       <footer><i class="fas fa-copyright"></i> <a href="http://www.theinvisiblesundial.com/">invisible sundial</a> x <a href="https://gang-fight.com/">gang fight</a></footer>
   </div>
+  <div id="cardboard"></div>
+</div>
 </template>
 
 <script>
@@ -99,6 +102,7 @@ export default {
 
 <style lang="sass">
 $CYOARED: #ff2300
+$bgColor: #f4f3e8
 
 @mixin mobile
   @media (max-width: #{650px})
@@ -113,6 +117,18 @@ $CYOARED: #ff2300
   font-family: invisibleFont
   src: url("/fonts/benga.otf")
 
+#cardboard
+  background-image: url("../assets/paper.jpg")
+  position: absolute
+  width: 100vw
+  height: 100vh
+  margin: 0
+  left: 0
+  top: 0
+  background-color: red
+  overflow: auto
+  z-index: -1
+  opacity: .2
 .startFirst
   width: 100%
   font-family: invisibleFont
@@ -149,16 +165,12 @@ $CYOARED: #ff2300
       font-weight: 700
       
 footer
-  position: fixed
-  bottom: 0
-  padding: 1em 0
-  margin: 0 auto
+  position: absolute
   display: block
-  left: 0
-  right: 0
-  text-align: center
+  top: 9.5em
+  transform: rotate(-90deg)
+  left: -9em
   color: black
-  background-color: #f4f3f0
   a
     text-transform: uppercase
     text-decoration: none
@@ -169,13 +181,14 @@ footer
     color: $CYOARED
     text-transform: uppercase
 html
-  background-color: rgb(244,243,240)
+  background-color: $bgColor
   color: black
   font-family: invisibleFont
   #indexWrap
     max-width: 1200px
     display: block
     margin: 0 auto
+    position: relative
     padding: 1em
     .normText
       font-family: Arial, Helvetica, sans-serif
@@ -183,7 +196,7 @@ html
       font-size: 2em
       text-align: center
       background-color: $CYOARED
-      border-radius: .5em
+      border-radius: 1em
       padding: .25em
       color: white
       text-transform: uppercase
@@ -195,7 +208,7 @@ html
       color: black
       margin-top: 1em
       padding: .5em
-      border-radius: .5em
+      border-radius: 1em
       font-size: 1em
       display: inline-block
       width: calc(50% - 2em)
@@ -234,6 +247,10 @@ html
       position: relative
       width: 100%
       transition: width .5s
+      padding-bottom: 1em
+      border-bottom: 2px solid black
+      &:last-of-type
+        border-bottom: 0px
       img
         width: 25%
         //border: 5px solid blue 
