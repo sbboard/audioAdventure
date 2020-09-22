@@ -119,7 +119,7 @@ $bgColor: #f4f3e8
 
 #cardboard
   background-image: url("../assets/paper.jpg")
-  position: absolute
+  position: fixed
   width: 100vw
   height: 100vh
   margin: 0
@@ -141,6 +141,8 @@ $bgColor: #f4f3e8
   text-transform: uppercase
   border: 0
   cursor: pointer
+  &:hover
+    background-color: darken($CYOARED, 10%)
 .blurb
   padding: 1em 0
   border-top: solid black 1px
@@ -151,6 +153,7 @@ $bgColor: #f4f3e8
   font-size: 1.25em
 #boxBox
   justify-content: space-between
+  margin: 1em 0 2em 0
   display: flex
   @include mobile
     display: block
@@ -165,11 +168,14 @@ $bgColor: #f4f3e8
       font-weight: 700
       
 footer
-  position: absolute
+  // position: absolute
+  // display: block
+  // top: 9.5em
+  // transform: rotate(-90deg)
+  // left: -9em
+  // color: black
   display: block
-  top: 9.5em
-  transform: rotate(-90deg)
-  left: -9em
+  text-align: center
   color: black
   a
     text-transform: uppercase
@@ -193,7 +199,7 @@ html
     .normText
       font-family: Arial, Helvetica, sans-serif
     h1
-      font-size: 2em
+      font-size: 2.25em
       text-align: center
       background-color: $CYOARED
       border-radius: 1em
@@ -242,15 +248,17 @@ html
       @include mobile
         display: none
     .albumBox
-      display: inline-block
+      display: block
       margin-top: 1em
       position: relative
-      width: 100%
+      margin: 1em auto
+      width: 90%
       transition: width .5s
       padding-bottom: 1em
-      border-bottom: 2px solid black
+      border-bottom: 2px solid #000
       &:last-of-type
         border-bottom: 0px
+        padding-bottom: 0
       img
         width: 25%
         //border: 5px solid blue 
