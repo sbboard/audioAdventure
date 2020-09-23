@@ -25,7 +25,7 @@
       <div v-for="(item, index) in localPlaylist" :key="item.name" class="albumBox">
         <router-link :to="'/'+index+'/1'"><img :alt='item.name + " cover"' :src='"/audio/"+item.folder+"/"+item.img'/></router-link>
         <div class="info">
-        <div class="boldName">#{{localPlaylist.length-index}} {{item.name}}</div>
+        <div class="boldName"><span>#{{localPlaylist.length-index}}</span> {{item.name}}</div>
         <div class="topPart">
         <router-link :to="'/'+index+'/1'" tag="button" class="startFirst">Start AT TAPE 1</router-link>
         </div>
@@ -187,8 +187,10 @@ footer
 .boldName
     font-weight: 800
     font-size: 2em
-    color: $CYOARED
+    color: black
     text-transform: uppercase
+    span 
+      color: $CYOARED
 html
   background-color: $bgColor
   color: black

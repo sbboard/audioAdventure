@@ -2,7 +2,7 @@
 {
     "inventoryItems": [
         {
-            "itemName":"key0",
+            "itemName":"key1",
             "maxAmt": null,
             "autoDoor":{
                 "keysNeededForAutoDoor":2,
@@ -10,7 +10,7 @@
             }
         },
         {
-            "itemName":"key1",
+            "itemName":"key2",
             "maxAmt": 2,
             "autoDoor":null
         }],
@@ -25,8 +25,7 @@
             "door": null,
             "invCheck": null,
             "altTrack": null,
-            "randomJump": 7,
-            "autokey":null
+            "randomJump": 7
         },
         {
             "source": "track2.mp3",
@@ -41,8 +40,7 @@
             "door": null,
             "invCheck": null,
             "altTrack": null,
-            "randomJump": null,
-            "autokey":null
+            "randomJump": null
         },
         {
             "source": "track3.mp3",
@@ -58,15 +56,14 @@
             },
             "invCheck": null,
             "altTrack": null,
-            "randomJump": null,
-            "autokey":1
+            "randomJump": null
         },
         {
             "source": "track4.mp3",
             "name": "Alt Track Test",
             "endTime": 18,
-            "f": 1,
-            "j": 1,
+            "f": 5,
+            "j": 6,
             "key": null,
             "door": null,
             "invCheck": {
@@ -75,12 +72,9 @@
             },
             "altTrack": {
                 "source":"track4alt.mp3",
-                "endTime": 5,
-                "f": 5,
-                "j": 6
+                "endTime": 5
             },
-            "randomJump": null,
-            "autokey":null
+            "randomJump": null
         },
         {
             "source": "track5.mp3",
@@ -96,12 +90,9 @@
             "invCheck": null,
             "altTrack": {
                 "source":"track567alt.mp3",
-                "endTime":12,
-                "f":null,
-                "j":null
+                "endTime":12
             },
-            "randomJump": null,
-            "autokey":null
+            "randomJump": null
         },
         {
             "source": "track6.mp3",
@@ -117,12 +108,9 @@
             "invCheck": null,
             "altTrack": {
                 "source":"track567alt.mp3",
-                "endTime":12,
-                "f":null,
-                "j":null
+                "endTime":12
             },
-            "randomJump": null,
-            "autokey":null
+            "randomJump": null
         },
         {
             "source": "track7.mp3",
@@ -138,12 +126,9 @@
             "invCheck": null,
             "altTrack": {
                 "source":"track567alt.mp3",
-                "endTime":11,
-                "f":null,
-                "j":null
+                "endTime":11
             },
-            "randomJump": null,
-            "autokey":null
+            "randomJump": null
         },
         {
             "source": "track8.mp3",
@@ -158,8 +143,7 @@
             "door": null,
             "invCheck": null,
             "altTrack": null,
-            "randomJump": null,
-            "autokey":null
+            "randomJump": null
         },
         {
             "source": "track9.mp3",
@@ -171,8 +155,7 @@
             "door": null,
             "invCheck": null,
             "altTrack": null,
-            "randomJump": null,
-            "autokey":null
+            "randomJump": null
         }
     ]
 }
