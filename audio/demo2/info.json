@@ -1,0 +1,139 @@
+
+{
+    "inventoryItems": [
+        {
+            "itemName":"star",
+            "maxAmt": null,
+            "autoDoor":null
+        }
+        ],
+    "tracks":[{},
+        {
+            "source": "Observatory.mp3",
+            "name": "Tape 1",
+            "endTime": 24,
+            "f": 2,
+            "j": 3,
+            "key": {
+                "keyIndex":0,
+                "overlaySound":"Observatory2ndTrack.mp3"
+            },
+            "door": null,
+            "invCheck": null,
+            "altTrack": null,
+            "randomJump": null
+        },
+        {
+            "source": "DLCblock.mp3",
+            "name": "Tape 2",
+            "endTime": 0,
+            "f": 1,
+            "j": 1,
+            "key": null,
+            "door": null,
+            "invCheck": null,
+            "altTrack": null,
+            "randomJump": null
+        },
+        {
+            "source": "Garden.mp3",
+            "name": "Tape 3",
+            "endTime": 22,
+            "f": 1,
+            "j": 7,
+            "key": null,
+            "door": {
+						"objectRequired":0,
+						"numberRequired":1,
+						"doorDestination": 4
+					},
+            "invCheck": {
+				"itemRequired":0,
+				"numberRequired":1
+			},	
+            "altTrack": {
+                "source":"GardenAlt.mp3",
+                "endTime": 22
+            } ,
+            "randomJump": null
+        },
+        {
+            "source": "GardenHole.mp3",
+            "name": "Tape 4",
+            "endTime": 0,
+            "f": 5,
+            "j": 3,
+            "key": null,
+            "door": null,
+            "invCheck": null,
+            "altTrack": null,
+            "randomJump": null
+        },
+        {
+            "source": "GardenHoleLower.mp3",
+            "name": "Tape 5",
+            "endTime": 33,
+            "f": 6,
+            "j": 3,
+            "key":null,
+            "door": null,
+            "invCheck": null,
+            "altTrack": null,
+            "randomJump": null
+        },
+        {
+            "source": "HexCrank.mp3",
+            "name": "Tape 6",
+            "endTime": 247,
+            "f": "",
+            "j": "",
+            "key":null,
+            "door": null,
+            "invCheck": null,
+            "altTrack": null,
+            "randomJump": null
+        },
+        {
+            "source": "DLCblock2.mp3",
+            "name": "Tape 7",
+            "endTime": 0,
+            "f": 3,
+            "j": 3,
+            "key": {
+                "keyIndex":0,
+                "overlaySound":null
+            },
+            "door": null,
+            "invCheck": null,
+            "altTrack": null,
+            "randomJump": null
+        },
+        {
+            "source": "track8.mp3",
+            "name": "AutoDoor Test",
+            "endTime": 8,
+            "f": 7,
+            "j": 5,
+            "key": {
+                "keyIndex":0,
+                "overlaySound":null
+            },
+            "door": null,
+            "invCheck": null,
+            "altTrack": null,
+            "randomJump": null
+        },
+        {
+            "source": "track9.mp3",
+            "name": "End Test",
+            "endTime": 10,
+            "f": "",
+            "j": "",
+            "key": null,
+            "door": null,
+            "invCheck": null,
+            "altTrack": null,
+            "randomJump": null
+        }
+    ]
+}

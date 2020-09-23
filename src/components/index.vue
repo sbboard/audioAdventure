@@ -25,7 +25,7 @@
       <div v-for="(item, index) in localPlaylist" :key="item.name" class="albumBox">
         <router-link :to="'/'+index+'/1'"><img :alt='item.name + " cover"' :src='"/audio/"+item.folder+"/"+item.img'/></router-link>
         <div class="info">
-        <div class="boldName">{{item.name}}</div>
+        <div class="boldName">#{{localPlaylist.length-index}} {{item.name}}</div>
         <div class="topPart">
         <router-link :to="'/'+index+'/1'" tag="button" class="startFirst">Start AT TAPE 1</router-link>
         </div>
@@ -84,17 +84,20 @@ export default {
   },
   mounted(){
     if(this.playlist != null){
-    this.localPlaylist = this.playlist.albums
+      this.localPlaylist = this.playlist.albums.sort(this.custom_sort)
     }
   },
   methods: {
     specificTape(tape){
       this.$router.push({ path: tape})
+    },
+    custom_sort(b, a) {
+      return new Date(a.date).getTime() - new Date(b.date).getTime()
     }
   },
   watch:{
     playlist(){
-      this.localPlaylist = this.playlist.albums
+      this.localPlaylist = this.playlist.albums.sort(this.custom_sort)
     },
   },
 }

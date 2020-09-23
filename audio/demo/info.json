@@ -1,0 +1,161 @@
+
+{
+    "inventoryItems": [
+        {
+            "itemName":"key1",
+            "maxAmt": null,
+            "autoDoor":{
+                "keysNeededForAutoDoor":2,
+                "autoDoorLocation":9
+            }
+        },
+        {
+            "itemName":"key2",
+            "maxAmt": 2,
+            "autoDoor":null
+        }],
+    "tracks":[{},
+        {
+            "source": "track1.mp3",
+            "name": "Tape 1",
+            "endTime": 9,
+            "f": 2,
+            "j": 3,
+            "key": null,
+            "door": null,
+            "invCheck": null,
+            "altTrack": null,
+            "randomJump": 7
+        },
+        {
+            "source": "track2.mp3",
+            "name": "Key Test w/ Overlay Noise",
+            "endTime": 12,
+            "f": 3,
+            "j": 1,
+            "key": {
+                "keyIndex":0,
+                "overlaySound":"track2overlay.mp3"
+            },
+            "door": null,
+            "invCheck": null,
+            "altTrack": null,
+            "randomJump": null
+        },
+        {
+            "source": "track3.mp3",
+            "name": "Door Test",
+            "endTime": 7,
+            "f": 1,
+            "j": 2,
+            "key": null,
+            "door": {
+                "objectRequired":0,
+                "numberRequired":1,
+                "doorDestination": 4
+            },
+            "invCheck": null,
+            "altTrack": null,
+            "randomJump": null
+        },
+        {
+            "source": "track4.mp3",
+            "name": "Alt Track Test",
+            "endTime": 18,
+            "f": 5,
+            "j": 6,
+            "key": null,
+            "door": null,
+            "invCheck": {
+                "itemRequired":0,
+                "numberRequired":1
+            },
+            "altTrack": {
+                "source":"track4alt.mp3",
+                "endTime": 5
+            },
+            "randomJump": null
+        },
+        {
+            "source": "track5.mp3",
+            "name": "Key 2 pt1",
+            "endTime": 8,
+            "f": 8,
+            "j": 6,
+            "key": {
+                "keyIndex":1,
+                "overlaySound":null
+            },
+            "door": null,
+            "invCheck": null,
+            "altTrack": {
+                "source":"track567alt.mp3",
+                "endTime":12
+            },
+            "randomJump": null
+        },
+        {
+            "source": "track6.mp3",
+            "name": "Key 2 pt2",
+            "endTime": 9,
+            "f": 5,
+            "j": 7,
+            "key": {
+                "keyIndex":1,
+                "overlaySound":null
+            },
+            "door": null,
+            "invCheck": null,
+            "altTrack": {
+                "source":"track567alt.mp3",
+                "endTime":12
+            },
+            "randomJump": null
+        },
+        {
+            "source": "track7.mp3",
+            "name": "Key 2 pt3",
+            "endTime": 9,
+            "f": 6,
+            "j": 8,
+            "key": {
+                "keyIndex":1,
+                "overlaySound":null
+            },
+            "door": null,
+            "invCheck": null,
+            "altTrack": {
+                "source":"track567alt.mp3",
+                "endTime":11
+            },
+            "randomJump": null
+        },
+        {
+            "source": "track8.mp3",
+            "name": "AutoDoor Test",
+            "endTime": 8,
+            "f": 7,
+            "j": 5,
+            "key": {
+                "keyIndex":0,
+                "overlaySound":null
+            },
+            "door": null,
+            "invCheck": null,
+            "altTrack": null,
+            "randomJump": null
+        },
+        {
+            "source": "track9.mp3",
+            "name": "End Test",
+            "endTime": 10,
+            "f": "",
+            "j": "",
+            "key": null,
+            "door": null,
+            "invCheck": null,
+            "altTrack": null,
+            "randomJump": null
+        }
+    ]
+}

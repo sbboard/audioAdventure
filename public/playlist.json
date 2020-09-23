@@ -1,16 +1,32 @@
 {   "albums":
     [
         {
-            "name":"metal gear solid 5: ground zeroes",
+            "name":"talking simulator",
+            "date":"4/1/20",
             "img":"cover.jpg",
             "folder":"demo",
-            "blurb":"this is the blurb. wow!",
+            "blurb":"A lot of talking. A bit of a mess. Not my favorite album of all time.",
             "credits":{
                 "writer":["Boss", null],
                 "art": ["Doug", "http://www.google2.com/"],
                 "va": [["boss",null],["boss2","http://www.google.com/"]]
             },
-            "numberOfTapes":5
+            "numberOfTapes":9
+        },		   
+        {
+            "name":"Garden By Colin",
+            "date":"4/4/20",
+            "img":"cover.jpg",
+            "folder":"demo2",
+            "blurb":"Can you find the secret hole? F and J are direction buttons and G and H are action buttons. Find the ending! Starring Colin Buffum of Buffum Fame",
+            "credits":{
+                "writer":["Colin", null],
+                "art": ["Doug", "http://www.google2.com/"],
+                "va": [["Colin",null],["Colin 2","http://www.google.com/"]]
+            },
+            "numberOfTapes":8
         }
+    
     ]
+	
 }
