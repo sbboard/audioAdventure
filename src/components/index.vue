@@ -106,7 +106,7 @@ export default {
 <style lang="sass">
 $CYOARED: #ff2300
 $bgColor: #f4f3e8
-$shadow: drop-shadow(3px 3px 3px rgba(0,0,0,.5))
+$shadow: drop-shadow(0px 4px 3px rgba(0,0,0,.5))
 
 @mixin mobile
   @media (max-width: #{400px})
