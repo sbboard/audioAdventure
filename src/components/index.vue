@@ -106,14 +106,15 @@ export default {
 <style lang="sass">
 $CYOARED: #ff2300
 $bgColor: #f4f3e8
+$shadow: drop-shadow(3px 3px 3px rgba(0,0,0,.5))
 
 @mixin mobile
-  @media (max-width: #{650px})
+  @media (max-width: #{400px})
       @content
 
 
 @mixin tablet
-  @media (min-width: 651px) and (max-width: 1232px)
+  @media (max-width: 700px)
       @content
 
 @font-face
@@ -131,7 +132,7 @@ $bgColor: #f4f3e8
   background-color: red
   overflow: auto
   z-index: -1
-  opacity: .2
+  opacity: .3
 .startFirst
   width: 100%
   font-family: invisibleFont
@@ -144,6 +145,7 @@ $bgColor: #f4f3e8
   text-transform: uppercase
   border: 0
   cursor: pointer
+  filter: $shadow
   &:hover
     background-color: darken($CYOARED, 10%)
 .blurb
@@ -171,12 +173,6 @@ $bgColor: #f4f3e8
       font-weight: 700
       
 footer
-  // position: absolute
-  // display: block
-  // top: 9.5em
-  // transform: rotate(-90deg)
-  // left: -9em
-  // color: black
   display: block
   text-align: center
   color: black
@@ -189,6 +185,8 @@ footer
     font-size: 2em
     color: black
     text-transform: uppercase
+    @include tablet
+      margin-top: .25em
     span 
       color: $CYOARED
 html
@@ -208,9 +206,10 @@ html
       text-align: center
       background-color: $CYOARED
       border-radius: 1em
-      padding: .25em
+      padding: .5em .25em
       color: white
       text-transform: uppercase
+      filter: $shadow
     h2
       font-size: 1.5em
       margin-top: 1em
@@ -222,8 +221,9 @@ html
       border-radius: 1em
       font-size: 1em
       display: inline-block
+      filter: $shadow
       width: calc(50% - 2em)
-      @include mobile
+      @include tablet
         width: -webkit-fill-available
         display: inline-block
       b
@@ -250,24 +250,33 @@ html
         font-style: italic
       div
         text-align: center
-      @include mobile
+      @include tablet
         display: none
     .albumBox
       display: block
       margin-top: 1em
       position: relative
-      margin: 1em auto
+      margin: 1em auto 2em auto
       width: 90%
       transition: width .5s
-      padding-bottom: 1em
+      padding-bottom: .5em
       border-bottom: 2px solid #000
+      @include tablet
+        text-align: center
+        width: 100%
       &:last-of-type
         border-bottom: 0px
         padding-bottom: 0
       img
         width: 25%
-        //border: 5px solid blue 
-        //outline: 5px solid red
+        filter: $shadow
+        @include tablet
+          margin-left: 0
+          width: 75%
+        @include mobile
+          width: 100%
+        &:hover
+          filter: brightness(0.75) $shadow
       a
         color: black
         &:visited
@@ -277,6 +286,9 @@ html
         vertical-align: top
         margin-left: 1em
         width: calc(75% - 1em)
+        @include tablet
+          margin-left: 0
+          width: 100%
       .credits
         line-height: 1.1
         font-size: .75em
