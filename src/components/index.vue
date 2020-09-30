@@ -104,9 +104,10 @@ export default {
 </script>
 
 <style lang="sass">
-$CYOARED: #ff2300
+//$CYOARED: #ff2300
+$CYOARED: #ff4141
 $bgColor: #f4f3e8
-$shadow: drop-shadow(0px 4px 3px rgba(0,0,0,.5))
+$shadow: drop-shadow(0px 1px 3px rgba(0,0,0,.5))
 
 @mixin mobile
   @media (max-width: #{400px})
@@ -123,16 +124,17 @@ $shadow: drop-shadow(0px 4px 3px rgba(0,0,0,.5))
 
 #cardboard
   background-image: url("../assets/paper.jpg")
-  position: fixed
+  position: absolute
   width: 100vw
-  height: 100vh
+  height: 100%
   margin: 0
   left: 0
   top: 0
   background-color: red
-  overflow: auto
+  overflow: hidden
   z-index: -1
-  opacity: .3
+  opacity: .5
+  filter: grayscale(1) brightness(1.2)
 .startFirst
   width: 100%
   font-family: invisibleFont
@@ -146,6 +148,10 @@ $shadow: drop-shadow(0px 4px 3px rgba(0,0,0,.5))
   border: 0
   cursor: pointer
   filter: $shadow
+  @include tablet
+    width: 50%
+  @include mobile
+    width: 75%
   &:hover
     background-color: darken($CYOARED, 10%)
 .blurb
@@ -193,8 +199,11 @@ html
   background-color: $bgColor
   color: black
   font-family: invisibleFont
+  position: relative
+  height: auto
+  overflow-x: hidden
   #indexWrap
-    max-width: 1200px
+    max-width: 1000px
     display: block
     margin: 0 auto
     position: relative
@@ -205,7 +214,7 @@ html
       font-size: 2.25em
       text-align: center
       background-color: $CYOARED
-      border-radius: 1em
+      border-radius: .5em
       padding: .5em .25em
       color: white
       text-transform: uppercase
@@ -235,7 +244,7 @@ html
         margin: 0
         margin-bottom: .5em
         font-weight: 800
-        border-radius: .25em
+        border-radius: .5em
         @include mobile
           font-size: 1em
     #instructions
@@ -257,24 +266,24 @@ html
       margin-top: 1em
       position: relative
       margin: 1em auto 2em auto
-      width: 90%
+      width: 100%
       transition: width .5s
       padding-bottom: .5em
       border-bottom: 2px solid #000
       @include tablet
         text-align: center
-        width: 100%
       &:last-of-type
         border-bottom: 0px
         padding-bottom: 0
       img
         width: 25%
         filter: $shadow
+        //mix-blend-mode: multiply
         @include tablet
           margin-left: 0
-          width: 75%
+          width: 50%
         @include mobile
-          width: 100%
+          width: 75%
         &:hover
           filter: brightness(0.75) $shadow
       a
