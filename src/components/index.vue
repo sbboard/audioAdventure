@@ -22,12 +22,12 @@
 </div>
   </div>
   </div>
-      <div v-for="(item, index) in localPlaylist" :key="item.name" class="albumBox">
+      <div v-for="(item, index) in localPlaylist" :key="item.name" class="albumBox" :style="{animationDelay: `${(.25 * index) + .25}s`}">
         <router-link :to="'/'+index+'/1'"><img :alt='item.name + " cover"' :src='"/audio/"+item.folder+"/"+item.img'/></router-link>
         <div class="info">
         <div class="boldName"><span>#{{localPlaylist.length-index}}</span> {{item.name}}</div>
         <div class="topPart">
-        <router-link :to="'/'+index+'/1'" tag="button" class="startFirst">Start AT TAPE 1</router-link>
+        <router-link :to="'/'+index+'/1'" tag="button" class="startFirst">begin AT TAPE 1</router-link>
         </div>
         <div class="topPart">
         Select Specific Tape: 
@@ -104,8 +104,7 @@ export default {
 </script>
 
 <style lang="sass">
-//$CYOARED: #ff2300
-$CYOARED: #ff4141
+$CYOARED: #ff2300
 $bgColor: #f4f3e8
 $shadow: drop-shadow(0px 1px 3px rgba(0,0,0,.5))
 
@@ -148,6 +147,7 @@ $shadow: drop-shadow(0px 1px 3px rgba(0,0,0,.5))
   border: 0
   cursor: pointer
   filter: $shadow
+  transition: background-color .25s
   @include tablet
     width: 50%
   @include mobile
@@ -267,9 +267,12 @@ html
       position: relative
       margin: 1em auto 2em auto
       width: 100%
-      transition: width .5s
+      transition: width .25s
       padding-bottom: .5em
       border-bottom: 2px solid #000
+      animation: fadeIn linear .5s
+      opacity: 0
+      animation-fill-mode: forwards
       @include tablet
         text-align: center
       &:last-of-type
@@ -277,15 +280,22 @@ html
         padding-bottom: 0
       img
         width: 25%
+        position: absolute
         filter: $shadow
+        transition: width .25s
+        &:hover
+          width: calc(25% + .5em)
         //mix-blend-mode: multiply
         @include tablet
           margin-left: 0
+          position: inherit
           width: 50%
+          &:hover
+            width: calc(50% + 1em)
         @include mobile
           width: 75%
-        &:hover
-          filter: brightness(0.75) $shadow
+          &:hover
+            width: calc(75% + 1em)
       a
         color: black
         &:visited
@@ -293,7 +303,8 @@ html
       .info
         display: inline-block
         vertical-align: top
-        margin-left: 1em
+        margin-left: calc(25% + 1em)
+        margin-bottom: 1em
         width: calc(75% - 1em)
         @include tablet
           margin-left: 0
@@ -322,4 +333,10 @@ html
           color: #1F1F1F
 div.albumBox a
   color: black
+
+@keyframes fadeIn
+  from
+    opacity: 0 
+  to
+    opacity: 1
 </style>
