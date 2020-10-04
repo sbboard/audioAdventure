@@ -234,7 +234,7 @@ html
     .normText
       font-family: Arial, Helvetica, sans-serif
     h1
-      font-size: 3em
+      font-size: 4em
       text-align: center
       background-color: $CYOARED
       border-radius: .5em
@@ -309,18 +309,13 @@ html
         position: absolute
         transition: width .25s
         &:hover
-          width: calc(25% + .5em)
-        //mix-blend-mode: multiply
+          filter: brightness(0.8)
         @include tablet
           margin-left: 0
           position: inherit
           width: 50%
-          &:hover
-            width: calc(50% + 1em)
         @include mobile
           width: 75%
-          &:hover
-            width: calc(75% + 1em)
       a
         color: black
         &:visited
