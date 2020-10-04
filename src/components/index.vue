@@ -65,6 +65,8 @@
 
       <footer><i class="fas fa-copyright"></i> <a href="http://www.theinvisiblesundial.com/">invisible sundial</a> x <a href="https://gang-fight.com/">gang fight</a></footer>
   </div>
+  <div id="texture"></div>
+  <div id="burn"></div>
   <div id="cardboard"></div>
 </div>
 </template>
@@ -104,9 +106,13 @@ export default {
 </script>
 
 <style lang="sass">
-$CYOARED: #ff2300
+$CYOARED: #ff3131c7
 $bgColor: #f4f3e8
-$shadow: drop-shadow(0px 1px 3px rgba(0,0,0,.5))
+
+@function shadowMode($color)
+  $newColor: opacify($color,.5)
+  $result: drop-shadow(0px 3px 2px $newColor)
+  @return $result
 
 @mixin mobile
   @media (max-width: #{400px})
@@ -121,6 +127,17 @@ $shadow: drop-shadow(0px 1px 3px rgba(0,0,0,.5))
   font-family: invisibleFont
   src: url("/fonts/benga.otf")
 
+#burn
+  z-index: -1
+  position: absolute
+  width: 100vw
+  height: 100%
+  margin: 0
+  left: 0
+  top: 0
+  overflow: hidden
+  mix-blend-mode: color
+  background: radial-gradient(rgba(236,205,174,0), rgba(236,205,174,1))
 #cardboard
   background-image: url("../assets/paper.jpg")
   position: absolute
@@ -129,11 +146,16 @@ $shadow: drop-shadow(0px 1px 3px rgba(0,0,0,.5))
   margin: 0
   left: 0
   top: 0
-  background-color: red
   overflow: hidden
-  z-index: -1
-  opacity: .5
+  z-index: -2
+  opacity: .25
   filter: grayscale(1) brightness(1.2)
+#texture
+  @extend #cardboard
+  z-index: 5
+  pointer-events: none
+  opacity: .3
+  mix-blend-mode: multiply
 .startFirst
   width: 100%
   font-family: invisibleFont
@@ -146,14 +168,14 @@ $shadow: drop-shadow(0px 1px 3px rgba(0,0,0,.5))
   text-transform: uppercase
   border: 0
   cursor: pointer
-  filter: $shadow
+  filter: shadowMode($CYOARED)
   transition: background-color .25s
   @include tablet
     width: 50%
   @include mobile
     width: 75%
   &:hover
-    background-color: darken($CYOARED, 10%)
+    background-color: darken($CYOARED, 20%)
 .blurb
   padding: 1em 0
   border-top: solid black 1px
@@ -202,6 +224,7 @@ html
   position: relative
   height: auto
   overflow-x: hidden
+  animation: blur 60s linear infinite alternate
   #indexWrap
     max-width: 1000px
     display: block
@@ -211,14 +234,14 @@ html
     .normText
       font-family: Arial, Helvetica, sans-serif
     h1
-      font-size: 2.25em
+      font-size: 3em
       text-align: center
       background-color: $CYOARED
       border-radius: .5em
       padding: .5em .25em
       color: white
       text-transform: uppercase
-      filter: $shadow
+      filter: shadowMode($CYOARED)
     h2
       font-size: 1.5em
       margin-top: 1em
@@ -227,10 +250,10 @@ html
       color: black
       margin-top: 1em
       padding: .5em
-      border-radius: 1em
+      //border-radius: 1em
       font-size: 1em
       display: inline-block
-      filter: $shadow
+      filter: shadowMode(white)
       width: calc(50% - 2em)
       @include tablet
         width: -webkit-fill-available
@@ -238,13 +261,15 @@ html
       b
         font-weight: 600
       h2
-        background-color: #FFE001
+        background-color: #ffe600
+        filter: shadowMode(#ffe600)
         text-align: center
         padding: .25em
+        color: white
         margin: 0
         margin-bottom: .5em
         font-weight: 800
-        border-radius: .5em
+        //border-radius: .5em
         @include mobile
           font-size: 1em
     #instructions
@@ -253,6 +278,7 @@ html
         background-color: $CYOARED
         color: white
         text-transform: uppercase
+        filter: shadowMode($CYOARED)
       span
         display: block
       i
@@ -281,7 +307,6 @@ html
       img
         width: 25%
         position: absolute
-        filter: $shadow
         transition: width .25s
         &:hover
           width: calc(25% + .5em)
@@ -339,4 +364,12 @@ div.albumBox a
     opacity: 0 
   to
     opacity: 1
+
+@keyframes blur
+  0%
+    -webkit-filter: blur(0px)
+  50%
+    -webkit-filter: blur(0px)
+  100%
+    -webkit-filter: blur(0px)
 </style>
