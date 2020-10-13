@@ -28,17 +28,20 @@
       </audio>
 
       <div id="controls" v-if="!ejected">
+        <img v-if="audioInfo.name != 'Blank Tape'" @click="replay()" src="../assets/keys/D.png">
+        <img alt="f-key" v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('f')" src="../assets/keys/F.png" :class="{pressed: fpressed, faded: !optionTime}">
+      
+        <img @click="action()" v-if="audioInfo.name != 'Blank Tape'" src="../assets/keys/G.png">
 
-      <img alt="f-key" v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('f')" src="../assets/f.png" :class="{pressed: fpressed, faded: !optionTime}">
-      
-      <i v-if="audioInfo.name != 'Blank Tape'" @click="replay()" class="fas  fa-4x fa-backward"></i>
-      <i @click="togglePlay()" v-if="play" class="fas fa-4x fa-pause"></i>
-      <i @click="togglePlay()" v-if="!play" class="fas fa-4x fa-play"></i>
-      <i @click="eject()" class="fas fa-4x fa-eject"></i>
-      <i @click="action()" v-if="audioInfo.name != 'Blank Tape'" class="fas fa-4x fa-bolt"></i>
-      
-      <img alt="j-key" v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('j')" src="../assets/j.png" :class="{pressed: jpressed, faded: !optionTime}">
-      
+        <img @click="togglePlay()" v-if="play" src="../assets/keys/centerPause.png">
+        <img @click="togglePlay()" v-if="!play" src="../assets/keys/centerPlay.png">
+
+        <img @click="action()" v-if="audioInfo.name != 'Blank Tape'" src="../assets/keys/H.png">
+        
+        <img alt="j-key" v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('j')" src="../assets/keys/J.png" :class="{pressed: jpressed, faded: !optionTime}">
+        
+        <img v-if="audioInfo.name != 'Blank Tape'" @click="replay()" src="../assets/keys/K.png">
+        <img @click="eject()" src="../assets/keys/esc.png">
       </div>
     </div>
     <div id="endMenu" :class="{hiddenSpot: hiddenSpotCheck}">
@@ -474,11 +477,6 @@ export default {
     .faded
       opacity: .5
       cursor: auto
-    i
-      cursor: pointer
-      transition: font-size .5s
-      @include mobile
-        font-size: 2.5em
 .pressed
   height: 47px
   width: 47px
@@ -502,6 +500,6 @@ export default {
 #controls
     img
         display: black
-        width: 50px
+        height: 50px
         cursor: pointer
 </style>
