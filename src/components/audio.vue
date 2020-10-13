@@ -1,4 +1,5 @@
 <template>
+    <div id="rootWrap">
   <div id="root">
     <template v-if="loaded">
     <h1 id="topTitle"><a href="/">1000 Tapes of Fate</a></h1>
@@ -28,6 +29,7 @@
       </audio>
 
       <div id="controls" v-if="!ejected">
+        <img id="ejecter" @click="eject()" src="../assets/keys/esc.png">
         <img v-if="audioInfo.name != 'Blank Tape'" @click="replay()" src="../assets/keys/D.png">
         <img alt="f-key" v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('f')" src="../assets/keys/F.png" :class="{pressed: fpressed, faded: !optionTime}">
       
@@ -41,18 +43,22 @@
         <img alt="j-key" v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('j')" src="../assets/keys/J.png" :class="{pressed: jpressed, faded: !optionTime}">
         
         <img v-if="audioInfo.name != 'Blank Tape'" @click="replay()" src="../assets/keys/K.png">
-        <img @click="eject()" src="../assets/keys/esc.png">
+        <img id="ejectInv" src="../assets/keys/esc.png">
       </div>
-    </div>
-    <div id="endMenu" :class="{hiddenSpot: hiddenSpotCheck}">
-      <div @click="setupRestart()">Restart Adventure</div>
-      <router-link :to="'/replay/'+album+'/'+pathprint">Relisten to Adventure</router-link>
+
+      <div id="endMenu" :class="{hiddenSpot: hiddenSpotCheck}">
+        <div @click="setupRestart()">Restart Adventure</div>
+        <router-link :to="'/replay/'+album+'/'+pathprint">Relisten to Adventure</router-link>
+      </div>
+
     </div>
     <footer><i class="fas fa-copyright"></i> <a href="http://www.theinvisiblesundial.com/">invisible sundial</a> x <a href="https://gang-fight.com/">gang fight</a></footer>
     </template>
     <template v-else>
       Loading...
       </template>
+  </div>
+  <div id="burn"></div>
   </div>
 </template>
 
@@ -415,11 +421,31 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
+
+@font-face
+  font-family: invisibleFont
+  src: url("/fonts/benga.otf")
 
 @mixin mobile
   @media (max-width: #{700px})
       @content
+
+#rootWrap
+  background-color: #212121
+  color: white
+  font-family: invisibleFont
+#burn
+  z-index: 0
+  position: absolute
+  width: 100vw
+  height: 100%
+  margin: 0
+  left: 0
+  top: 0
+  overflow: hidden
+  background: radial-gradient(rgba(0,0,0, 0) 50%, rgb(19,19,19))
+  pointer-events: none
 
 #root
   max-width: 1000px
@@ -428,12 +454,11 @@ export default {
   height: 100vh
   align-items: center
   display: flex
-  justify-content: center
+  justify-content: space-between
   flex-direction: column
   #topTitle
-    font-size: 2em
-    margin-top: .5em
-    position: absolute
+    font-size: 4em
+    margin-top: .25em
     top: 0
     color: white
     a
@@ -445,14 +470,11 @@ export default {
     text-align: center
     position: relative
     img
-      width: 75%
+      width: 100%
       pointer-events: none
       transition: width .5s
-      @include mobile
-        width: 80%
     h1
       width: fit-content
-      position: absolute
       margin: 0 auto
       left: 0
       right: 0
@@ -462,12 +484,11 @@ export default {
         font-size: 2.5vw
         top: 7vw
   #controls
-    width: fit-content
+    width: 100%
     margin: 1em auto 0 auto
     display: flex
-    justify-content: space-between
+    justify-content: center
     align-items: center
-    width: 50%
     transition: width .5s
     @include mobile
       width: 80%
@@ -477,29 +498,48 @@ export default {
     .faded
       opacity: .5
       cursor: auto
+    #ejecter
+      margin-right: auto
+    #ejectInv
+      opacity: 0
+      cursor: inherit
+      margin-left: auto
 .pressed
-  height: 47px
-  width: 47px
   filter: brightness(0.75) drop-shadow(0px -1px 4px black)
 .hiddenSpot
-  visibility: hidden
+  display: none !important
 #endMenu
   display: flex
-  width: 50%
+  width: 100%
   margin-top: 1em
   justify-content: space-around
-  font-size: 1.25em
+  font-size: 1em
   transition: width .5s
-  @include mobile
-    width: 80%
+  height: 65px
+  div
+    color: white
+    cursor: pointer
+    text-decoration: underline
+    height: 1em
   a
     color: white
     width: 20%
     text-align: center
+    height: 1em
 
 #controls
     img
         display: black
-        height: 50px
+        height: 65px
         cursor: pointer
+
+footer
+  display: block
+  text-align: center
+  color: white
+  margin-bottom: 1em
+  a
+    text-transform: uppercase
+    text-decoration: none
+    color: white
 </style>

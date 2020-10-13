@@ -1,5 +1,5 @@
 <template>
-<div>
+<div id="bigBoy">
   <div id="indexWrap">
     <h1>1000 Tapes of Fate</h1>
     <div id="boxBox">
@@ -105,7 +105,7 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 $CYOARED: #ff3131c7
 $bgColor: #f4f3e8
 
@@ -137,7 +137,7 @@ $bgColor: #f4f3e8
   top: 0
   overflow: hidden
   mix-blend-mode: color
-  background: radial-gradient(rgba(236,205,174,0), rgba(236,205,174,1))
+  background: radial-gradient(rgba(236,205,174,0),rgba(236,205,174,.74902))
 #cardboard
   background-image: url("../assets/paper.jpg")
   position: absolute
@@ -217,7 +217,7 @@ footer
       margin-top: .25em
     span 
       color: $CYOARED
-html
+#bigBoy
   background-color: $bgColor
   color: black
   font-family: invisibleFont
@@ -236,12 +236,14 @@ html
     h1
       font-size: 4em
       text-align: center
-      background-color: $CYOARED
+      background-color: rgba(255,0,0,.780392)
       border-radius: .5em
       padding: .5em .25em
-      color: white
+      color: #fff
       text-transform: uppercase
-      filter: shadowMode($CYOARED)
+      mix-blend-mode: darken
+      box-shadow: 0 -1px 2px #f0f, 0 1px 2px #ff0
+      text-shadow: 0 -1px 2px #f0f, 0 1px 2px #ff0
     h2
       font-size: 1.5em
       margin-top: 1em
