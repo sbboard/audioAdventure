@@ -5,7 +5,7 @@
     <h1 id="topTitle"><a href="/">1000 Tapes of Fate</a></h1>
     <div id="wrap">
       <div id="casetteWrap">
-      <img alt="casette player" src="../assets/player.png">
+      <img alt="casette player" src="../assets/cass3.png">
       </div>
 
       <audio @play="tagOverlay()" autoplay v-if="(this.audioInfo.key != null && this.audioInfo.key.overlaySound != null && this.trackKeysRecieved.indexOf(parseInt(this.songIndex))<0)" 
