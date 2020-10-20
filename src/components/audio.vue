@@ -219,7 +219,7 @@ export default {
     getAlbumInfo(){
       axios.get(`/audio/${this.$store.getters.getPlaylist.albums[this.album].folder}/info.json`)
       .then((response) => {
-            this.loaded = true
+          this.loaded = true
           this.trackList = response.data.tracks
           this.albumLocation = this.$store.getters.getPlaylist.albums[this.album].folder
 

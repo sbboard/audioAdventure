@@ -11,7 +11,7 @@
       <source :src="'/audio/'+this.albumLocation+'/'+this.audioInfo.key.overlaySound" type="audio/mpeg">
       </audio>
 
-      <template v-if="audioInfo.name != 'Blank Tape'">
+      <template v-if="audioInfo.source != 'Blank Tape'">
         <audio autoplay @ended='ended' ref="audio" @timeupdate="timeCheck()">
         <source :src="'/audio/'+albumLocation+'/'+audioInfo.source" type="audio/mpeg">
         </audio>
@@ -127,11 +127,20 @@ export default {
           this.loaded = true
           this.trackList = response.data.tracks
           this.albumLocation = this.$store.getters.getPlaylist.albums[this.album].folder
-          this.audioInfo = this.trackList[this.localPlaylist[0]]
+          this.audioInfo = this.trackList[this.localPlaylist[0][0]]
+
+          if(this.localPlaylist[0].includes("overlay")){
+            this.overlayEnd = this.localPlaylist[this.currentIndex].split("overlay")[1]
+            this.overlayOn = true
+          }
+          else{
+            this.overlayOn = false
+          }
+
       })
     },
     timeCheck(){
-      if(this.$refs.audio.currentTime > this.overlayEnd){
+      if(this.$refs.audio.currentTime > this.overlayEnd && this.overlayEnd != ""){
         this.overlayOn = false
       }
       //random jump check
