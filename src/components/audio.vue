@@ -59,6 +59,7 @@
       </template>
   </div>
   <div id="burn"></div>
+  <div id="cardboard"></div>
   </div>
 </template>
 
@@ -432,11 +433,10 @@ export default {
       @content
 
 #rootWrap
-  background-color: #212121
   color: white
   font-family: invisibleFont
 #burn
-  z-index: 0
+  z-index: -1
   position: absolute
   width: 100vw
   height: 100%
@@ -444,7 +444,7 @@ export default {
   left: 0
   top: 0
   overflow: hidden
-  background: radial-gradient(rgba(0,0,0, 0) 50%, rgb(19,19,19))
+  background: radial-gradient(#212121 50%, #131313)
   pointer-events: none
 
 #root
@@ -542,4 +542,19 @@ footer
     text-transform: uppercase
     text-decoration: none
     color: white
+#cardboard
+  background-image: url("../assets/paper.jpg")
+  position: absolute
+  width: 100vw
+  height: 100%
+  margin: 0
+  left: 0
+  top: 0
+  overflow: hidden
+  filter: grayscale(1) brightness(1.2)
+  background-position: center
+  z-index: 5
+  pointer-events: none
+  opacity: .5
+  mix-blend-mode: multiply
 </style>

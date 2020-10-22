@@ -136,8 +136,8 @@ $bgColor: #f4f3e8
   left: 0
   top: 0
   overflow: hidden
-  mix-blend-mode: color
-  background: radial-gradient(rgba(236,205,174,0),rgba(236,205,174,.74902))
+  mix-blend-mode: color-burn
+  background: radial-gradient(rgba(236, 205, 174, 0), rgba(255,68,37,.3))
 #cardboard
   background-image: url("../assets/paper.jpg")
   position: absolute
@@ -150,6 +150,7 @@ $bgColor: #f4f3e8
   z-index: -2
   opacity: .25
   filter: grayscale(1) brightness(1.2)
+  background-position: center
 #texture
   @extend #cardboard
   z-index: 5
@@ -176,6 +177,7 @@ $bgColor: #f4f3e8
     width: 75%
   &:hover
     background-color: darken($CYOARED, 20%)
+    filter: shadowMode(darken($CYOARED, 20%))
 .blurb
   padding: 1em 0
   border-top: solid black 1px
