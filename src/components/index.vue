@@ -233,6 +233,7 @@ footer
     margin: 0 auto
     position: relative
     padding: 1em
+    min-height: 100vh
     .normText
       font-family: Arial, Helvetica, sans-serif
     h1

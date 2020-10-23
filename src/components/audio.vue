@@ -30,19 +30,19 @@
 
       <div id="controls" v-if="!ejected">
         <img id="ejecter" @click="eject()" src="../assets/keys/esc.png">
-        <img v-if="audioInfo.name != 'Blank Tape'" @click="replay()" src="../assets/keys/D.png">
-        <img alt="f-key" v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('f')" src="../assets/keys/F.png" :class="{pressed: fpressed, faded: !optionTime}">
+        <img class="killTab" v-if="audioInfo.name != 'Blank Tape'" @click="replay()" src="../assets/keys/D.png">
+        <img class="fkey" alt="f-key" v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('f')" src="../assets/keys/F.png" :class="{pressed: fpressed, faded: !optionTime}">
       
-        <img @click="action()" v-if="audioInfo.name != 'Blank Tape'" src="../assets/keys/G.png">
+        <img class="actionbtn" @click="action()" v-if="audioInfo.name != 'Blank Tape'" src="../assets/keys/G.png">
 
-        <img @click="togglePlay()" v-if="play" src="../assets/keys/centerPause.png">
-        <img @click="togglePlay()" v-if="!play" src="../assets/keys/centerPlay.png">
+        <img class="spacebar" @click="togglePlay()" v-if="play" src="../assets/keys/centerPause.png">
+        <img class="spacebar" @click="togglePlay()" v-if="!play" src="../assets/keys/centerPlay.png">
 
-        <img @click="action()" v-if="audioInfo.name != 'Blank Tape'" src="../assets/keys/H.png">
+        <img class="killTab" @click="action()" v-if="audioInfo.name != 'Blank Tape'" src="../assets/keys/H.png">
         
-        <img alt="j-key" v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('j')" src="../assets/keys/J.png" :class="{pressed: jpressed, faded: !optionTime}">
+        <img class="jkey" altalt="j-key" v-if="audioInfo.name != 'Blank Tape'" @click="setIndex('j')" src="../assets/keys/J.png" :class="{pressed: jpressed, faded: !optionTime}">
         
-        <img v-if="audioInfo.name != 'Blank Tape'" @click="replay()" src="../assets/keys/K.png">
+        <img class="replaybutton" v-if="audioInfo.name != 'Blank Tape'" @click="replay()" src="../assets/keys/K.png">
         <img id="ejectInv" src="../assets/keys/esc.png">
       </div>
 
@@ -58,6 +58,7 @@
       Loading...
       </template>
   </div>
+  <div id="bg"></div>
   <div id="burn"></div>
   <div id="cardboard"></div>
   </div>
@@ -429,12 +430,26 @@ export default {
   src: url("/fonts/benga.otf")
 
 @mixin mobile
-  @media (max-width: #{700px})
+  @media (max-width: 450px)
       @content
 
+@mixin tablet
+  @media (max-width: 770px)
+      @content
+
+#wrap
+  width: 100%
 #rootWrap
   color: white
   font-family: invisibleFont
+#bg
+  position: fixed
+  z-index: -3
+  left: 0
+  top: 0
+  background-color: #000000
+  height: 100vh
+  width: 100vw
 #burn
   z-index: -1
   position: absolute
@@ -444,9 +459,9 @@ export default {
   left: 0
   top: 0
   overflow: hidden
-  background: radial-gradient(#212121 50%, #131313)
   pointer-events: none
-
+  background: radial-gradient(#828282, #000)
+  animation: burner 5s alternate infinite
 #root
   max-width: 1000px
   display: block
@@ -456,11 +471,17 @@ export default {
   display: flex
   justify-content: space-between
   flex-direction: column
+  padding: 0 2em
   #topTitle
     font-size: 4em
     margin-top: .25em
+    text-align: center
     top: 0
     color: white
+    @include tablet
+      font-size: 3em
+    @include mobile
+      font-size: 2em
     a
       color: white
       text-decoration: none
@@ -484,26 +505,53 @@ export default {
         font-size: 2.5vw
         top: 7vw
   #controls
+    $bigKeySize: 35%
     width: 100%
     margin: 1em auto 0 auto
     display: flex
     justify-content: center
     align-items: center
     transition: width .5s
-    @include mobile
-      width: 80%
+    @include tablet
+      padding-top: $bigKeySize
+      position: relative
+      text-align: center
+      display: flex
+      justify-content: center
+      img
+        margin-top: 1em
+      @include mobile
+        img
+          width: 25%
+          height: auto
+      .killTab
+        display: none
+      img.fkey
+        margin-top: 0
+        position: absolute
+        width: $bigKeySize
+        left: 0
+        top: 0
+        height: auto
+      img.jkey
+        @extend .fkey 
+        right: 0
+        left: initial 
     img
-      display: black
       cursor: pointer
     .faded
       opacity: .5
       cursor: auto
     #ejecter
       margin-right: auto
+      @include tablet
+        display: none
     #ejectInv
       opacity: 0
       cursor: inherit
       margin-left: auto
+      @include tablet
+        display: none
 .pressed
   filter: brightness(0.75) drop-shadow(0px -1px 4px black)
 .hiddenSpot
@@ -526,13 +574,10 @@ export default {
     width: 20%
     text-align: center
     height: 1em
-
 #controls
     img
-        display: black
         height: 65px
         cursor: pointer
-
 footer
   display: block
   text-align: center
@@ -555,6 +600,11 @@ footer
   background-position: center
   z-index: 5
   pointer-events: none
-  opacity: .5
+  opacity: 0
   mix-blend-mode: multiply
+@keyframes burner
+  from
+    opacity: .75
+  to
+    opacity: .25
 </style>
