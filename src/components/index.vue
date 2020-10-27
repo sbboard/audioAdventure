@@ -244,7 +244,6 @@ footer
       padding: .5em .25em
       color: #fff
       text-transform: uppercase
-      mix-blend-mode: darken
       box-shadow: 0 -1px 2px #f0f, 0 1px 2px #ff0
       text-shadow: 0 -1px 2px #f0f, 0 1px 2px #ff0
     h2

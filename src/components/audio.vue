@@ -460,7 +460,7 @@ export default {
   top: 0
   overflow: hidden
   pointer-events: none
-  background: radial-gradient(#828282, #000)
+  background: linear-gradient(#000, #5d5d5d)
   animation: burner 5s alternate infinite
 #root
   max-width: 1000px
@@ -490,6 +490,8 @@ export default {
   #casetteWrap
     text-align: center
     position: relative
+    max-width: 770px
+    margin: 0 auto
     img
       width: 100%
       pointer-events: none
