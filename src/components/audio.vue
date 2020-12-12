@@ -434,8 +434,10 @@ export default {
       @content
 
 @mixin tablet
-  @media (max-width: 770px)
+  @media (max-width: 925px)
       @content
+
+$barHeight: 80px
 
 #wrap
   width: 100%
@@ -522,6 +524,7 @@ export default {
       justify-content: center
       img
         margin-top: 1em
+        max-width: 220px
       @include mobile
         img
           width: 25%
@@ -565,7 +568,7 @@ export default {
   justify-content: space-around
   font-size: 1em
   transition: width .5s
-  height: 65px
+  height: $barHeight
   div
     color: white
     cursor: pointer
@@ -578,7 +581,7 @@ export default {
     height: 1em
 #controls
     img
-        height: 65px
+        height: $barHeight
         cursor: pointer
 footer
   display: block
