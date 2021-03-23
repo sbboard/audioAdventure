@@ -35,8 +35,14 @@
       
         <img class="actionbtn" @click="action()" v-if="audioInfo.name != 'Blank Tape'" src="../assets/keys/G.png">
 
-        <img class="spacebar" @click="togglePlay()" v-if="play" src="../assets/keys/centerPause.png">
-        <img class="spacebar" @click="togglePlay()" v-if="!play" src="../assets/keys/centerPlay.png">
+        <!--<img class="spacebar" @click="togglePlay()" v-if="play" src="../assets/keys/centerPause.png">
+        <img class="spacebar" @click="togglePlay()" v-if="!play" src="../assets/keys/centerPlay.png">-->
+        <div id="spacebar" @click="togglePlay()">
+          <img src="../assets/keys/spaceEdge.png">
+          <img v-if="play" src="../assets/keys/spacePause.png">
+          <img v-if="!play" src="../assets/keys/spacePlay.png">
+          <img src="../assets/keys/spaceEdge.png" style="transform: scaleX(-1)">
+        </div>
 
         <img class="killTab" @click="action()" v-if="audioInfo.name != 'Blank Tape'" src="../assets/keys/H.png">
         
@@ -523,7 +529,6 @@ $barHeight: 80px
       display: flex
       justify-content: center
       img
-        margin-top: 1em
         max-width: 220px
       @include mobile
         img
@@ -583,6 +588,8 @@ $barHeight: 80px
     img
         height: $barHeight
         cursor: pointer
+        @include tablet
+          margin-top: 1em
 footer
   display: block
   text-align: center
@@ -612,4 +619,15 @@ footer
     opacity: .75
   to
     opacity: .25
+#spacebar
+  width: 100%
+  display: flex
+  justify-content: space-between
+  background-image: url("../assets/keys/spaceSpace.png")
+  background-size: auto 100%
+  cursor: pointer
+  @include tablet
+    margin-top: 1em
+    img
+      margin-top: 0
 </style>
